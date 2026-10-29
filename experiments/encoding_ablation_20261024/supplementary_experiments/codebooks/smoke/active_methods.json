@@ -1,0 +1,74 @@
+{
+  "methods": {
+    "U_MinMax": [
+      "uniform:minmax",
+      "uniform:minmax"
+    ],
+    "U_Clipped": [
+      "uniform:mse",
+      "uniform:mse"
+    ],
+    "Gaussian_Tree": [
+      "tree:gaussian",
+      "tree:gaussian"
+    ],
+    "Data_Tree": [
+      "tree:mse",
+      "tree:mse"
+    ],
+    "Jacobian_Tree": [
+      "tree:jac",
+      "tree:attn"
+    ],
+    "JacK_MSEV": [
+      "tree:jac",
+      "tree:mse"
+    ],
+    "ScoreK_MSEV": [
+      "tree:score",
+      "tree:mse"
+    ],
+    "ScoreK_AttnV": [
+      "tree:score",
+      "tree:attn"
+    ],
+    "ScoreK_MixV": [
+      "tree:score",
+      "tree:mix"
+    ],
+    "JacK_MixV": [
+      "tree:jac",
+      "tree:mix"
+    ],
+    "Uniform_ScoreK_MSEV": [
+      "uniform:score",
+      "uniform:mse"
+    ],
+    "Uniform_ScoreK_AttnV": [
+      "uniform:score",
+      "uniform:attn"
+    ],
+    "Uniform_ScoreK_MixV": [
+      "uniform:score",
+      "uniform:mix"
+    ],
+    "Independent_MSE": [
+      "independent:mse",
+      "independent:mse"
+    ],
+    "Leaf4_Only": [
+      "tree:leaf4",
+      "tree:leaf4"
+    ],
+    "Joint_234": [
+      "tree:joint",
+      "tree:joint"
+    ],
+    "Independent_Uniform": [
+      "uniform_independent:mse",
+      "uniform_independent:mse"
+    ]
+  },
+  "regularizer_triggered_heads": 0,
+  "regularizer_gate": "normalized head-calibration violation >= 0.01; no test/validation selection"
+}

@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools>=77,<81"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "operator-profile-hooks"
+version = "0.1.0"
+[project.entry-points."vllm.general_plugins"]
+operator_profile_scopes = "operator_hooks:register"

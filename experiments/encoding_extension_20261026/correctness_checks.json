@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "methods": [
+    {
+      "method": "TCN_MinMax",
+      "calibration": {
+        "objective": 0.5317150990021698,
+        "D": [
+          1.2696520125889934,
+          0.2612353171506328,
+          0.06425796726688328
+        ],
+        "clip_left": 0.0,
+        "clip_right": 0.0,
+        "alpha": 0.0,
+        "range_candidates": 1
+      }
+    },
+    {
+      "method": "TCN_Clipped",
+      "calibration": {
+        "objective": 0.06980899275265948,
+        "D": [
+          0.13706939995868397,
+          0.047884891667969366,
+          0.02447268663132509
+        ],
+        "clip_left": 0.02,
+        "clip_right": 0.01,
+        "alpha": 0.0,
+        "range_candidates": 36
+      }
+    },
+    {
+      "method": "Residual211",
+      "calibration": {
+        "objective": 0.08223647188080628,
+        "D": [
+          0.17943577133020155,
+          0.049807201577429516,
+          0.01746644273478777
+        ],
+        "clip_left": 0.02,
+        "clip_right": 0.02,
+        "alpha": 0.0,
+        "range_candidates": 36
+      }
+    },
+    {
+      "method": "LogResidual211",
+      "calibration": {
+        "objective": 0.0885518774254599,
+        "D": [
+          0.17587664497617927,
+          0.061786087216415854,
+          0.027992900083784626
+        ],
+        "clip_left": 0.02,
+        "clip_right": 0.02,
+        "alpha": 1.0,
+        "range_candidates": 36
+      }
+    }
+  ],
+  "checks": [
+    "TCN direct vs prefix boundaries",
+    "CPU tensor vs numpy codes",
+    "2/3/4 prefix planes with odd-length padding",
+    "residual additive algebra",
+    "signed cross-token decomposition",
+    "nonconcave allocation counterexample"
+  ]
+}

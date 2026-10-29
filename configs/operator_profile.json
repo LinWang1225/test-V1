@@ -1,0 +1,96 @@
+{
+  "status": "authorized_2026-10-19",
+  "scope": "operator analysis only; no repeated end-to-end performance benchmark or accuracy scoring; no device-side timing instrumentation",
+  "model": {
+    "repo": "Qwen/Qwen3-4B",
+    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "weights_and_compute_dtype": "float16",
+    "path": "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c"
+  },
+  "methods": {
+    "fp16": {
+      "kv_cache_dtype": "auto"
+    },
+    "fp8": {
+      "kv_cache_dtype": "fp8_e4m3",
+      "calculate_kv_scales": true,
+      "requires_smoke_validation": true
+    },
+    "turboquant": {
+      "kv_cache_dtype": "turboquant_4bit_nc"
+    },
+    "kvarn": {
+      "kv_cache_dtype": "kvarn_k4v2_g128"
+    }
+  },
+  "datasets": {
+    "longbench": {
+      "variant": "six_representative_tasks",
+      "samples_per_task": 50,
+      "seed": 42,
+      "selection": "fixed seeded length-stratified sample; identical IDs and prompts for every method",
+      "tasks": [
+        "qasper",
+        "hotpotqa",
+        "gov_report",
+        "trec",
+        "passage_retrieval_en",
+        "lcc"
+      ]
+    },
+    "humaneval": {
+      "count": 164
+    },
+    "math500": {
+      "count": 500
+    }
+  },
+  "execution": {
+    "framework": "EvalScope",
+    "client_concurrency": 8,
+    "enforce_eager": true,
+    "prefix_caching": false,
+    "max_model_len": 32768,
+    "block_size": 128,
+    "temperature": 0,
+    "seed": 42,
+    "fixed_generated_tokens": 1024,
+    "ignore_eos": true,
+    "input_overflow": "identical head-tail truncation preserving prompt formatting; record original/effective tokens",
+    "profiled_all_data_repeats": 1,
+    "representative_profile_repeats": 3,
+    "representative_selection": "batch nearest short/median/long length per dataset; initial full pass counts as repeat 1, add 2 repeats",
+    "methods_run_sequentially": true,
+    "warmup": "matching shapes before timed capture; warmup/JIT captured separately",
+    "scheduler_note": "client concurrency is not guaranteed resident GPU batch size; record active sequences, prefill/decode mixture, preemption and queueing",
+    "gpu_memory_utilization": 0.85,
+    "max_num_batched_tokens": 8192,
+    "port": 18391
+  },
+  "profiling": {
+    "tool": "vLLM worker PyTorch profiler CPU+CUDA",
+    "unit": "batches of up to 8 requests; final partial batch explicitly marked",
+    "capture": "entire prefill plus fixed 1024-token generation; worker scopes and launch correlation establish phases",
+    "device_internal_timing": false,
+    "nsight_compute": "not required; GPU counters currently restricted by RmProfilingAdminOnly=1",
+    "trace_storage": "gzip traces, immediate parsing and summaries; monitor free space and stop visibly before exhaustion",
+    "no_4096_diagnostic": true
+  },
+  "outputs": [
+    "frozen input IDs/prompts/token lengths/hashes",
+    "raw CUDA kernel timelines and CPU/runtime events",
+    "per-kernel calls,total,mean,p50,p95,max GPU duration",
+    "per-dataset/method/phase aggregated kernel categories",
+    "kernel busy-time union separately from cumulative kernel-time sum",
+    "backend selection/scales/JIT/fallback/preemption/scheduler evidence",
+    "FP16-relative matched-workload category deltas",
+    "ranked optimization candidates with evidence and identifiability limitations"
+  ],
+  "interpretation": [
+    "profiled eager timings are diagnostic and not a replacement for existing production throughput measurements",
+    "fused read/dequant/attention remains one measured category",
+    "kernel memory operations do not expose standalone completed physical KV read/write times",
+    "K4V4 and K4V2 have different storage budgets; report actual layout/metadata/tail overhead",
+    "stage classification must be supported by scheduler/range evidence; mixed steps remain mixed, not arbitrarily split"
+  ]
+}

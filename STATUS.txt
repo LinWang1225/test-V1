@@ -1,0 +1,62 @@
+后台 GPU 算子实验已启动（2026-10-19 21:00）：
+运行目录：/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036
+nohup 启动器 PID：854433；控制器 PID：854437。
+配置：configs/operator_profile.json；模型 Qwen3-4B，FP16 权重/计算，FP16/FP8 E4M3/TurboQuant K4V4/KVarN K4V2 G128，客户端8并发，eager，关闭prefix cache，固定1024输出token，忽略EOS。
+样本：LongBench六项各50=300，HumanEval164，MATH-500500；每种964个固定样本；代表短/中/长批次共三次采集。
+正式采集696个批次、含代表复测5392次生成请求；预热与128-token预检单独保留、不混入正式统计。
+FP8 使用 FLASHINFER；TRITON_ATTN E4M3 在SM86编译不支持，失败预检日志也保留。
+查看进度：.venv/bin/python scripts/operator_progress.py
+后台日志：/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/background.nohup.log
+心跳与遥测：heartbeat.json / telemetry.jsonl；服务器日志：servers/；每批状态、EvalScope数据库、原始trace与算子统计：points/；最终报告：summary/operator_report.txt 与 operator_comparison.json。
+若中断可重新执行：nohup bash scripts/run_operator_background.sh /home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036 > /home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/resume.nohup.log 2>&1 < /dev/null &
+控制器对配置、数据、代码做哈希校验，已有成功批次跳过；失败保留日志与历史attempt。未完成的实验不能当作完整结果。
+
+环境进展（2026-10-19）：
+- 已使用 pon 10.177.73.90（7890）连接代理；GitHub fetch 成功，本地 commit 与 origin/main 一致。
+- 独立 .venv 已安装 uv 0.13.1、torch 2.11.0+cu126 及 CUDA 12.6 运行依赖。
+- RTX 3090 / Driver 560.35.05 可用；FP16 CUDA matmul 验证通过，见 logs/check-cuda.json。
+- vLLM/KVarN 源码构建及安装已完成（构建耗时 87分50秒）；215 个安装包的依赖兼容检查通过。
+- Qwen3-4B 的 FP16 与 kvarn_k4v2_g128 均完成 eager 模式 16-token 短生成检查，输出一致；KVarN 日志确认使用 KVARN 后端。
+- 验证记录：results/environment-verification.txt、logs/smoke-fp16.log、logs/smoke-kvarn.log；完整安装版本：locks/installed.freeze.txt。
+- 尚未执行正式准确率评测、长上下文/并发性能测试、CUDA Graph 验证与 profiler 分析。
+- 安装命令：bash scripts/install_environment.sh；日志：logs/install-environment.log。
+- 第三方源码已复制到本项目 .deps，版本均与 CMake 固定版本一致；旧环境未修改。
+
+以下为初始计划与历史状态（其中 GPU/网络不可用和依赖未安装已被上方进展取代）：
+
+项目：KVarN FP16 与 KV 量化推理成本对比
+
+已完成：独立 Python 3.12 venv（不继承 site-packages）；新项目；本地仓库干净克隆；实验配置；离线推理/torch profiler 脚本；可调整吞吐预算脚本。
+未完成：联网重新拉取上游、安装 CUDA 推理依赖、下载/准备数据、正式评分、GPU 实测与瓶颈结论。
+当前 nvidia-smi 无法连接驱动，/dev/nvidia* 不存在。代理连接失败，去掉代理后 GitHub DNS 解析失败。没有修改旧环境/旧仓库。
+仓库来自旧仓库已提交历史，不含其工作区改动；不代表最新上游。commit 7586257f1c632e63187bfacbbe21ccb51540f7b3。
+
+激活：source /home/wanglin/kvarn-profile-20261019/.venv/bin/activate
+先安装 uv；用 uv pip --python 指定本项目 .venv，不要复用旧环境。仓库 AGENTS.md 要求 uv。
+恢复网络后 git -C src/KVarN fetch origin；先审阅新版本依赖再选择固定 commit。
+locks/serve-cu126.txt 是旧版本兼容参考；previous-serve.freeze.txt 是旧环境记录，不能当成新环境已验证锁文件。
+CUDA 12.6/3090 兼容性必须验证；不要直接假设上游预编译 wheel 兼容旧驱动。必要时源码编译。
+
+实验原则：
+1. 同一个 fork、模型权重和 FP16 计算，只改变 KV dtype。先 batch=1 相同上下文比较，再单独比较各方法最大并发容量。
+2. LongBench 六类代表各50题，按 token 长度分层并固定ID；HumanEval164和MATH test5000不抽样。名称待用户确认。
+3. 准确率全量跑一次；性能选代表长度与批次重复3次，不必全量重复3次。保留自然生成质量测试与固定生成长度性能测试，避免 EOS 长度变化造成假加速。
+4. 全量用未开启 profiler 的服务；少量代表样本用 --profile（eager）看 kernel。两种模式分别记录，不能直接混合比较。
+5. 记录数据读取/解析、tokenization、排队、TTFT、prefill、decode/TPOT、detokenization、端到端、峰值显存、输出token、截断率。当前脚本只实现同步离线端到端与kernel trace，不提供TTFT或评分。
+6. KVarN重点：Sinkhorn/旋转/量化/pack/store、尾块处理、融合read+dequant+attention、MLP/GEMM、采样、CPU同步及调度。FP16使用对应baseline。
+7. 融合kernel内读/反量化/attention不能当作独立CUDA计时相加。Nsight Compute抽样分析DRAM bytes/bandwidth、算力与stall，微基准/消融估计反量化增量；拆分实现只用于诊断，并检查输出误差。Nsight指标与微基准不是生产路径可加分解。
+8. HumanEval需要官方执行评分并隔离生成代码；MATH需要数学等价判分而非字符串相等；LongBench用官方任务指标。当前无评分实现，不宣称完成全量评测。
+9. 优先优化目标按端到端占比、量化后新增耗时和可消除比例排序；先排查fallback/同步/小kernel，不能未测就断言反量化最慢。GPU kernel重叠时累计时间不等于墙钟。
+
+预算（全部为假设，非本机实测）：
+300条LongBench平均输入8192输出256；HumanEval164平均输入512输出512；MATH5000平均输入512输出2048；两种方法。
+合计每种约510.2万输入、1040万输出token。prefill=1000 token/s；总decode吞吐20/50/100 token/s时，两种合计约292/118/61小时；加20%余量约350/142/73小时。
+MATH平均输出4096时接近翻倍；并发要用全服务总吞吐，不使用单请求速率乘请求数。batch=1最易比较但可能很慢。
+环境安装/编译预留2–8小时（联网正常且无兼容故障）；pilot与抽样profile预留1–3小时；评分依资源另留1–4小时。首次预计3–15天，必须用20–50题pilot实测替换预算。不能给GPU不可用状态下的固定交付时间。
+
+用户于 2026-10-20 要求 FP16 截止并切换 KVarN：FP16 已完成672条不同样本（LongBench300、HumanEval164、MATH208），含复测1008次正式请求/131批次。未完成的math500_b026_r1不纳入对齐。原运行已按用户要求SIGTERM停止（原状态failed为人工中断）。新运行仅执行KVarN，精确复用这些样本、批次和复测；FP16以链接保留。
+新目录：/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848
+
+用户要求赶时间取消额外复测：KVarN仅运行首轮672条/89批；已完成批次复用，FP16代表复测保留但不计入首轮。新目录：/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745
+
+已按用户授权建立顺序队列：当前KVarN结束且释放GPU后自动跑TurboQuant，再跑FP8；每种672条/89批、仅首轮，无额外复测。队列：results/method_queue.json；日志：results/method_queue.log；监督进程PID：1734243。任一方法失败则队列停止并保留日志。

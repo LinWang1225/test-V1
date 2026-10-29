@@ -1,0 +1,251 @@
+{
+  "model": {
+    "name": "Qwen3-4B",
+    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "dtype": "float16"
+  },
+  "user_override": "Skip all 30 validation requests; fit on 60 calibration and evaluate all 90 frozen test requests directly",
+  "requests": {
+    "calibration": 60,
+    "validation_executed": 0,
+    "test": 90
+  },
+  "layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "kv_heads": 8,
+  "decode_positions": [
+    1,
+    8,
+    32,
+    64
+  ],
+  "seeds": [
+    20261024,
+    20261025,
+    20261026
+  ],
+  "main_storage": {
+    "all_valid_KV_bits": 4,
+    "fp16_KV_tail": false,
+    "token_drop": false,
+    "omit_payload_bits": false,
+    "granularity": "per layer, KV head and side; Gaussian table globally shared",
+    "metadata": "FP16 normalization, exact FP16 centroids/thresholds, no uniform padded metadata charged as improvement"
+  },
+  "normalization": "reuse frozen A-D Hadamard-sign + channel mean/scale; all main candidates identical",
+  "uniform_clip": {
+    "quantiles": [
+      0,
+      0.0001,
+      0.001,
+      0.005,
+      0.01,
+      0.02
+    ],
+    "candidate_pairs": 36,
+    "objective": "mean D2,D3,D4 on calibration only"
+  },
+  "mixed_V": {
+    "unweighted": 0.5,
+    "attention_weight": 0.5,
+    "normalize_attention_weight_mean_to_one": true
+  },
+  "joint": {
+    "alpha": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "maximum_coordinate_iterations": 60,
+    "relative_tolerance": 1e-06
+  },
+  "regularizer": {
+    "calibration_normalized_head_curve_violation_gate": 0.01,
+    "lambda_value": 10.0,
+    "adam_steps": 100,
+    "learning_rate": 0.01,
+    "scope": "head-level histogram proxy; evaluate per-unit consequences independently",
+    "conditional_skip": true
+  },
+  "calibration_hist_bins": 8192,
+  "per_unit_curve_storage": {
+    "K_channels_per_head": 4,
+    "V_tokens_per_head": 4,
+    "selection": "fixed evenly spaced indices",
+    "objectives": [
+      "raw_mse",
+      "functional_proxy"
+    ],
+    "coverage": "all test requests/layers/heads/decode positions/seeds"
+  },
+  "violations": {
+    "absolute_tolerance": 1e-10,
+    "relative_tolerance": 1e-05,
+    "formula": "max(0,g34-g23,-g23,-g34)/(D2+epsilon)"
+  },
+  "dynamic": {
+    "layers": [
+      0,
+      17,
+      35
+    ],
+    "decode_positions": [
+      1,
+      64
+    ],
+    "seeds": [
+      20261024
+    ],
+    "methods": [
+      "U_Clipped",
+      "Data_Tree",
+      "JacK_MSEV",
+      "ScoreK_MixV",
+      "Joint_234"
+    ],
+    "mean_read_bits": [
+      2,
+      2.5,
+      3,
+      3.5,
+      4
+    ],
+    "K_units": "channel across all tokens",
+    "V_units": "token across all channels",
+    "policy": "K calibrated profile weighted by current Q; V by reconstructed-K attention, not reference or actual test error",
+    "DP": "float64, eight-item exact equal-cost-budget subproblems"
+  },
+  "native_no_fp16": {
+    "test_requests": 90,
+    "group": 128,
+    "sinkhorn_iters": 8,
+    "keep_native_full_tiles": true,
+    "partial_tiles": "valid-only PyTorch reference, no future padding statistics; singleton skips undefined variance balancing",
+    "rounding": "original native RTN4",
+    "FP16_KV_bypass": false,
+    "FP16_native_metadata": true,
+    "prefix_decoders": [
+      "midpoint",
+      "zero"
+    ],
+    "compared_to": "frozen E, identical prompts and generated reference IDs"
+  },
+  "independent_references": {
+    "nonprogressive": true,
+    "stored_bits_if_all_three_copies": 9,
+    "not_main_4bit_methods": true,
+    "not_proven_global_optimum": true
+  },
+  "E5_status": "deferred until offline results justify implementation; no kernel or vLLM integration in this run",
+  "candidate_methods": {
+    "U_MinMax": [
+      "uniform:minmax",
+      "uniform:minmax"
+    ],
+    "U_Clipped": [
+      "uniform:mse",
+      "uniform:mse"
+    ],
+    "Gaussian_Tree": [
+      "tree:gaussian",
+      "tree:gaussian"
+    ],
+    "Data_Tree": [
+      "tree:mse",
+      "tree:mse"
+    ],
+    "Jacobian_Tree": [
+      "tree:jac",
+      "tree:attn"
+    ],
+    "JacK_MSEV": [
+      "tree:jac",
+      "tree:mse"
+    ],
+    "ScoreK_MSEV": [
+      "tree:score",
+      "tree:mse"
+    ],
+    "ScoreK_AttnV": [
+      "tree:score",
+      "tree:attn"
+    ],
+    "ScoreK_MixV": [
+      "tree:score",
+      "tree:mix"
+    ],
+    "JacK_MixV": [
+      "tree:jac",
+      "tree:mix"
+    ],
+    "Uniform_ScoreK_MSEV": [
+      "uniform:score",
+      "uniform:mse"
+    ],
+    "Uniform_ScoreK_AttnV": [
+      "uniform:score",
+      "uniform:attn"
+    ],
+    "Uniform_ScoreK_MixV": [
+      "uniform:score",
+      "uniform:mix"
+    ],
+    "Independent_MSE": [
+      "independent:mse",
+      "independent:mse"
+    ],
+    "Leaf4_Only": [
+      "tree:leaf4",
+      "tree:leaf4"
+    ],
+    "Joint_234": [
+      "tree:joint",
+      "tree:joint"
+    ],
+    "Joint_Regularized": [
+      "tree:regularized",
+      "tree:regularized"
+    ],
+    "Independent_Uniform": [
+      "uniform_independent:mse",
+      "uniform_independent:mse"
+    ]
+  },
+  "cuda_allocator": "expandable_segments:True for suite; numeric behavior unchanged"
+}

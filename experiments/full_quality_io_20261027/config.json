@@ -1,0 +1,74 @@
+{
+  "model": "Qwen3-4B",
+  "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+  "policies": [
+    "fp16",
+    "full4",
+    "uniform3",
+    "query_only3",
+    "query_curve3"
+  ],
+  "encoding": "frozen original Jacobian_Tree, D-K plus D-V, seed 20261024",
+  "datasets": {
+    "humaneval": 164,
+    "math500": 500,
+    "longbench_v1": {
+      "subtasks": 21,
+      "cases": 4750
+    }
+  },
+  "total_cases_per_policy": 5414,
+  "total_generations": 27070,
+  "max_sequence_length": 40960,
+  "max_new_tokens": {
+    "humaneval": 2048,
+    "math500": 8192,
+    "longbench": "official dataset2maxlen.json, 32 to 512 depending on task"
+  },
+  "generation": {
+    "greedy": true,
+    "enable_thinking": false,
+    "eos_enabled": true,
+    "minimum_tokens": 0,
+    "ignore_eos": false,
+    "samples_per_case": 1
+  },
+  "input_overflow": "head-tail token truncation only for LongBench to reserve its generation budget inside 40960; record original/effective lengths and truncation",
+  "prefill": "FP16 attention for all policies; frozen progressive codes cached incrementally without changing outputs",
+  "decode": "all 36 layers use selected reconstructed KV and propagate into later layers and tokens",
+  "controller": "same prerequisite greedy as previous experiment; stable GPU sorting vectorizes the two-refinement chain, tested against prior heap implementation",
+  "quality_metrics": {
+    "humaneval": "official OpenAI tests and execution.unsafe_execute in Linux namespaces/chroot; greedy pass@1",
+    "math500": "official OpenAI PRM800K grading.grade_answer after frozen final boxed-answer extraction",
+    "longbench": "unmodified official eval.py/metrics.py; every task separately, plus declared 21-task macro average"
+  },
+  "code_sandbox": "reuse tested user/net/mount/PID/IPC/UTS namespaces, chroot, read-only runtime, dropped capabilities, CPU/memory/wall limits",
+  "human_test_timeout_seconds": 3,
+  "math_grade_timeout_seconds": 30,
+  "reporting": "task metrics, request-paired CIs, generation lengths, natural stops vs length limits, prompt truncation, parse failures, unknown grading failures, per-case artifacts",
+  "resume": "immutable request files and exact source/input provenance; complete requests skipped, failed or partial runs never counted as full results",
+  "performance_scope": "quality reference adapter retains FP16 source cache plus integer codes; no compressed-serving speed or capacity claim",
+  "traffic": {
+    "enabled": true,
+    "coverage": "every LongBench request, including each policy",
+    "logical_scope": "all actual decode attention calls, K and V separately, payload+packet padding+metadata conservative allowance",
+    "physical_scope": "per request first actual decode attention call, fixed layer 17; complete eager attention; excludes cache construction and rest of model, ReadKV Appendix G.2",
+    "cache_conditions": [
+      "warm",
+      "evicted"
+    ],
+    "profile_metrics": [
+      "dram__bytes_read.sum",
+      "dram__bytes_write.sum"
+    ],
+    "required": false,
+    "missing_counter_behavior": "record attempted collection, unavailable status and error; continue all quality generation and official scoring",
+    "legacy_datasets": [
+      "humaneval",
+      "math500"
+    ],
+    "next_datasets": "all 21 LongBench subtasks",
+    "current_quality_run_uninterrupted": true,
+    "physical_collection_schedule": "attempt at each LongBench subtask boundary; every request receives logical counters and measured/unavailable/no_decode status"
+  }
+}

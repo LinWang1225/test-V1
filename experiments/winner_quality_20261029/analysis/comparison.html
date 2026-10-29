@@ -1,0 +1,1624 @@
+<!doctype html><meta charset="utf-8"><title>HumanEval旧新编码逐题比较</title><style>body{font-family:system-ui;max-width:1400px;margin:32px auto;padding:20px}pre{white-space:pre-wrap;background:#f4f4f4;padding:12px;overflow-wrap:anywhere}.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}td,th{padding:8px;border:1px solid #ddd}table{border-collapse:collapse}section{border-top:2px solid #aaa;margin-top:32px}</style><h1>HumanEval完整4-bit：旧编码与新赢家</h1><p>旧Jacobian_Tree 126/164=76.83%；新JacK_MixV 118/164=71.95%。旧对新错15题，旧错新对7题；共同通过111题，共同失败31题。输入hash和输出上限164题逐一核对一致。两组均自然EOS结束，无输出触顶。编码差异为V从attention目标树换为mix目标树，K保持相同。错误解释来自代码静态审阅，pass/fail来自已冻结官方测试，没有修复生成代码或重跑测试挑选结果。</p><table><tr><th>题号</th><th>变化</th><th>FP16</th><th>代码差异解释</th></tr>
+<tr><td><a href="#HumanEval/1">HumanEval/1</a></td><td>旧对新错</td><td>1</td><td>栈弹空后才拼接字符串，每组得到空串，丢失括号内容。</td></tr>
+<tr><td><a href="#HumanEval/4">HumanEval/4</a></td><td>旧对新错</td><td>1</td><td>len(numbers 缺右括号，语法错误。</td></tr>
+<tr><td><a href="#HumanEval/24">HumanEval/24</a></td><td>旧对新错</td><td>1</td><td>函数返回类型写成 -&gt;:，语法错误。</td></tr>
+<tr><td><a href="#HumanEval/39">HumanEval/39</a></td><td>旧对新错</td><td>1</td><td>next(fib_generator() for _ in range(n)) 返回生成器对象，而非第n个素数斐波那契数。</td></tr>
+<tr><td><a href="#HumanEval/64">HumanEval/64</a></td><td>旧对新错</td><td>1</td><td>末尾y判断未转小写，漏掉大写Y。</td></tr>
+<tr><td><a href="#HumanEval/67">HumanEval/67</a></td><td>旧错新对</td><td>1</td><td>新实现正确提取水果数量；旧实现map调用及索引有误。</td></tr>
+<tr><td><a href="#HumanEval/70">HumanEval/70</a></td><td>旧对新错</td><td>1</td><td>min==max时只保留一个值，丢失重复元素。</td></tr>
+<tr><td><a href="#HumanEval/96">HumanEval/96</a></td><td>旧错新对</td><td>1</td><td>新实现限制素数小于n；旧实现返回前n个素数。</td></tr>
+<tr><td><a href="#HumanEval/101">HumanEval/101</a></td><td>旧对新错</td><td>0</td><td>只按逗号切分，没有继续按空格分词。</td></tr>
+<tr><td><a href="#HumanEval/109">HumanEval/109</a></td><td>旧对新错</td><td>0</td><td>旋转判断算法错误，不能正确判断循环移位能否有序。</td></tr>
+<tr><td><a href="#HumanEval/110">HumanEval/110</a></td><td>旧错新对</td><td>0</td><td>新实现检查第二列表偶数能否替换第一列表奇数；旧实现误要求所有数均为偶数。</td></tr>
+<tr><td><a href="#HumanEval/111">HumanEval/111</a></td><td>旧错新对</td><td>1</td><td>新实现max(...,default=0)处理空输入；旧实现空序列异常。</td></tr>
+<tr><td><a href="#HumanEval/114">HumanEval/114</a></td><td>旧对新错</td><td>1</td><td>只求最小前缀和，遗漏正数累计后重置，不能求任意子数组最小和。</td></tr>
+<tr><td><a href="#HumanEval/116">HumanEval/116</a></td><td>旧对新错</td><td>1</td><td>sorted调用缺少右括号，语法错误。</td></tr>
+<tr><td><a href="#HumanEval/127">HumanEval/127</a></td><td>旧对新错</td><td>0</td><td>交集长度从end-start改成end-start+1，与题意不符。</td></tr>
+<tr><td><a href="#HumanEval/128">HumanEval/128</a></td><td>旧错新对</td><td>1</td><td>新实现修正零元素分支变量拼写product_of_signss。</td></tr>
+<tr><td><a href="#HumanEval/134">HumanEval/134</a></td><td>旧错新对</td><td>0</td><td>新实现处理单字符输入；旧实现txt[-2]越界。</td></tr>
+<tr><td><a href="#HumanEval/139">HumanEval/139</a></td><td>旧对新错</td><td>1</td><td>调用factorial但未定义或导入，NameError。</td></tr>
+<tr><td><a href="#HumanEval/140">HumanEval/140</a></td><td>旧错新对</td><td>1</td><td>新实现逐字符保留并替换连续空格；旧实现split丢失空格。</td></tr>
+<tr><td><a href="#HumanEval/149">HumanEval/149</a></td><td>旧对新错</td><td>1</td><td>key=lambda(lambda ...)为非法语法。</td></tr>
+<tr><td><a href="#HumanEval/160">HumanEval/160</a></td><td>旧对新错</td><td>1</td><td>函数声明def do_algebra(operator(operator:损坏，语法错误。</td></tr>
+<tr><td><a href="#HumanEval/162">HumanEval/162</a></td><td>旧对新错</td><td>1</td><td>hexdigest_hexdigest不存在，且把hashlib模块当函数调用。</td></tr>
+</table>
+<section id="HumanEval/1"><h2>HumanEval/1：旧对新错</h2><p>栈弹空后才拼接字符串，每组得到空串，丢失括号内容。</p><p>FP16通过：1；生成token公共前缀长度：7；旧/新token数：209/191</p><div class="cols"><div><h3>旧代码</h3><pre>```python
+from typing import List
+
+def separate_paren_groups(paren_string: str) -&gt; List[str]:
+    &quot;&quot;&quot; Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    &gt;&gt;&gt; separate_paren_groups(&#x27;( ) (( )) (( )( ))&#x27;)
+    [&#x27;()&#x27;, &#x27;(())&#x27;, &#x27;(()())&#x27;]
+    &quot;&quot;&quot;
+    # Remove all spaces from the input string
+    paren_string = paren_string.replace(&quot; &quot;, &quot;&quot;)
+    result = []
+    stack = []
+    current_group = &quot;&quot;
+    
+    for char in paren_string:
+        if char == &#x27;(&#x27;:
+            stack.append(char)
+            current_group += char
+        elif char == &#x27;)&#x27;:
+            stack.pop()
+            current_group += char
+            if not stack:
+                result.append(current_group)
+                current_group = &quot;&quot;
+    
+    return result
+```</pre></div><div><h3>新代码</h3><pre>```python
+from typing import List
+
+
+def separate_paren_groups(paren_string: str) -&gt; List[str]:
+    &quot;&quot;&quot; Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those groups into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    &gt;&gt;&gt; separate_paren_groups(&#x27;( ) (( )) (( )( ))&#x27;)
+    [&#x27;()&#x27;, &#x27;(())&#x27;, &#x27;(()())&#x27;]
+    &quot;&quot;&quot;
+    # Remove all spaces from the input string
+    paren_string = paren_string.replace(&quot; &quot;, &quot;&quot;)
+    result = []
+    stack = []
+    for char in paren_string:
+        if char == &#x27;(&#x27;:
+            stack.append(char)
+        elif char == &#x27;)&#x27;:
+            stack.pop()
+            if not stack:
+                result.append(&#x27;&#x27;.join(stack))
+                stack = []
+    return result
+```</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,9 +1,10 @@
+ ```python
+ from typing import List
+ 
++
+ def separate_paren_groups(paren_string: str) -&gt; List[str]:
+     &quot;&quot;&quot; Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+-    separate those group into separate strings and return the list of those.
++    separate those groups into separate strings and return the list of those.
+     Separate groups are balanced (each open brace is properly closed) and not nested within each other
+     Ignore any spaces in the input string.
+     &gt;&gt;&gt; separate_paren_groups(&#x27;( ) (( )) (( )( ))&#x27;)
+@@ -13,18 +14,13 @@
+     paren_string = paren_string.replace(&quot; &quot;, &quot;&quot;)
+     result = []
+     stack = []
+-    current_group = &quot;&quot;
+-    
+     for char in paren_string:
+         if char == &#x27;(&#x27;:
+             stack.append(char)
+-            current_group += char
+         elif char == &#x27;)&#x27;:
+             stack.pop()
+-            current_group += char
+             if not stack:
+-                result.append(current_group)
+-                current_group = &quot;&quot;
+-    
++                result.append(&#x27;&#x27;.join(stack))
++                stack = []
+     return result
+ ```</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/4"><h2>HumanEval/4：旧对新错</h2><p>len(numbers 缺右括号，语法错误。</p><p>FP16通过：1；生成token公共前缀长度：34；旧/新token数：53/53</p><div class="cols"><div><h3>旧代码</h3><pre>def mean_absolute_deviation(numbers: List[float]) -&gt; float:
+    if not numbers:
+        return 0.0
+    mean = sum(numbers) / len(numbers)
+    return sum(abs(x - mean) for x in numbers) / len(numbers)</pre></div><div><h3>新代码</h3><pre>def mean_absolute_deviation(numbers: List[float]) -&gt; float:
+    if not numbers:
+        return 0.0
+    mean = sum(numbers) / len(numbers
+    return sum(abs(x - mean) for x in numbers) / len(numbers)</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,5 +1,5 @@
+ def mean_absolute_deviation(numbers: List[float]) -&gt; float:
+     if not numbers:
+         return 0.0
+-    mean = sum(numbers) / len(numbers)
++    mean = sum(numbers) / len(numbers
+     return sum(abs(x - mean) for x in numbers) / len(numbers)</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[\&quot;failed: &#x27;(&#x27; was never closed (&lt;string&gt;, line 18)\&quot;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [\&quot;failed: &#x27;(&#x27; was never closed (&lt;string&gt;, line 18)\&quot;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/24"><h2>HumanEval/24：旧对新错</h2><p>函数返回类型写成 -&gt;:，语法错误。</p><p>FP16通过：1；生成token公共前缀长度：9；旧/新token数：80/80</p><div class="cols"><div><h3>旧代码</h3><pre>def largest_divisor(n: int) -&gt; int:
+    &quot;&quot;&quot; For a given number n, find the largest number that divides n evenly, smaller than n
+    &gt;&gt;&gt; largest_divisor(15)
+    5
+    &quot;&quot;&quot;
+    for i in range(n-1, 0, -1):
+        if n % i == 0:
+            return i
+    return 0</pre></div><div><h3>新代码</h3><pre>def largest_divisor(n: int) -&gt;:
+    &quot;&quot;&quot; For a given number n, find the largest number that divides n evenly, smaller than n
+    &gt;&gt;&gt; largest_divisor(15)
+    5
+    &quot;&quot;&quot;
+    for i in range(n // 2, 0, -1):
+        if n % i == 0:
+            return i
+    return 1</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,9 +1,9 @@
+-def largest_divisor(n: int) -&gt; int:
++def largest_divisor(n: int) -&gt;:
+     &quot;&quot;&quot; For a given number n, find the largest number that divides n evenly, smaller than n
+     &gt;&gt;&gt; largest_divisor(15)
+     5
+     &quot;&quot;&quot;
+-    for i in range(n-1, 0, -1):
++    for i in range(n // 2, 0, -1):
+         if n % i == 0:
+             return i
+-    return 0+    return 1</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[\&quot;failed: expected &#x27;:&#x27; (&lt;string&gt;, line 10)\&quot;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [\&quot;failed: expected &#x27;:&#x27; (&lt;string&gt;, line 10)\&quot;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/39"><h2>HumanEval/39：旧对新错</h2><p>next(fib_generator() for _ in range(n)) 返回生成器对象，而非第n个素数斐波那契数。</p><p>FP16通过：1；生成token公共前缀长度：147；旧/新token数：200/201</p><div class="cols"><div><h3>旧代码</h3><pre>def prime_fib(n: int):
+    &quot;&quot;&quot;
+    prime_fib returns n-th number that is a Fibonacci number and it&#x27;s also prime.
+    &gt;&gt;&gt; prime_fib(1)
+    2
+    &gt;&gt;&gt; prime_fib(2)
+    3
+    &gt;&gt;&gt; prime_fib(3)
+    5
+    &gt;&gt;&gt; prime_fib(4)
+    13
+    &gt;&gt;&gt; prime_fib(5)
+    89
+    &quot;&quot;&quot;
+    def is_prime(num):
+        if num &lt; 2:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    a, b = 0, 1
+    count = 0
+    while True:
+        a, b = b, a + b
+        if is_prime(a):
+            count += 1
+            if count == n:
+                return a</pre></div><div><h3>新代码</h3><pre>def prime_fib(n: int):
+    &quot;&quot;&quot;
+    prime_fib returns n-th number that is a Fibonacci number and it&#x27;s also prime.
+    &gt;&gt;&gt; prime_fib(1)
+    2
+    &gt;&gt;&gt; prime_fib(2)
+    3
+    &gt;&gt;&gt; prime_fib(3)
+    5
+    &gt;&gt;&gt; prime_fib(4)
+    13
+    &gt;&gt;&gt; prime_fib(5)
+    89
+    &quot;&quot;&quot;
+    def is_prime(num):
+        if num &lt; 2:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    def fib_generator():
+        a, b = 0, 1
+        while True:
+            a, b = b, a + b
+            if is_prime(a):
+                yield a
+
+    return next(fib_generator() for _ in range(n))</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -20,11 +20,11 @@
+                 return False
+         return True
+ 
+-    a, b = 0, 1
+-    count = 0
+-    while True:
+-        a, b = b, a + b
+-        if is_prime(a):
+-            count += 1
+-            if count == n:
+-                return a+    def fib_generator():
++        a, b = 0, 1
++        while True:
++            a, b = b, a + b
++            if is_prime(a):
++                yield a
++
++    return next(fib_generator() for _ in range(n))</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/64"><h2>HumanEval/64：旧对新错</h2><p>末尾y判断未转小写，漏掉大写Y。</p><p>FP16通过：1；生成token公共前缀长度：155；旧/新token数：192/176</p><div class="cols"><div><h3>旧代码</h3><pre>def vowels_count(s):
+    &quot;&quot;&quot;Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are &#x27;a&#x27;, &#x27;e&#x27;, &#x27;i&#x27;, &#x27;o&#x27;, &#x27;u&#x27;. Here, &#x27;y&#x27; is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    &gt;&gt;&gt; vowels_count(&quot;abcde&quot;)
+    2
+    &gt;&gt;&gt; vowels_count(&quot;ACEDY&quot;)
+    3
+    &quot;&quot;&quot;
+    vowels = {&#x27;a&#x27;, &#x27;e&#x27;, &#x27;i&#x27;, &#x27;o&#x27;, &#x27;u&#x27;}
+    count = 0
+    for char in s.lower():
+        if char in vowels:
+            count += 1
+    # Check for &#x27;y&#x27; at the end of the string
+    if s and s[-1].lower() == &#x27;y&#x27;:
+        count += 1
+    return count</pre></div><div><h3>新代码</h3><pre>def vowels_count(s):
+    &quot;&quot;&quot;Write a function vowels_count which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are &#x27;a&#x27;, &#x27;e&#x27;, &#x27;i&#x27;, &#x27;o&#x27;, &#x27;u&#x27;. Here, &#x27;y&#x27; is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    &gt;&gt;&gt; vowels_count(&quot;abcde&quot;)
+    2
+    &gt;&gt;&gt; vowels_count(&quot;ACEDY&quot;)
+    3
+    &quot;&quot;&quot;
+    vowels = {&#x27;a&#x27;, &#x27;e&#x27;, &#x27;i&#x27;, &#x27;o&#x27;, &#x27;u&#x27;}
+    count = 0
+    for char in s.lower():
+        if char in vowels:
+            count += 1
+    if s and s[-1] == &#x27;y&#x27;:
+        count += 1
+    return count</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -15,7 +15,6 @@
+     for char in s.lower():
+         if char in vowels:
+             count += 1
+-    # Check for &#x27;y&#x27; at the end of the string
+-    if s and s[-1].lower() == &#x27;y&#x27;:
++    if s and s[-1] == &#x27;y&#x27;:
+         count += 1
+     return count</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: Test 5&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: Test 5&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/67"><h2>HumanEval/67：旧错新对</h2><p>新实现正确提取水果数量；旧实现map调用及索引有误。</p><p>FP16通过：1；生成token公共前缀长度：38；旧/新token数：256/264</p><div class="cols"><div><h3>旧代码</h3><pre>def fruit_distribution(s, n):
+    &quot;&quot;&quot;
+    In this task, you will be given a string that represents a number of apples and oranges 
+    that are distributed in a basket of fruit. This basket contains apples, oranges, and mango fruits. 
+    Given the string that represents the total number of the oranges and apples and an integer that represents 
+    the total number of the fruits in the basket, return the number of the mango fruits in the basket.
+    for example:
+    fruit_distribution(&quot;5 apples and 6 oranges&quot;, 19) -&gt; 19 - 5 - 6 = 8
+    fruit_distribution(&quot;0 apples and 1 oranges&quot;,3) -&gt; 3 - 0 - 1 = 2
+    fruit_distribution(&quot;2 apples and 3 oranges&quot;, 100) -&gt; 100 - 2 - 3 = 95
+    fruit_distribution(&quot;100 apples and 1 oranges&quot;,120) -&gt; 120 - 100 - 1 = 19
+    &quot;&quot;&quot;
+    # Extract the numbers from the string
+    apples, oranges = map(int, s.split()[0], s.split()[2])
+    return n - apples - oranges</pre></div><div><h3>新代码</h3><pre>def fruit_distribution(s, n):
+    &quot;&quot;&quot;
+    In this task, you will be given a string that represents a number of apples and oranges 
+    that are distributed in a basket of fruit this basket contains 
+    apples, oranges, and mango fruits. Given the string that represents the total number of 
+    the oranges and apples and an integer that represent the total number of the fruits 
+    in the basket return the number of the mango fruits in the basket.
+    for example:
+    fruit_distribution(&quot;5 apples and 6 oranges&quot;, 19) -&gt;19 - 5 - 6 = 8
+    fruit_distribution(&quot;0 apples and 1 oranges&quot;,3) -&gt; 3 - 0 - 1 = 2
+    fruit_distribution(&quot;2 apples and 3 oranges&quot;, 100) -&gt; 100 - 2 - 3 = 95
+    fruit_distribution(&quot;100 apples and 1 oranges&quot;,120) -&gt; 120 - 100 - 1 = 19
+    &quot;&quot;&quot;
+    # Extract numbers from the string
+    nums = [int(x) for x in s.split() if x.isdigit()]
+    # Sum the numbers and subtract from total
+    return n - sum(nums)</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,15 +1,17 @@
+ def fruit_distribution(s, n):
+     &quot;&quot;&quot;
+     In this task, you will be given a string that represents a number of apples and oranges 
+-    that are distributed in a basket of fruit. This basket contains apples, oranges, and mango fruits. 
+-    Given the string that represents the total number of the oranges and apples and an integer that represents 
+-    the total number of the fruits in the basket, return the number of the mango fruits in the basket.
++    that are distributed in a basket of fruit this basket contains 
++    apples, oranges, and mango fruits. Given the string that represents the total number of 
++    the oranges and apples and an integer that represent the total number of the fruits 
++    in the basket return the number of the mango fruits in the basket.
+     for example:
+-    fruit_distribution(&quot;5 apples and 6 oranges&quot;, 19) -&gt; 19 - 5 - 6 = 8
++    fruit_distribution(&quot;5 apples and 6 oranges&quot;, 19) -&gt;19 - 5 - 6 = 8
+     fruit_distribution(&quot;0 apples and 1 oranges&quot;,3) -&gt; 3 - 0 - 1 = 2
+     fruit_distribution(&quot;2 apples and 3 oranges&quot;, 100) -&gt; 100 - 2 - 3 = 95
+     fruit_distribution(&quot;100 apples and 1 oranges&quot;,120) -&gt; 120 - 100 - 1 = 19
+     &quot;&quot;&quot;
+-    # Extract the numbers from the string
+-    apples, oranges = map(int, s.split()[0], s.split()[2])
+-    return n - apples - oranges+    # Extract numbers from the string
++    nums = [int(x) for x in s.split() if x.isdigit()]
++    # Sum the numbers and subtract from total
++    return n - sum(nums)</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[\&quot;failed: &#x27;str&#x27; object cannot be interpreted as an integer\&quot;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [\&quot;failed: &#x27;str&#x27; object cannot be interpreted as an integer\&quot;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/70"><h2>HumanEval/70：旧对新错</h2><p>min==max时只保留一个值，丢失重复元素。</p><p>FP16通过：1；生成token公共前缀长度：65；旧/新token数：107/116</p><div class="cols"><div><h3>旧代码</h3><pre>def strange_sort_list(lst):
+    &#x27;&#x27;&#x27;
+    Given list of integers, return list in strange order.
+    Strange sorting, is when you start with the minimum value,
+    then maximum of the remaining integers, then minimum and so on.
+    &#x27;&#x27;&#x27;
+    result = []
+    while lst:
+        min_val = min(lst)
+        result.append(min_val)
+        lst.remove(min_val)
+        if not lst:
+            break
+        max_val = max(lst)
+        result.append(max_val)
+        lst.remove(max_val)
+    return result</pre></div><div><h3>新代码</h3><pre>def strange_sort_list(lst):
+    &#x27;&#x27;&#x27;
+    Given list of integers, return list in strange order.
+    Strange sorting, is when you start with the minimum value,
+    then maximum of the remaining integers, then minimum and so on.
+    &#x27;&#x27;&#x27;
+    result = []
+    while lst:
+        min_val = min(lst)
+        max_val = max(lst)
+        if min_val == max_val:
+            result.append(min_val)
+            break
+        result.append(min_val)
+        result.append(max_val)
+        lst.remove(min_val)
+        lst.remove(max_val)
+    return result</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -7,11 +7,12 @@
+     result = []
+     while lst:
+         min_val = min(lst)
++        max_val = max(lst)
++        if min_val == max_val:
++            result.append(min_val)
++            break
+         result.append(min_val)
++        result.append(max_val)
+         lst.remove(min_val)
+-        if not lst:
+-            break
+-        max_val = max(lst)
+-        result.append(max_val)
+         lst.remove(max_val)
+     return result</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/96"><h2>HumanEval/96：旧错新对</h2><p>新实现限制素数小于n；旧实现返回前n个素数。</p><p>FP16通过：1；生成token公共前缀长度：13；旧/新token数：242/246</p><div class="cols"><div><h3>旧代码</h3><pre>def count_up_to(n):
+    &quot;&quot;&quot;Implement a function that takes a non-negative integer and returns an array of the first n
+    integers that are prime numbers and less than n.
+    for example:
+    count_up_to(5) =&gt; [2,3]
+    count_up_to(11) =&gt; [2,3,5,7]
+    count_up_to(0) =&gt; []
+    count_up_to(20) =&gt; [2,3,5,7,11,13,17,19]
+    count_up_to(1) =&gt; []
+    count_up_to(18) =&gt; [2,3,5,7,11,13,17]
+    &quot;&quot;&quot;
+    def is_prime(num):
+        if num &lt; 2:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    primes = []
+    num = 2
+    while len(primes) &lt; n:
+        if is_prime(num):
+            primes.append(num)
+        num += 1
+    return primes</pre></div><div><h3>新代码</h3><pre>def count_up_to(n):
+    &quot;&quot;&quot;Implement a function that takes an non-negative integer and returns an array of the first n
+    integers that are prime numbers and less than n.
+    for example:
+    count_up_to(5) =&gt; [2,3]
+    count_up_to(11) =&gt; [2,3,5,7]
+    count_up_to(0) =&gt; []
+    count_up_to(20) =&gt; [2,3,5,7,11,13,17,19]
+    count_up_to(1) =&gt; []
+    count_up_to(18) =&gt; [2,3,5,7,11,13,17]
+    &quot;&quot;&quot;
+    def is_prime(num):
+        if num &lt; 2:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    primes = []
+    i = 2
+    while len(primes) &lt; n and i &lt; n:
+        if is_prime(i):
+            primes.append(i)
+        i += 1
+    return primes</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,5 +1,5 @@
+ def count_up_to(n):
+-    &quot;&quot;&quot;Implement a function that takes a non-negative integer and returns an array of the first n
++    &quot;&quot;&quot;Implement a function that takes an non-negative integer and returns an array of the first n
+     integers that are prime numbers and less than n.
+     for example:
+     count_up_to(5) =&gt; [2,3]
+@@ -18,9 +18,9 @@
+         return True
+ 
+     primes = []
+-    num = 2
+-    while len(primes) &lt; n:
+-        if is_prime(num):
+-            primes.append(num)
+-        num += 1
++    i = 2
++    while len(primes) &lt; n and i &lt; n:
++        if is_prime(i):
++            primes.append(i)
++        i += 1
+     return primes</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/101"><h2>HumanEval/101：旧对新错</h2><p>只按逗号切分，没有继续按空格分词。</p><p>FP16通过：0；生成token公共前缀长度：122；旧/新token数：131/127</p><div class="cols"><div><h3>旧代码</h3><pre>def words_string(s):
+    &quot;&quot;&quot;
+    You will be given a string of words separated by commas or spaces. Your task is
+    to split the string into words and return an array of the words.
+    
+    For example:
+    words_string(&quot;Hi, my name is John&quot;) == [&quot;Hi&quot;, &quot;my&quot;, &quot;name&quot;, &quot;is&quot;, &quot;John&quot;]
+    words_string(&quot;One, two, three, four, five, six&quot;) == [&quot;One&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;, &quot;six&quot;]
+    &quot;&quot;&quot;
+    return [word.strip() for word in s.split(&#x27;,&#x27;) for word in word.strip().split()]</pre></div><div><h3>新代码</h3><pre>def words_string(s):
+    &quot;&quot;&quot;
+    You will be given a string of words separated by commas or spaces. Your task is
+    to split the string into words and return an array of the words.
+    
+    For example:
+    words_string(&quot;Hi, my name is John&quot;) == [&quot;Hi&quot;, &quot;my&quot;, &quot;name&quot;, &quot;is&quot;, &quot;John&quot;]
+    words_string(&quot;One, two, three, four, five, six&quot;) == [&quot;One&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;, &quot;six&quot;]
+    &quot;&quot;&quot;
+    return [word.strip() for word in s.split(&#x27;,&#x27;) if word.strip()]</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -7,4 +7,4 @@
+     words_string(&quot;Hi, my name is John&quot;) == [&quot;Hi&quot;, &quot;my&quot;, &quot;name&quot;, &quot;is&quot;, &quot;John&quot;]
+     words_string(&quot;One, two, three, four, five, six&quot;) == [&quot;One&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;, &quot;six&quot;]
+     &quot;&quot;&quot;
+-    return [word.strip() for word in s.split(&#x27;,&#x27;) for word in word.strip().split()]+    return [word.strip() for word in s.split(&#x27;,&#x27;) if word.strip()]</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/109"><h2>HumanEval/109：旧对新错</h2><p>旋转判断算法错误，不能正确判断循环移位能否有序。</p><p>FP16通过：0；生成token公共前缀长度：69；旧/新token数：358/357</p><div class="cols"><div><h3>旧代码</h3><pre>def move_one_ball(arr):
+    &quot;&quot;&quot;We have an array &#x27;arr&#x27; of N integers arr[1], arr[2], ..., arr[N].The
+    numbers in the array will be randomly ordered. Your task is to determine if
+    it is possible to get an array sorted in non-decreasing order by performing 
+    the following operation on the given array:
+        You are allowed to perform right shift operation any number of times.
+    
+    One right shift operation means shifting all elements of the array by one
+    position in the right direction. The last element of the array will be moved to
+    the starting position in the array i.e. 0th index. 
+
+    If it is possible to obtain the sorted array by performing the above operation
+    then return True else return False.
+    If the given array is empty then return True.
+
+    Note: The given list is guaranteed to have unique elements.
+
+    For Example:
+    
+    move_one_ball([3, 4, 5, 1, 2])==&gt;True
+    Explanation: By performing 2 right shift operations, non-decreasing order can
+                 be achieved for the given array.
+    move_one_ball([3, 5, 4, 1, 2])==&gt;False
+    Explanation: It is not possible to get non-decreasing order for the given
+                array by performing any number of right shift operations.
+    &quot;&quot;&quot;
+    if not arr:
+        return True
+
+    n = len(arr)
+    sorted_arr = sorted(arr)
+
+    # Check if the original array can be rotated to match the sorted array
+    for i in range(n):
+        if arr[i:] + arr[:i] == sorted_arr:
+            return True
+    return False</pre></div><div><h3>新代码</h3><pre>def move_one_ball(arr):
+    &quot;&quot;&quot;We have an array &#x27;arr&#x27; of N integers arr[1], arr[2], ..., arr[N].The
+    numbers in the array will be randomly ordered. Your task is to determine if
+    it is possible to get an array sorted in non-decreasing order by performing 
+    the following:
+        You are allowed to perform right shift operation any number of times.
+    
+    One right shift operation means shifting all elements of the array by one
+    position in the right direction. The last element of the array will be moved to
+    the starting position in the array i.e. 0th index. 
+
+    If it is possible to obtain the sorted array by performing the above operation
+    then return True else return False.
+    If the given array is empty then return True.
+
+    Note: The given list is guaranteed to have unique elements.
+    &quot;&quot;&quot;
+    if not arr:
+        return True
+
+    n = len(arr)
+    sorted_arr = sorted(arr)
+
+    # Find the index where the sorted array starts in the original array
+    start = 0
+    while start &lt; n and arr[start] != sorted_arr[start]:
+        start += 1
+
+    # If the array is already sorted, return True
+    if start == n:
+        return True
+
+    # Check if the rest of the array is in order after the start index
+    for i in range(start, n):
+        if arr[i] &gt; sorted_arr[i]:
+            return False
+
+    # Check if the array can be rotated to match the sorted array
+    for i in range(start, n):
+        if arr[i] != sorted_arr[(i - start) % n]:
+            return False
+
+    return True</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -2,7 +2,7 @@
+     &quot;&quot;&quot;We have an array &#x27;arr&#x27; of N integers arr[1], arr[2], ..., arr[N].The
+     numbers in the array will be randomly ordered. Your task is to determine if
+     it is possible to get an array sorted in non-decreasing order by performing 
+-    the following operation on the given array:
++    the following:
+         You are allowed to perform right shift operation any number of times.
+     
+     One right shift operation means shifting all elements of the array by one
+@@ -14,15 +14,6 @@
+     If the given array is empty then return True.
+ 
+     Note: The given list is guaranteed to have unique elements.
+-
+-    For Example:
+-    
+-    move_one_ball([3, 4, 5, 1, 2])==&gt;True
+-    Explanation: By performing 2 right shift operations, non-decreasing order can
+-                 be achieved for the given array.
+-    move_one_ball([3, 5, 4, 1, 2])==&gt;False
+-    Explanation: It is not possible to get non-decreasing order for the given
+-                array by performing any number of right shift operations.
+     &quot;&quot;&quot;
+     if not arr:
+         return True
+@@ -30,8 +21,23 @@
+     n = len(arr)
+     sorted_arr = sorted(arr)
+ 
+-    # Check if the original array can be rotated to match the sorted array
+-    for i in range(n):
+-        if arr[i:] + arr[:i] == sorted_arr:
+-            return True
+-    return False+    # Find the index where the sorted array starts in the original array
++    start = 0
++    while start &lt; n and arr[start] != sorted_arr[start]:
++        start += 1
++
++    # If the array is already sorted, return True
++    if start == n:
++        return True
++
++    # Check if the rest of the array is in order after the start index
++    for i in range(start, n):
++        if arr[i] &gt; sorted_arr[i]:
++            return False
++
++    # Check if the array can be rotated to match the sorted array
++    for i in range(start, n):
++        if arr[i] != sorted_arr[(i - start) % n]:
++            return False
++
++    return True</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/110"><h2>HumanEval/110：旧错新对</h2><p>新实现检查第二列表偶数能否替换第一列表奇数；旧实现误要求所有数均为偶数。</p><p>FP16通过：0；生成token公共前缀长度：195；旧/新token数：289/281</p><div class="cols"><div><h3>旧代码</h3><pre>def exchange(lst1, lst2):
+    &quot;&quot;&quot;In this problem, you will implement a function that takes two lists of numbers,
+    and determines whether it is possible to perform an exchange of elements
+    between them to make lst1 a list of only even numbers.
+    There is no limit on the number of exchanged elements between lst1 and lst2.
+    If it is possible to exchange elements between the lst1 and lst2 to make
+    all the elements of lst1 to be even, return &quot;YES&quot;.
+    Otherwise, return &quot;NO&quot;.
+    For example:
+    exchange([1, 2, 3, 4], [1, 2, 3, 4]) =&gt; &quot;YES&quot;
+    exchange([1, 2, 3, 4], [1, 5, 3, 4]) =&gt; &quot;NO&quot;
+    It is assumed that the input lists will be non-empty.
+    &quot;&quot;&quot;
+    even_count = 0
+    odd_count = 0
+
+    for num in lst1:
+        if num % 2 == 0:
+            even_count += 1
+        else:
+            odd_count += 1
+
+    for num in lst2:
+        if num % 2 == 0:
+            even_count += 1
+        else:
+            odd_count += 1
+
+    return &quot;YES&quot; if odd_count == 0 else &quot;NO&quot;</pre></div><div><h3>新代码</h3><pre>def exchange(lst1, lst2):
+    &quot;&quot;&quot;In this problem, you will implement a function that takes two lists of numbers,
+    and determines whether it is possible to perform an exchange of elements
+    between them to make lst1 a list of only even numbers.
+    There is no limit on the number of exchanged elements between lst1 and lst2.
+    If it is possible to exchange elements between the lst1 and lst2 to make
+    all the elements of lst1 to be even, return &quot;YES&quot;.
+    Otherwise, return &quot;NO&quot;.
+    For example:
+    exchange([1, 2, 3, 4], [1, 2, 3, 4]) =&gt; &quot;YES&quot;
+    exchange([1, 2, 3, 4], [1, 5, 3, 4]) =&gt; &quot;NO&quot;
+    It is assumed that the input lists will be non-empty.
+    &quot;&quot;&quot;
+    even_count = sum(1 for x in lst1 if x % 2 == 0)
+    odd_count = len(lst1) - even_count
+
+    even_in_lst2 = sum(1 for x in lst2 if x % 2 == 0)
+    odd_in_lst2 = len(lst2) - even_in_lst2
+
+    return &quot;YES&quot; if even_in_lst2 &gt;= odd_count else &quot;NO&quot;</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -11,19 +11,10 @@
+     exchange([1, 2, 3, 4], [1, 5, 3, 4]) =&gt; &quot;NO&quot;
+     It is assumed that the input lists will be non-empty.
+     &quot;&quot;&quot;
+-    even_count = 0
+-    odd_count = 0
++    even_count = sum(1 for x in lst1 if x % 2 == 0)
++    odd_count = len(lst1) - even_count
+ 
+-    for num in lst1:
+-        if num % 2 == 0:
+-            even_count += 1
+-        else:
+-            odd_count += 1
++    even_in_lst2 = sum(1 for x in lst2 if x % 2 == 0)
++    odd_in_lst2 = len(lst2) - even_in_lst2
+ 
+-    for num in lst2:
+-        if num % 2 == 0:
+-            even_count += 1
+-        else:
+-            odd_count += 1
+-
+-    return &quot;YES&quot; if odd_count == 0 else &quot;NO&quot;+    return &quot;YES&quot; if even_in_lst2 &gt;= odd_count else &quot;NO&quot;</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/111"><h2>HumanEval/111：旧错新对</h2><p>新实现max(...,default=0)处理空输入；旧实现空序列异常。</p><p>FP16通过：1；生成token公共前缀长度：48；旧/新token数：103/198</p><div class="cols"><div><h3>旧代码</h3><pre>def histogram(test):
+    &quot;&quot;&quot;Given a string representing a space separated lowercase letters, return a dictionary
+    of the letter with the most repetition and containing the corresponding count.
+    If several letters have the same occurrence, return all of them.
+    &quot;&quot;&quot;
+    from collections import Counter
+    letters = test.split()
+    counts = Counter(letters)
+    max_count = max(counts.values())
+    result = {k: v for k, v in counts.items() if v == max_count}
+    return result</pre></div><div><h3>新代码</h3><pre>def histogram(test):
+    &quot;&quot;&quot;Given a string representing a space separated lowercase letters, return a dictionary
+    of the letter with the most repetition and containing the corresponding count.
+    If several letters have the same occurrence, return all of them.
+    
+    Example:
+    histogram(&#x27;a b c&#x27;) == {&#x27;a&#x27;: 1, &#x27;b&#x27;: 1, &#x27;c&#x27;: 1}
+    histogram(&#x27;a b b a&#x27;) == {&#x27;a&#x27;: 2, &#x27;b&#x27;: 2}
+    histogram(&#x27;a b c a b&#x27;) == {&#x27;a&#x27;: 2, &#x27;b&#x27;: 2}
+    histogram(&#x27;b b b b a&#x27;) == {&#x27;b&#x27;: 4}
+    histogram(&#x27;&#x27;) == {}
+    &quot;&quot;&quot;
+    from collections import Counter
+    letters = test.split()
+    counts = Counter(letters)
+    max_count = max(counts.values(), default=0)
+    return {k: v for k, v in counts.items() if v == max_count}</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -2,10 +2,16 @@
+     &quot;&quot;&quot;Given a string representing a space separated lowercase letters, return a dictionary
+     of the letter with the most repetition and containing the corresponding count.
+     If several letters have the same occurrence, return all of them.
++    
++    Example:
++    histogram(&#x27;a b c&#x27;) == {&#x27;a&#x27;: 1, &#x27;b&#x27;: 1, &#x27;c&#x27;: 1}
++    histogram(&#x27;a b b a&#x27;) == {&#x27;a&#x27;: 2, &#x27;b&#x27;: 2}
++    histogram(&#x27;a b c a b&#x27;) == {&#x27;a&#x27;: 2, &#x27;b&#x27;: 2}
++    histogram(&#x27;b b b b a&#x27;) == {&#x27;b&#x27;: 4}
++    histogram(&#x27;&#x27;) == {}
+     &quot;&quot;&quot;
+     from collections import Counter
+     letters = test.split()
+     counts = Counter(letters)
+-    max_count = max(counts.values())
+-    result = {k: v for k, v in counts.items() if v == max_count}
+-    return result+    max_count = max(counts.values(), default=0)
++    return {k: v for k, v in counts.items() if v == max_count}</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: max() arg is an empty sequence&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: max() arg is an empty sequence&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/114"><h2>HumanEval/114：旧对新错</h2><p>只求最小前缀和，遗漏正数累计后重置，不能求任意子数组最小和。</p><p>FP16通过：1；生成token公共前缀长度：120；旧/新token数：140/125</p><div class="cols"><div><h3>旧代码</h3><pre>def minSubArraySum(nums):
+    &quot;&quot;&quot;
+    Given an array of integers nums, find the minimum sum of any non-empty sub-array
+    of nums.
+    Example
+    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1
+    minSubArraySum([-1, -2, -3]) == -6
+    &quot;&quot;&quot;
+    min_sum = float(&#x27;inf&#x27;)
+    current_sum = 0
+    for num in nums:
+        current_sum += num
+        min_sum = min(min_sum, current_sum)
+        if current_sum &gt; 0:
+            current_sum = 0
+    return min_sum</pre></div><div><h3>新代码</h3><pre>def minSubArraySum(nums):
+    &quot;&quot;&quot;
+    Given an array of integers nums, find the minimum sum of any non-empty sub-array
+    of nums.
+    Example
+    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1
+    minSubArraySum([-1, -2, -3]) == -6
+    &quot;&quot;&quot;
+    min_sum = float(&#x27;inf&#x27;)
+    current_sum = 0
+    for num in nums:
+        current_sum += num
+        min_sum = min(min_sum, current_sum)
+    return min_sum</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -11,6 +11,4 @@
+     for num in nums:
+         current_sum += num
+         min_sum = min(min_sum, current_sum)
+-        if current_sum &gt; 0:
+-            current_sum = 0
+     return min_sum</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: This prints if this assert fails 1 (good for debugging!)&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: This prints if this assert fails 1 (good for debugging!)&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/116"><h2>HumanEval/116：旧对新错</h2><p>sorted调用缺少右括号，语法错误。</p><p>FP16通过：1；生成token公共前缀长度：26；旧/新token数：74/65</p><div class="cols"><div><h3>旧代码</h3><pre>def sort_array(arr):
+    &quot;&quot;&quot;
+    Sorts an array of non-negative integers based on the number of ones in their binary representation in ascending order.
+    For numbers with the same number of ones, sort by their decimal value.
+    &quot;&quot;&quot;
+    def key(x):
+        return (bin(x).count(&#x27;1&#x27;), x)
+    return sorted(arr, key=key)</pre></div><div><h3>新代码</h3><pre>def sort_array(arr):
+    &quot;&quot;&quot;
+    Sorts an array of non-negative integers based on the number of ones in their binary representation.
+    For elements with the same number of ones, sort by their decimal value.
+    &quot;&quot;&quot;
+    return sorted(arr, key=lambda x: (bin(x).count(&#x27;1&#x27;), x)</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,8 +1,6 @@
+ def sort_array(arr):
+     &quot;&quot;&quot;
+-    Sorts an array of non-negative integers based on the number of ones in their binary representation in ascending order.
+-    For numbers with the same number of ones, sort by their decimal value.
++    Sorts an array of non-negative integers based on the number of ones in their binary representation.
++    For elements with the same number of ones, sort by their decimal value.
+     &quot;&quot;&quot;
+-    def key(x):
+-        return (bin(x).count(&#x27;1&#x27;), x)
+-    return sorted(arr, key=key)+    return sorted(arr, key=lambda x: (bin(x).count(&#x27;1&#x27;), x)</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[\&quot;failed: &#x27;(&#x27; was never closed (&lt;string&gt;, line 20)\&quot;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [\&quot;failed: &#x27;(&#x27; was never closed (&lt;string&gt;, line 20)\&quot;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/127"><h2>HumanEval/127：旧对新错</h2><p>交集长度从end-start改成end-start+1，与题意不符。</p><p>FP16通过：0；生成token公共前缀长度：228；旧/新token数：345/376</p><div class="cols"><div><h3>旧代码</h3><pre>def intersection(interval1, interval2):
+    &quot;&quot;&quot;You are given two intervals,
+    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).
+    The given intervals are closed which means that the interval (start, end)
+    includes both start and end.
+    For each given interval, it is assumed that its start is less or equal its end.
+    Your task is to determine whether the length of intersection of these two 
+    intervals is a prime number.
+    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)
+    which its length is 1, which not a prime number.
+    If the length of the intersection is a prime number, return &quot;YES&quot;,
+    otherwise, return &quot;NO&quot;.
+    If the two intervals don&#x27;t intersect, return &quot;NO&quot;.
+    &quot;&quot;&quot;
+    # Find the start and end of the intersection
+    start = max(interval1[0], interval2[0])
+    end = min(interval1[1], interval2[1])
+    
+    # If there is no overlap, return &quot;NO&quot;
+    if start &gt; end:
+        return &quot;NO&quot;
+    
+    # Calculate the length of the intersection
+    length = end - start
+    
+    # Check if the length is a prime number
+    def is_prime(n):
+        if n &lt; 2:
+            return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
+    
+    return &quot;YES&quot; if is_prime(length) else &quot;NO&quot;</pre></div><div><h3>新代码</h3><pre>def intersection(interval1, interval2):
+    &quot;&quot;&quot;You are given two intervals,
+    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).
+    The given intervals are closed which means that the interval (start, end)
+    includes both start and end.
+    For each given interval, it is assumed that its start is less or equal its end.
+    Your task is to determine whether the length of intersection of these two 
+    intervals is a prime number.
+    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)
+    which its length is 1, which not a prime number.
+    If the length of the intersection is a prime number, return &quot;YES&quot;,
+    otherwise, return &quot;NO&quot;.
+    If the two intervals don&#x27;t intersect, return &quot;NO&quot;.
+    &quot;&quot;&quot;
+    # Find the start and end of the intersection
+    start = max(interval1[0], interval2[0])
+    end = min(interval1[1], interval2[1])
+    
+    # Check if there is an intersection
+    if start &gt; end:
+        return &quot;NO&quot;
+    
+    # Calculate the length of the intersection
+    length = end - start + 1
+    
+    # Check if the length is a prime number
+    if is_prime(length):
+        return &quot;YES&quot;
+    else:
+        return &quot;NO&quot;
+
+def is_prime(n):
+    if n &lt;= 1:
+        return False
+    if n &lt;= 3:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -16,20 +16,27 @@
+     start = max(interval1[0], interval2[0])
+     end = min(interval1[1], interval2[1])
+     
+-    # If there is no overlap, return &quot;NO&quot;
++    # Check if there is an intersection
+     if start &gt; end:
+         return &quot;NO&quot;
+     
+     # Calculate the length of the intersection
+-    length = end - start
++    length = end - start + 1
+     
+     # Check if the length is a prime number
+-    def is_prime(n):
+-        if n &lt; 2:
++    if is_prime(length):
++        return &quot;YES&quot;
++    else:
++        return &quot;NO&quot;
++
++def is_prime(n):
++    if n &lt;= 1:
++        return False
++    if n &lt;= 3:
++        return True
++    if n % 2 == 0:
++        return False
++    for i in range(3, int(n**0.5) + 1, 2):
++        if n % i == 0:
+             return False
+-        for i in range(2, int(n**0.5) + 1):
+-            if n % i == 0:
+-                return False
+-        return True
+-    
+-    return &quot;YES&quot; if is_prime(length) else &quot;NO&quot;+    return True</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/128"><h2>HumanEval/128：旧错新对</h2><p>新实现修正零元素分支变量拼写product_of_signss。</p><p>FP16通过：1；生成token公共前缀长度：64；旧/新token数：215/177</p><div class="cols"><div><h3>旧代码</h3><pre>def prod_signs(arr):
+    &quot;&quot;&quot;
+    You are given an array arr of integers and you need to return
+    sum of magnitudes of integers multiplied by product of all signs
+    of each number in the array, represented by 1, -1 or 0.
+    Note: return None for empty arr.
+
+    Example:
+    &gt;&gt;&gt; prod_signs([1, 2, 2, -4]) == -9
+    &gt;&gt;&gt; prod_signs([0, 1]) == 0
+    &gt;&gt;&gt; prod_signs([]) == None
+    &quot;&quot;&quot;
+    if not arr:
+        return None
+
+    sum_magnitudes = sum(abs(x) for x in arr)
+    product_of_signs = 1
+    for num in arr:
+        if num &gt; 0:
+            product_of_signs *= 1
+        elif num &lt; 0:
+            product_of_signs *= -1
+        else:
+            product_of_signss = 0
+            break
+    return sum_magnitudes * product_of_signs</pre></div><div><h3>新代码</h3><pre>def prod_signs(arr):
+    &quot;&quot;&quot;
+    You are given an array arr of integers and you need to return
+    sum of magnitudes of integers multiplied by product of all signs
+    of each number in the array, represented by 1, -1 or 0.
+    Note: return None for empty arr.
+    &quot;&quot;&quot;
+    if not arr:
+        return None
+    
+    sum_magnitudes = sum(abs(x) for x in arr)
+    product_of_signs = 1
+    for num in arr:
+        if num &gt; 0:
+            product_of_signs *= 1
+        elif num &lt; 0:
+            product_of_signs *= -1
+        else:
+            product_of_signs = 0
+            break  # if there&#x27;s a zero, the product is zero
+    
+    return sum_magnitudes * product_of_signs</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -4,15 +4,10 @@
+     sum of magnitudes of integers multiplied by product of all signs
+     of each number in the array, represented by 1, -1 or 0.
+     Note: return None for empty arr.
+-
+-    Example:
+-    &gt;&gt;&gt; prod_signs([1, 2, 2, -4]) == -9
+-    &gt;&gt;&gt; prod_signs([0, 1]) == 0
+-    &gt;&gt;&gt; prod_signs([]) == None
+     &quot;&quot;&quot;
+     if not arr:
+         return None
+-
++    
+     sum_magnitudes = sum(abs(x) for x in arr)
+     product_of_signs = 1
+     for num in arr:
+@@ -21,6 +16,7 @@
+         elif num &lt; 0:
+             product_of_signs *= -1
+         else:
+-            product_of_signss = 0
+-            break
++            product_of_signs = 0
++            break  # if there&#x27;s a zero, the product is zero
++    
+     return sum_magnitudes * product_of_signs</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: &#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: &#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/134"><h2>HumanEval/134：旧错新对</h2><p>新实现处理单字符输入；旧实现txt[-2]越界。</p><p>FP16通过：0；生成token公共前缀长度：186；旧/新token数：223/233</p><div class="cols"><div><h3>旧代码</h3><pre>def check_if_last_char_is_a_letter(txt):
+    &#x27;&#x27;&#x27;
+    Create a function that returns True if the last character
+    of a given string is an alphabetical character and is not
+    a part of a word, and False otherwise.
+    Note: &quot;word&quot; is a group of characters separated by space.
+
+    Examples:
+    check_if_last_char_is_a_letter(&quot;apple pie&quot;) ➞ False
+    check_if_last_char_is_a_letter(&quot;apple pi e&quot;) ➞ True
+    check_if_last_char_is_a_letter(&quot;apple pi e &quot;) ➞ False
+    check_if_last_char_is_a_letter(&quot;&quot;) ➞ False 
+    &#x27;&#x27;&#x27;
+    if not txt:
+        return False
+    last_char = txt[-1]
+    # Check if the last character is a letter and is not part of a word
+    # A word is a sequence of characters separated by spaces
+    # So, the last character must be a letter and the previous character must be a space
+    if last_char.isalpha() and txt[-2] == &#x27; &#x27;:
+        return True
+    return False</pre></div><div><h3>新代码</h3><pre>def check_if_last_char_is_a_letter(txt):
+    &#x27;&#x27;&#x27;
+    Create a function that returns True if the last character
+    of a given string is an alphabetical character and is not
+    a part of a word, and False otherwise.
+    Note: &quot;word&quot; is a group of characters separated by space.
+
+    Examples:
+    check_if_last_char_is_a_letter(&quot;apple pie&quot;) ➞ False
+    check_if_last_char_is_a_letter(&quot;apple pi e&quot;) ➞ True
+    check_if_last_char_is_a_letter(&quot;apple pi e &quot;) ➞ False
+    check_if_last_char_is_a_letter(&quot;&quot;) ➞ False 
+    &#x27;&#x27;&#x27;
+    if not txt:
+        return False
+    last_char = txt[-1]
+    # Check if the last character is a letter and is not part of a word
+    # A word is a sequence of characters separated by spaces
+    # So, the last character is a letter and is preceded by a space or is the first character
+    if last_char.isalpha():
+        if len(txt) == 1 or txt[-2] == &#x27; &#x27;:
+            return True
+    return False</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -16,7 +16,8 @@
+     last_char = txt[-1]
+     # Check if the last character is a letter and is not part of a word
+     # A word is a sequence of characters separated by spaces
+-    # So, the last character must be a letter and the previous character must be a space
+-    if last_char.isalpha() and txt[-2] == &#x27; &#x27;:
+-        return True
++    # So, the last character is a letter and is preceded by a space or is the first character
++    if last_char.isalpha():
++        if len(txt) == 1 or txt[-2] == &#x27; &#x27;:
++            return True
+     return False</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: string index out of range&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: string index out of range&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/139"><h2>HumanEval/139：旧对新错</h2><p>调用factorial但未定义或导入，NameError。</p><p>FP16通过：1；生成token公共前缀长度：71；旧/新token数：130/98</p><div class="cols"><div><h3>旧代码</h3><pre>def special_factorial(n):
+    &quot;&quot;&quot;The Brazilian factorial is defined as:
+    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!
+    where n &gt; 0
+
+    For example:
+    &gt;&gt;&gt; special_factorial(4)
+    288
+    &quot;&quot;&quot;
+    def factorial(x):
+        res = 1
+        for i in range(1, x+1):
+            res *= i
+        return res
+
+    result = 1
+    for i in range(1, n+1):
+        result *= factorial(i)
+    return result</pre></div><div><h3>新代码</h3><pre>def special_factorial(n):
+    &quot;&quot;&quot;The Brazilian factorial is defined as:
+    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!
+    where n &gt; 0
+
+    For example:
+    &gt;&gt;&gt; special_factorial(4)
+    288
+    &quot;&quot;&quot;
+    result = 1
+    for i in range(1, n+1):
+        result *= factorial(i)
+    return result</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -7,12 +7,6 @@
+     &gt;&gt;&gt; special_factorial(4)
+     288
+     &quot;&quot;&quot;
+-    def factorial(x):
+-        res = 1
+-        for i in range(1, x+1):
+-            res *= i
+-        return res
+-
+     result = 1
+     for i in range(1, n+1):
+         result *= factorial(i)
+</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[\&quot;failed: name &#x27;factorial&#x27; is not defined\&quot;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [\&quot;failed: name &#x27;factorial&#x27; is not defined\&quot;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/140"><h2>HumanEval/140：旧错新对</h2><p>新实现逐字符保留并替换连续空格；旧实现split丢失空格。</p><p>FP16通过：1；生成token公共前缀长度：6；旧/新token数：181/109</p><div class="cols"><div><h3>旧代码</h3><pre>def fix_spaces(text):
+    &quot;&quot;&quot;
+    Given a string text, replace all spaces in it with underscores, 
+    and if a string has more than 2 consecutive spaces, 
+    then replace all consecutive spaces with - 
+    &quot;&quot;&quot;
+    # Split the text into words and spaces
+    words = text.split()
+    # Replace multiple spaces with &#x27;-&#x27;
+    result = []
+    i = 0
+    while i &lt; len(words):
+        if words[i] == &#x27;&#x27;:
+            # Count consecutive spaces
+            count = 0
+            while i &lt; len(words) and words[i] == &#x27;&#x27;:
+                count += 1
+                i += 1
+            # Replace with &#x27;-&#x27;
+            result.append(&#x27;-&#x27; * count)
+        else:
+            # Replace single space with &#x27;_&#x27;
+            result.append(words[i].replace(&#x27; &#x27;, &#x27;_&#x27;))
+            i += 1
+    return &#x27;&#x27;.join(result)</pre></div><div><h3>新代码</h3><pre>def fix_spaces(text):
+    result = []
+    i = 0
+    while i &lt; len(text):
+        if text[i] == &#x27; &#x27;:
+            count = 0
+            while i &lt; len(text) and text[i] == &#x27; &#x27;:
+                count += 1
+                i += 1
+            if count &gt; 2:
+                result.append(&#x27;-&#x27;)
+            else:
+                result.append(&#x27;_&#x27; * count)
+        else:
+            result.append(text[i])
+            i += 1
+    return &#x27;&#x27;.join(result)</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,25 +1,17 @@
+ def fix_spaces(text):
+-    &quot;&quot;&quot;
+-    Given a string text, replace all spaces in it with underscores, 
+-    and if a string has more than 2 consecutive spaces, 
+-    then replace all consecutive spaces with - 
+-    &quot;&quot;&quot;
+-    # Split the text into words and spaces
+-    words = text.split()
+-    # Replace multiple spaces with &#x27;-&#x27;
+     result = []
+     i = 0
+-    while i &lt; len(words):
+-        if words[i] == &#x27;&#x27;:
+-            # Count consecutive spaces
++    while i &lt; len(text):
++        if text[i] == &#x27; &#x27;:
+             count = 0
+-            while i &lt; len(words) and words[i] == &#x27;&#x27;:
++            while i &lt; len(text) and text[i] == &#x27; &#x27;:
+                 count += 1
+                 i += 1
+-            # Replace with &#x27;-&#x27;
+-            result.append(&#x27;-&#x27; * count)
++            if count &gt; 2:
++                result.append(&#x27;-&#x27;)
++            else:
++                result.append(&#x27;_&#x27; * count)
+         else:
+-            # Replace single space with &#x27;_&#x27;
+-            result.append(words[i].replace(&#x27; &#x27;, &#x27;_&#x27;))
++            result.append(text[i])
+             i += 1
+     return &#x27;&#x27;.join(result)</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: This prints if this assert fails 2 (good for debugging!)&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: This prints if this assert fails 2 (good for debugging!)&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/149"><h2>HumanEval/149：旧对新错</h2><p>key=lambda(lambda ...)为非法语法。</p><p>FP16通过：1；生成token公共前缀长度：210；旧/新token数：241/240</p><div class="cols"><div><h3>旧代码</h3><pre>def sorted_list_sum(lst):
+    &quot;&quot;&quot;Write a function that accepts a list of strings as a parameter,
+    deletes the strings that have odd lengths from it,
+    and returns the resulted list with a sorted order,
+    The list is always a list of strings and never an array of numbers,
+    and it may contain duplicates.
+    The order of the list should be ascending by length of each word, and you
+    should return the list sorted by that rule.
+    If two words have the same length, sort the list alphabetically.
+    The function should return a list of strings in sorted order.
+    You may assume that all words will have the same length.
+    For example:
+    assert list_sort([&quot;aa&quot;, &quot;a&quot;, &quot;aaa&quot;]) =&gt; [&quot;aa&quot;]
+    assert list_sort([&quot;ab&quot;, &quot;a&quot;, &quot;aaa&quot;, &quot;cd&quot;]) =&gt; [&quot;ab&quot;, &quot;cd&quot;]
+    &quot;&quot;&quot;
+    # Filter out strings with odd lengths
+    filtered = [s for s in lst if len(s) % 2 == 0]
+    
+    # Sort by length (ascending), then alphabetically
+    filtered.sort(key=lambda x: (len(x), x))
+    
+    return filtered</pre></div><div><h3>新代码</h3><pre>def sorted_list_sum(lst):
+    &quot;&quot;&quot;Write a function that accepts a list of strings as a parameter,
+    deletes the strings that have odd lengths from it,
+    and returns the resulted list with a sorted order,
+    The list is always a list of strings and never an array of numbers,
+    and it may contain duplicates.
+    The order of the list should be ascending by length of each word, and you
+    should return the list sorted by that rule.
+    If two words have the same length, sort the list alphabetically.
+    The function should return a list of strings in sorted order.
+    You may assume that all words will have the same length.
+    For example:
+    assert list_sort([&quot;aa&quot;, &quot;a&quot;, &quot;aaa&quot;]) =&gt; [&quot;aa&quot;]
+    assert list_sort([&quot;ab&quot;, &quot;a&quot;, &quot;aaa&quot;, &quot;cd&quot;]) =&gt; [&quot;ab&quot;, &quot;cd&quot;]
+    &quot;&quot;&quot;
+    # Filter out strings with odd lengths
+    filtered = [s for s in lst if len(s) % 2 == 0]
+    # Sort by length (ascending), then alphabetically
+    filtered.sort(key=lambda(lambda x: (len(x), x)))
+    return filtered</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -15,8 +15,6 @@
+     &quot;&quot;&quot;
+     # Filter out strings with odd lengths
+     filtered = [s for s in lst if len(s) % 2 == 0]
+-    
+     # Sort by length (ascending), then alphabetically
+-    filtered.sort(key=lambda x: (len(x), x))
+-    
++    filtered.sort(key=lambda(lambda x: (len(x), x)))
+     return filtered</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: invalid syntax (&lt;string&gt;, line 37)&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: invalid syntax (&lt;string&gt;, line 37)&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/160"><h2>HumanEval/160：旧对新错</h2><p>函数声明def do_algebra(operator(operator:损坏，语法错误。</p><p>FP16通过：1；生成token公共前缀长度：5；旧/新token数：206/249</p><div class="cols"><div><h3>旧代码</h3><pre>def do_algebra(operator, operand):
+    &quot;&quot;&quot;
+    Given two lists operator, and operand. The first list has basic algebra operations, and 
+    the second list is a list of integers. Use the two given lists to build the algebric 
+    expression and return the evaluation of this expression.
+
+    The basic algebra operations:
+    Addition ( + ) 
+    Subtraction ( - ) 
+    Multiplication ( * )
+    Floor division ( // )
+    Exponentiation ( ** ) 
+
+    Example:
+    operator[&#x27;+&#x27;, &#x27;*&#x27;, &#x27;-&#x27;]
+    array = [2, 3, 4, 5]
+    result = 2 + 3 * 4 - 5
+    =&gt; result = 9
+    &quot;&quot;&quot;
+    # Build the expression as a string
+    expression = str(operand[0])
+    for op, num in zip(operator, operand[1:]):
+        expression += f&quot; {op} {num}&quot;
+    
+    # Evaluate the expression
+    return eval(expression)</pre></div><div><h3>新代码</h3><pre>def do_algebra(operator(operator:
+    &quot;&quot;&quot;
+    Given two lists operator, and operand. The first list has basic algebra operations, and 
+    the second list is a list of integers. Use the two given lists to build the algebric 
+    expression and return the evaluation of this expression.
+
+    The basic algebra operations:
+    Addition ( + ) 
+    Subtraction ( - ) 
+    Multiplication ( * )
+    Floor division ( // )
+    Exponentiation ( ** ) 
+
+    Example:
+    operator = [&#x27;+&#x27;, &#x27;*&#x27;, &#x27;-&#x27;]
+    operand = [2, 3, 4, 5]
+    result = 2 + 3 * 4 - 5
+    =&gt; result = 9
+    &quot;&quot;&quot;
+    # Map operator symbols to their corresponding Python operators
+    op_map = {
+        &#x27;+&#x27;: &#x27;+&#x27;,
+        &#x27;-&#x27;: &#x27;-&#x27;,
+        &#x27;*&#x27;: &#x27;*&#x27;,
+        &#x27;//&#x27;: &#x27;//&#x27;,
+        &#x27;**&#x27;: &#x27;**&#x27;
+    }
+    
+    # Build the expression string
+    expr = str(operand[0])
+    for op, operand in zip(operator, operand[1:]):
+        expr += op_map[op] + str(operand)
+    
+    # Evaluate the expression
+    return eval(expr)</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -1,4 +1,4 @@
+-def do_algebra(operator, operand):
++def do_algebra(operator(operator:
+     &quot;&quot;&quot;
+     Given two lists operator, and operand. The first list has basic algebra operations, and 
+     the second list is a list of integers. Use the two given lists to build the algebric 
+@@ -12,15 +12,24 @@
+     Exponentiation ( ** ) 
+ 
+     Example:
+-    operator[&#x27;+&#x27;, &#x27;*&#x27;, &#x27;-&#x27;]
+-    array = [2, 3, 4, 5]
++    operator = [&#x27;+&#x27;, &#x27;*&#x27;, &#x27;-&#x27;]
++    operand = [2, 3, 4, 5]
+     result = 2 + 3 * 4 - 5
+     =&gt; result = 9
+     &quot;&quot;&quot;
+-    # Build the expression as a string
+-    expression = str(operand[0])
+-    for op, num in zip(operator, operand[1:]):
+-        expression += f&quot; {op} {num}&quot;
++    # Map operator symbols to their corresponding Python operators
++    op_map = {
++        &#x27;+&#x27;: &#x27;+&#x27;,
++        &#x27;-&#x27;: &#x27;-&#x27;,
++        &#x27;*&#x27;: &#x27;*&#x27;,
++        &#x27;//&#x27;: &#x27;//&#x27;,
++        &#x27;**&#x27;: &#x27;**&#x27;
++    }
++    
++    # Build the expression string
++    expr = str(operand[0])
++    for op, operand in zip(operator, operand[1:]):
++        expr += op_map[op] + str(operand)
+     
+     # Evaluate the expression
+-    return eval(expression)+    return eval(expr)</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[&#x27;failed: invalid syntax (&lt;string&gt;, line 29)&#x27;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [&#x27;failed: invalid syntax (&lt;string&gt;, line 29)&#x27;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>
+<section id="HumanEval/162"><h2>HumanEval/162：旧对新错</h2><p>hexdigest_hexdigest不存在，且把hashlib模块当函数调用。</p><p>FP16通过：1；生成token公共前缀长度：36；旧/新token数：108/71</p><div class="cols"><div><h3>旧代码</h3><pre>def string_to_md5(text):
+    &quot;&quot;&quot;
+    Given a string &#x27;text&#x27;, return its md5 hash equivalent string.
+    If &#x27;text&#x27; is an empty string, return None.
+
+    &gt;&gt;&gt; string_to_md5(&#x27;Hello world&#x27;) == &#x27;3e25960a79dbc69b674cd4ec67a72c62&#x27;
+    &quot;&quot;&quot;
+    if not text:
+        return None
+    import hashlib
+    return hashlib.md5(text.encode(&#x27;utf-8&#x27;)).hexdigest()</pre></div><div><h3>新代码</h3><pre>def string_to_md5(text):
+    &quot;&quot;&quot;
+    Given a string &#x27;text&#x27;, return its md5 hash equivalent string.
+    If &#x27;text&#x27; is an empty string, return None.
+    &quot;&quot;&quot;
+    if not text:
+        return None
+    import hashlib
+    return hashlib(hashlib.md5(text.encode(&#x27;utf-8&#x27;)).hexdigest_hexdigest())</pre></div></div><details><summary>代码diff及官方测试记录</summary><pre>--- 旧Jacobian_Tree
++++ 新JacK_MixV
+@@ -2,10 +2,8 @@
+     &quot;&quot;&quot;
+     Given a string &#x27;text&#x27;, return its md5 hash equivalent string.
+     If &#x27;text&#x27; is an empty string, return None.
+-
+-    &gt;&gt;&gt; string_to_md5(&#x27;Hello world&#x27;) == &#x27;3e25960a79dbc69b674cd4ec67a72c62&#x27;
+     &quot;&quot;&quot;
+     if not text:
+         return None
+     import hashlib
+-    return hashlib.md5(text.encode(&#x27;utf-8&#x27;)).hexdigest()+    return hashlib(hashlib.md5(text.encode(&#x27;utf-8&#x27;)).hexdigest_hexdigest())</pre><pre>{
+  &quot;old&quot;: {
+    &quot;passed&quot;: true,
+    &quot;returncode&quot;: 0
+  },
+  &quot;new&quot;: {
+    &quot;passed&quot;: false,
+    &quot;exception&quot;: &quot;AssertionError&quot;,
+    &quot;error&quot;: &quot;[\&quot;failed: &#x27;_hashlib.HASH&#x27; object has no attribute &#x27;hexdigest_hexdigest&#x27;\&quot;]&quot;,
+    &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;&lt;string&gt;\&quot;, line 110, in main\n  File \&quot;&lt;humaneval&gt;\&quot;, line 5, in &lt;module&gt;\nAssertionError: [\&quot;failed: &#x27;_hashlib.HASH&#x27; object has no attribute &#x27;hexdigest_hexdigest&#x27;\&quot;]\n&quot;,
+    &quot;returncode&quot;: 0
+  }
+}</pre></details></section>

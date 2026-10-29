@@ -1,0 +1,51 @@
+{
+  "model_default": "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c",
+  "methods": {
+    "fp16": "auto",
+    "kvarn": "kvarn_k4v2_g128"
+  },
+  "dtype": "float16",
+  "seed": 42,
+  "longbench": {
+    "samples_per_task": 50,
+    "selection": "fixed-seed length-stratified; save IDs and shared prompts before both methods",
+    "tasks": {
+      "qasper": "single-document QA",
+      "hotpotqa": "multi-document QA",
+      "gov_report": "summarization",
+      "trec": "few-shot classification",
+      "passage_retrieval_en": "retrieval",
+      "lcc": "code completion"
+    }
+  },
+  "humaneval": {
+    "count": 164,
+    "variant": "pending clarification",
+    "max_tokens": 512
+  },
+  "math": {
+    "count": 5000,
+    "split": "test",
+    "max_tokens": 2048,
+    "variant": "pending clarification"
+  },
+  "performance": {
+    "batch_sizes": [
+      1,
+      4,
+      8
+    ],
+    "context_buckets": [
+      2048,
+      8192,
+      16384
+    ],
+    "pilot_samples": 20,
+    "fixed_decode_lengths": [
+      128,
+      512
+    ],
+    "repeats": 3
+  },
+  "status": "Environment installed; CUDA FP16 matmul and Qwen3-4B eager 16-token FP16/KVarN generation passed. Benchmark data preparation and formal evaluation remain pending."
+}

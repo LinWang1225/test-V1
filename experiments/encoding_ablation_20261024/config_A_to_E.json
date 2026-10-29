@@ -1,0 +1,52 @@
+{
+  "kind": "post_run_unified_index_not_replacement_of_frozen_run_configuration",
+  "model": "Qwen/Qwen3-4B",
+  "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+  "requests": {
+    "calibration": 60,
+    "validation": 30,
+    "test": 90
+  },
+  "bits": [
+    2,
+    3,
+    4
+  ],
+  "decode_positions": [
+    1,
+    8,
+    32,
+    64
+  ],
+  "methods": {
+    "A": "independent uniform INT4, shared calibrated ranges",
+    "B": "Gaussian Lloyd tree",
+    "C": "KV empirical weighted hierarchical clustering",
+    "D": "attention-output Jacobian weighted hierarchical clustering",
+    "E": "native KVarN K4V4/G128, 8 Sinkhorn iterations, original FP16 metadata; midpoint missing-bit reconstruction",
+    "E_zero": "same native codes; zero-fill missing bits"
+  },
+  "conditions": {
+    "original_payload": "native metadata charged; E preserves incomplete FP16 tail, A-D quantize all valid tokens",
+    "equal_total_bytes": "same B total-byte upper bound; fixed low-plane omission; E may retain fewer than requested prefix bits"
+  },
+  "sources": {
+    "ABCD_protocol": "PROTOCOL.md",
+    "E_protocol": "E_extension/PROTOCOL_E.md",
+    "ABCD_provenance": "provenance.json",
+    "E_provenance": "E_extension/provenance.json"
+  },
+  "results": {
+    "main_report": "结果分析.md",
+    "E_report": "E_extension/E对比分析.md",
+    "merged_request_metrics": "results/unified/request_metrics_A_to_E.csv",
+    "merged_summary": "results/unified/summary_A_to_E.csv",
+    "comparisons": "results/unified/comparisons_A_to_E.json",
+    "audit": "results/unified/audit.json"
+  },
+  "limitations": [
+    "E versus A-D includes quantizer preprocessing and incomplete-tail-policy differences",
+    "equal-byte measurements simulate compact serializable layout, not native serving peak GPU allocation",
+    "single-layer counterfactual quality; no cross-layer propagation or task-quality guarantee"
+  ]
+}
