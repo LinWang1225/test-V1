@@ -65,10 +65,21 @@ class Ledger:
 
 def parse_ncu(path):
     lines=Path(path).read_text(errors='replace').splitlines()
-    start=next((i for i,s in enumerate(lines) if 'Metric Name' in s and 'Metric Value' in s and 'ID' in s),None)
+    start=next((i for i,s in enumerate(lines) if ('Metric Name' in s and 'Metric Value' in s or 'dram__bytes_read.sum' in s and 'dram__bytes_write.sum' in s) and 'ID' in s),None)
     if start is None:raise ValueError('No Nsight raw metric CSV header; no physical measurement')
     records={};wanted={'dram__bytes_read.sum':'read','dram__bytes_write.sum':'write'}
-    for row in csv.DictReader(io.StringIO('\n'.join(lines[start:]))):
+    reader=csv.DictReader(io.StringIO('\n'.join(lines[start:])))
+    if 'Metric Name' not in reader.fieldnames:
+        units=next(reader,None)
+        if units is None:raise ValueError('Missing Nsight metric units')
+        def metric_rows():
+            for row in reader:
+                if not row.get('ID'):continue
+                for name in wanted:
+                    yield {'ID':row['ID'],'Process ID':row.get('Process ID',''),'Metric Name':name,'Metric Unit':units.get(name,''),'Metric Value':row.get(name,'')}
+        rows=metric_rows()
+    else:rows=reader
+    for row in rows:
         name=row.get('Metric Name','')
         if name not in wanted:continue
         unit=row.get('Metric Unit','').strip().lower()

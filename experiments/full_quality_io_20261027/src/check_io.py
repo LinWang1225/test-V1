@@ -24,6 +24,14 @@ def main():
         header='"ID","Process ID","Metric Name","Metric Unit","Metric Value"\n'
         p.write_text('==PROF== tool preamble\n'+header+'"0","4","dram__bytes_read.sum","byte","4,096"\n"0","4","dram__bytes_write.sum","byte","32"\n')
         r=parse_ncu(p);assert r['dram_read_bytes']==4096 and r['dram_total_bytes']==4128
+        wide='"ID","Process ID","dram__bytes_read.sum","dram__bytes_write.sum"\n'
+        p.write_text(wide+'"","","byte","byte"\n"0","4","4,096","32"\n"1","4","64","16"\n')
+        r=parse_ncu(p);assert r['dram_read_bytes']==4160 and r['dram_total_bytes']==4208 and r['profiled_kernel_launches']==2
+        for row in ('"0","4","n/a","32"\n','"0","4","32",""\n'):
+            p.write_text(wide+'"","","byte","byte"\n'+row)
+            try:parse_ncu(p)
+            except ValueError:pass
+            else:raise AssertionError('Unavailable wide-format counters were accepted')
         for bad in [header+'"0","4","dram__bytes_read.sum","byte","n/a"\n',header+'"0","4","dram__bytes_read.sum","byte","32"\n',header+'"0","4","dram__bytes_read.sum","Kbyte","1"\n']:
             p.write_text(bad)
             try:parse_ncu(p)
