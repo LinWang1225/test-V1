@@ -29,9 +29,17 @@ def digest(value):
 def atomic(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temp = path.with_name(path.name + '.tmp')
-    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False))
-    temp.replace(path)
+    temp = path.with_name(path.name + '.tmp.' + str(os.getpid()))
+    with temp.open('w') as f:
+        json.dump(value, f, ensure_ascii=False, indent=2, allow_nan=False)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temp, path)
+    fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
 
 def rows(path):
     with Path(path).open() as f:
