@@ -1,0 +1,81 @@
+loading_model {'smoke': True}
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:01<00:02,  1.14s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:02<00:01,  1.28s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:02<00:00,  1.18it/s]
+evaluating_E {'case': 'longbench/qasper/198', 'completed': 0, 'total': 1, 'smoke': True}
+failed {'error': "RuntimeError('Cannot fit E under B byte budget by Bit0 omission')", 'traceback': 'Traceback (most recent call last):\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 78, in main\n    try:EExperiment(a.smoke).run()\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 66, in run\n    self.capture(r,\'evaluate\')\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/src/run.py", line 88, in capture\n    out=self.model(input_ids=nextid,past_key_values=cache,use_cache=True,logits_to_keep=1)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 918, in wrapper\n    output = func(self, *args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 480, in forward\n    outputs: BaseModelOutputWithPast = self.model(\n                                       ^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 1072, in wrapper\n    outputs = func(self, *args, **kwargs)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 410, in forward\n    hidden_states = decoder_layer(\n                    ^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/modeling_layers.py", line 94, in __call__\n    return super().__call__(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 260, in forward\n    hidden_states, _ = self.self_attn(\n                       ^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 216, in forward\n    attn_output, attn_weights = attention_interface(\n                                ^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/src/run.py", line 72, in hooked\n    if self.pos in POSITIONS:self.observe(module,q,k,v,kw[\'scaling\'])\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 29, in observe\n    led=self.native.storage(n);self.ledger[n]=led\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/native.py", line 68, in storage\n    if omit>full*d:raise RuntimeError(\'Cannot fit E under B byte budget by Bit0 omission\')\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Cannot fit E under B byte budget by Bit0 omission\n'}
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 80, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 78, in main
+    try:EExperiment(a.smoke).run()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 66, in run
+    self.capture(r,'evaluate')
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/src/run.py", line 88, in capture
+    out=self.model(input_ids=nextid,past_key_values=cache,use_cache=True,logits_to_keep=1)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 918, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 480, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 1072, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 410, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 260, in forward
+    hidden_states, _ = self.self_attn(
+                       ^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 216, in forward
+    attn_output, attn_weights = attention_interface(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/src/run.py", line 72, in hooked
+    if self.pos in POSITIONS:self.observe(module,q,k,v,kw['scaling'])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/run_e.py", line 29, in observe
+    led=self.native.storage(n);self.ledger[n]=led
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/E_extension/src/native.py", line 68, in storage
+    if omit>full*d:raise RuntimeError('Cannot fit E under B byte budget by Bit0 omission')
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Cannot fit E under B byte budget by Bit0 omission

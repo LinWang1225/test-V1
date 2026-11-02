@@ -189,10 +189,18 @@ class Model:
                     self.logical[side] += b*num
 
     @torch.inference_mode()
-    def generate(self,row,checkpoint=None):
+    def generate(self,row,checkpoint=None,fingerprint=None):
         self.reset()
         self.prefill = True
         ids = row['input_ids']
+        replay=[]
+        if checkpoint is not None and checkpoint.exists():
+            saved=json.loads(checkpoint.read_text())
+            if saved.get('case_id')==row['case_id'] and saved.get('fingerprint')==fingerprint and fingerprint is not None:
+                assert saved['run']==self.identity and saved['input_ids_sha256']==row['input_ids_sha256']
+                replay=saved['generated_ids']
+                assert all(isinstance(t,int) and t>=0 for t in replay)
+                status('replaying_saved_prefix',run=self.identity,case=row['case_id'],tokens=len(replay))
         maximum = self.manifest['native_context_length']-len(ids)
         assert maximum>0
         begin=time.perf_counter()
@@ -210,12 +218,16 @@ class Model:
         reason='native_context_limit'
         for step in range(maximum):
             t=int(token.item())
+            if step<len(replay) and t!=replay[step]:
+                raise RuntimeError(f'Resume prefix mismatch at token {step}; saved output not overwritten')
             generated.append(t)
             if t in self.manifest['eos_token_ids']:
                 reason='eos'
                 break
-            if checkpoint is not None and len(generated)%256==0:
-                atomic(checkpoint,dict(case_id=row['case_id'],run=self.identity,generated_ids=generated,complete=False,updated=time.strftime('%Y-%m-%d %H:%M:%S')))
+            if checkpoint is not None and len(generated)%256==0 and len(generated)>=len(replay):
+                atomic(checkpoint,dict(case_id=row['case_id'],run=self.identity,fingerprint=fingerprint,
+                    input_ids_sha256=row['input_ids_sha256'],generated_ids=generated,complete=False,
+                    updated=time.strftime('%Y-%m-%d %H:%M:%S')))
                 status('generating',run=self.identity,case=row['case_id'],generated_tokens=len(generated))
             if step+1==maximum:
                 break
@@ -229,6 +241,7 @@ class Model:
             input_ids_sha256=row['input_ids_sha256'],input_tokens=len(ids),input_truncated=False,
             generated_ids=generated,generated_tokens=len(generated),text=self.tok.decode(generated,skip_special_tokens=True),
             finish_reason=reason,natural_completion=reason=='eos',artificial_output_limit=None,
+            resumed_prefix_tokens=len(replay),resume_method='deterministic token-prefix replay to rebuild KV; logical ledger counts the trajectory once',
             native_context_length=self.manifest['native_context_length'],logical_K_V_bits=self.logical,
             logical_KV_read_bits=sum(self.logical),logical_bytes_per_output_token=sum(self.logical)/8/len(generated),
             accessed_K_V_elements=self.elements,element_weighted_mean_bits=sum(self.logical)/total_elements if total_elements else None,
@@ -299,7 +312,7 @@ def main():
         dest=folder/f"{r['index']:05d}.json"
         status('generating',run=name,case=r['case_id'],remaining=len(missing)-i,input_tokens=r['input_tokens'])
         try:
-            record=model.generate(r,folder/'active_checkpoint.json')
+            record=model.generate(r,folder/'active_checkpoint.json',fingerprint)
             record['fingerprint']=fingerprint
             atomic(dest,record)
             status('case_completed',run=name,case=r['case_id'],generated_tokens=record['generated_tokens'],finish_reason=record['finish_reason'])
