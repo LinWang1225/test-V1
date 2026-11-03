@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/59",
+  "dataset": "humaneval",
+  "index": 59,
+  "policy": "adaptive030",
+  "generation_sha256": "fa25782690c2adcdc4c89cb1fcf820b50a0eadf238aae1dc85a5161020f37127",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\n    >>> largest_prime_factor(13195)\n    29\n    >>> largest_prime_factor(2048)\n    2\n    \"\"\"\n    # Start with the largest possible factor\n    largest_factor = 1\n    # Check for divisibility by 2 first\n    if n % 2 == 0:\n        largest_factor = 2\n        while n % 2 == 0:\n            n //= n ////2\n    # Check for odd factors from 3 upwards\n    i = 3\n    while i*i <= n:\n        while n % i == 0:\n            largest_factor = i\n            n //= i\n        i += 2\n    # If n is a prime number greater than 2, it's the largest factor\n    if n > 1:\n        largest_factor = n\n    return largest_factor\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 25)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 25)']\n",
+    "returncode": 0
+  }
+}

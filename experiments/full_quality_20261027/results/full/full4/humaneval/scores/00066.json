@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/66",
+  "dataset": "humaneval",
+  "index": 66,
+  "policy": "full4",
+  "generation_sha256": "4ab8ed28a5c24c276a2fbb38a4d13d9c8cf804eacf6505f0e8ee3f30fce67763",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef digitSum(s):\n    \"\"\"Task\n    Write a function that takes a string as input and returns the sum of the upper characters only'\n    ASCII codes.\n\n    Examples:\n        digitSum(\"\") => 0\n        digitSum(\"abAB\") => 131\n        digitSum(\"abcCd\") => 67\n        digitSum(\"helloE\") => 69\n        digitSum(\"woArBld\") => 131\n        digitSum(\"aAaaaXa\") => 153\n    \"\"\"\n    return sum(ord(c) for c in s if c.isupper())\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

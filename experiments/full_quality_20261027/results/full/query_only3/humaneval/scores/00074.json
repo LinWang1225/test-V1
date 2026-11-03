@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/74",
+  "dataset": "humaneval",
+  "index": 74,
+  "policy": "query_only3",
+  "generation_sha256": "7ddf000f1ae20123fbdd4642a7724e59beea83098435ee8b8b26612f9427ec5a",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef total_match(lst1, lst2):\n    def count_chars(lst):\n        return sum(len(s) for s in lst)\n    \n    count1 = count_chars(lst1)\n    count2 = count_chars(lst2)\n    \n    if count1 < count2:\n        return lst1\n    elif count1 > count2:\n        return lst2\n    else:\n        return lst1\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

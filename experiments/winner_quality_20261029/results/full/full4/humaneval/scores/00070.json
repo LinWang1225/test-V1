@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/70",
+  "dataset": "humaneval",
+  "index": 70,
+  "policy": "full4",
+  "generation_sha256": "006e029a07acc01112ed5cd83a99ee6c11c38d73e93bc5b631d4cc50908c7d8f",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef strange_sort_list(lst):\n    '''\n    Given list of integers, return list in strange order.\n    Strange sorting, is when you start with the minimum value,\n    then maximum of the remaining integers, then minimum and so on.\n    '''\n    result = []\n    while lst:\n        min_val = min(lst)\n        max_val = max(lst)\n        if min_val == max_val:\n            result.append(min_val)\n            break\n        result.append(min_val)\n        result.append(max_val)\n        lst.remove(min_val)\n        lst.remove(max_val)\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

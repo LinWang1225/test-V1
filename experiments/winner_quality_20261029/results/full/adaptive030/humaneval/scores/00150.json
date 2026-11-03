@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/150",
+  "dataset": "humaneval",
+  "index": 150,
+  "policy": "adaptive030",
+  "generation_sha256": "969831352facbe22ae6ed95fd9e63bcd0c374c3c7b9e186b551743e7e7879994",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef x_or_y(n, x, y):\n    \"\"\"A simple program which should return the value of x if n is \n    a prime number and should return the value of y otherwise.\"\"\"\n    return x if is_prime(n) else y\n\ndef is_prime(num):\n    if num < 2:\n        return False\n    for i in range(2, int(num ** 0.5) + 1:\n        if num % i == 0:\n            return False\n    return True\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 21)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 21)']\n",
+    "returncode": 0
+  }
+}

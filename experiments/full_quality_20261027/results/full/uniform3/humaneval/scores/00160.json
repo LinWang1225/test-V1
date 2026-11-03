@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/160",
+  "dataset": "humaneval",
+  "index": 160,
+  "policy": "uniform3",
+  "generation_sha256": "c9672fc373e1237248a4d70ba45c3c573f41825627f2248eeb5d2efd3232c914",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef do_algebra(operator, operand):\n    \"\"\"\n    Given two lists operator and operand, build an algebraic expression using the operators and operands, and return the evaluated result.\n    \"\"\"\n    expression = str(operand[0])\n    for i in range(1, len(operand)):\n        expression += f\" {operator[i-1]} {operand[i]}\"\n    return eval(expression)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

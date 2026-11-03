@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/77",
+  "dataset": "humaneval",
+  "index": 77,
+  "policy": "query_only3",
+  "generation_sha256": "478b2301da69792433c4abe080fef9d5ee381b0d540fb069550e7b4d86943cd8",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef iscube(a):\n    '''Write a function that takes an integer a and returns True \n    if this integer is a cube of some integer number.\n    Note: you may assume the input is always valid.\n    Examples:\n    iscube(1) ==> True\n    iscube(2) ==> False\n    iscube(-1) ==> True\n    iscube(64) ==> True\n    iscube(0) ==> True\n    iscube(180) ==> False\n    '''\n    root = round(a ** (1/3))\n    return root ** 3 == a\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: type complex doesn't define __round__ method\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: type complex doesn't define __round__ method\"]\n",
+    "returncode": 0
+  }
+}

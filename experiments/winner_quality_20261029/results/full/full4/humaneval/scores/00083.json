@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/83",
+  "dataset": "humaneval",
+  "index": 83,
+  "policy": "full4",
+  "generation_sha256": "7cafe35fb3e4909f47ffecb6bdcb691a120b8ea547468091be87f6e82f7b84a0",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef starts_one_ends(n):\n    \"\"\"\n    Given a positive integer n, return the count of the numbers of n-digit\n    positive integers that start or end with 1.\n    \"\"\"\n    if n == 1:\n        # For 1-digit numbers, the count is 1 (only the number 1)\n        return 1\n    else:\n        # For n-digit numbers, the count is 2 * 10^(n-1) - 10^(n-2)\n        # Explanation: 10^(n-1) numbers start with 1, 10^(n-1) numbers end with 1,\n        # but the number 11...1 is counted twice, so subtract 1.\n        return 2 * (10 ** (n - 1)) - (10 ** (n - 2))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/39",
+  "dataset": "humaneval",
+  "index": 39,
+  "policy": "uniform3",
+  "generation_sha256": "65fa7bf95fda4b3c9a91a1c2c3473abb2184c37a527c940d7d4ed42850368623",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef prime_fib(n: int):\n    \"\"\"\n    prime_fib returns n-th number that is a Fibonacci number and it's also a prime.\n    \"\"\"\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num(num. sqrt(num) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    def fib(n):\n        a, b = 1, 1\n        for _ in range(n - 2):\n            a, b = b, a + b\n        return b\n\n    count = 0\n    i = 1\n    while True:\n        if is_prime(fib(i)):\n            count += 1\n            if count == n:\n                return fib(i)\n        i += 1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 26)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 26)']\n",
+    "returncode": 0
+  }
+}

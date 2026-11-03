@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/100",
+  "dataset": "humaneval",
+  "index": 100,
+  "policy": "uniform3",
+  "generation_sha256": "39d324fe242099c55fb531d40bc49b2604e185c50b452461f387fabb0b59a442",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef make_a_pile(n):\n    \"\"\"\n    Given a positive integer n, you have to make a pile of n levels of stones.\n    The first level has n stones.\n    The number of stones in the next level is:\n        - the next odd number if n is odd.\n        - the next even number if n is even.\n    Return the number of stones in each level in a list, where element at index\n    i represents the number of stones in the level (i+1).\n    \"\"\"\n    result = []\n    current = n\n    for _ in range(n):\n        result.append(current)\n        if n % 2 == 1:\n            current += 2\n        else:\n            current += 1\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 4']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 4']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/26",
+  "dataset": "humaneval",
+  "index": 26,
+  "policy": "full4",
+  "generation_sha256": "5f3fac83c2aacc65c84ed86ff3b93fb84faea456a4c5dec12bf86523fabf4a30",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef remove_duplicates(numbers: List[int]) -> List[int[int]:\n    \"\"\" From a list of integers, remove all elements that occur more than once.\n    Keep order of elements left the same as in the input.\n    >>> remove_duplicates([1, 2, 3, 2, 4])\n    [1, 3, 4]\n    \"\"\"\n    seen = set()\n    result = []\n    for num in numbers:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '[' was never closed (<string>, line 12)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '[' was never closed (<string>, line 12)\"]\n",
+    "returncode": 0
+  }
+}

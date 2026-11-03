@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/159",
+  "dataset": "humaneval",
+  "index": 159,
+  "policy": "query_curve3",
+  "generation_sha256": "bd2d7a08d25ed585bb234d313bd43c75b60c107e17252a86a0f48dc44afb3316",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef eat(number, need, remaining):\n    \"\"\"\n    You're a hungry rabbit, and you already have eaten a certain number of carrots,\n    but now you need to eat more carrots to complete the day's meals.\n    you should return an array of [ total number of eaten carrots after your meals,\n                                    the number of carrots left after your meals ]\n    if there are not enough remaining carrots, you will eat all remaining carrots, but will still be hungry.\n    \"\"\"\n    total_needed = number + need\n    if remaining >= total_needed:\n        return [total_needed, remaining - total_needed]\n    else:\n        return [number + remaining, 0]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Error']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Error']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/117",
+  "dataset": "humaneval",
+  "index": 117,
+  "policy": "adaptive030",
+  "generation_sha256": "43640ee3a1cf85ce3595206800eb1f6a0fcae9e1fd3aa34212bb506eada40d79",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef select_words(s, n):\n    \"\"\"Given a string and a natural number n, you have been tasked to implement a function that returns a list of all words from string s that contain exactly n consonants, in order these words appear in the string s.\n    If the string s is empty then the function should return an empty list.\n    Note: you may assume the input string contains only letters and spaces.\n    Examples:\n    select_words(\"Mary had a little lamb\", 4) ==> [\"little\"]\n    select_words(\"Mary had a little lamb\", 3) ==> [\"Mary\", \"lamb\"]\n    select_words(\"simple white space\", 2) ==> []\n    select_words(\"Hello world\", 4) ==> [\"world\"]\n    select_words(\"Uncle sam\", 3) ==> [\"Uncle\"]\n    \"\"\"\n    vowels = \"aeiouAEIOU\"\n    words = s.split()\n    result = []\n    for word in words:\n        consonants = sum(1 for c in word if c not in vowels)\n        if consonants == n:\n            result.append(word)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

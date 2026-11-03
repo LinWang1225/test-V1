@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/69",
+  "dataset": "humaneval",
+  "index": 69,
+  "policy": "adaptive005",
+  "generation_sha256": "335bb42ff9859835d49c71de5e27a892c8028bdb91e35d3f9470225a8a683777",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef search(lst):\n    '''\n    You are given a non-empty list of positive integers. Return the greatest integer that is greater than \n    zero, and has a frequency greater than or equal to the value of the integer itself. \n    The frequency of an integer is the number of times it appears in the list.\n    If no such a value exist, return -1.\n    Examples:\n        search([4, 1, 2, 2, 3, 1]) == 2\n        search([1, 2, 2, 3, 3, 3, 4, 4, 4]) == 3\n        search([5, 5, 4, 4, 4]) == -1\n    '''\n    from collections import Counter\n\n    freq = Counter(lst)\n    max_val = -1\n\n    for num in freq:\n        if freq[num] >= num:\n            if num > max_val:\n                max_val = num\n\n    return max_val\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

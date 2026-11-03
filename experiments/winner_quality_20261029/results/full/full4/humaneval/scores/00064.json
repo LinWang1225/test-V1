@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/64",
+  "dataset": "humaneval",
+  "index": 64,
+  "policy": "full4",
+  "generation_sha256": "305cbd3037fdea3c29b632d1ac6d2af41cd456cc29ae59474faef4f81e866124",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef vowels_count(s):\n    \"\"\"Write a function vowels_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n    vowels = {'a', 'e', 'i', 'o', 'u'}\n    count = 0\n    for char in s.lower():\n        if char in vowels:\n            count += 1\n    if s and s[-1] == 'y':\n        count += 1\n    return count\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 5']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 5']\n",
+    "returncode": 0
+  }
+}

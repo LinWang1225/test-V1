@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/137",
+  "dataset": "humaneval",
+  "index": 137,
+  "policy": "full4",
+  "generation_sha256": "087a00bac3bde99f0e56f8cd73786346ba1003ce1e393f207105575be8f2a990",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef compare_one(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be . or ,\n    \"\"\"\n    def to_float(value):\n        if isinstance(value, str):\n            # Replace commas with dots and convert to float\n            value = value.replace(',', '.')\n            return float(value)\n        return float(value)\n\n    a_val = to_float(a)\n    b_val = to_float(b)\n\n    if a_val > b_val:\n        return a\n    elif b_val > a_val:\n        return b\n    else:\n        return None\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

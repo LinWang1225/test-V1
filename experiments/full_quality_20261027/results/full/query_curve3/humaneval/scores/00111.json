@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/111",
+  "dataset": "humaneval",
+  "index": 111,
+  "policy": "query_curve3",
+  "generation_sha256": "0eb665fa7c232a10c1e051c29b172c986c4d8eb51666e376b97be6ec8fcac410",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef histogram(test):\n    \"\"\"Given a string representing a space separated lowercase letters, return a dictionary\n    of the letter with the most repetition and containing the corresponding count.\n    If several letters have the same occurrence, return all of them.\n    \n    Example:\n    histogram('a b c') == {'a': 1, 'b': 1, 'c': 1}\n    histogram('a b b a') == {'a': 2, 'b': 2}\n    histogram('a b c a b') == {'a': 2, 'b': 2}\n    histogram('b b b b a') == {'b': 4}\n    histogram('') == {}\n    \"\"\"\n    from collections import Counter\n    letters = test.split()\n    count = Counter(letters)\n    max_count = max(count.values(), default=0)\n    result = {k: v for k, v in count.items() if v == max_count}\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

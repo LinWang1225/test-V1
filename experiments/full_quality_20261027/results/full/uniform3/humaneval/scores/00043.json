@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/43",
+  "dataset": "humaneval",
+  "index": 43,
+  "policy": "uniform3",
+  "generation_sha256": "f024821c201ccac90ff1d29e0a059a3ac29ea16b240fea541c57cf6e1aa0da27",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef pairs_sum_to_zero(l):\n    \"\"\"\n    pairs_sum_to_zero takes a list of integers as input.\n    it returns True if there are two distinct elements in the list that\n    sum to zero, and False otherwise.\n    \"\"\"\n    seen = set()\n    for num in l:\n        target = -num\n        if target in seen:\n            return True\n        seen.add(num)\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

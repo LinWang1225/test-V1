@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/77",
+  "dataset": "humaneval",
+  "index": 77,
+  "policy": "query_curve3",
+  "generation_sha256": "dc55a15ff9c7a4eb0caad6c2b9595cc96b98ee956e8120ebf1cdc20a12d85f71",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef iscube(a):\n    '''Write a function that takes an integer a and returns True \n    if this integer is a cube of some integer number.\n    Note: you may assume the input is always valid.\n    Examples:\n    iscube(1) ==> True\n    iscube(2) ==> False\n    iscube(-1) ==> True\n    iscube(64) ==> True\n    iscube(0) ==> True\n    iscube(180) ==> False\n    '''\n    # Take the cube root of a and check if it is an integer\n    root = a ** (1/3)\n    return root.is_integer()\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: 'complex' object has no attribute 'is_integer'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: 'complex' object has no attribute 'is_integer'\"]\n",
+    "returncode": 0
+  }
+}

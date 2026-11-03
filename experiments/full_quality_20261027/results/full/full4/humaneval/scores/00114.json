@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/114",
+  "dataset": "humaneval",
+  "index": 114,
+  "policy": "full4",
+  "generation_sha256": "3fdc5d4cb8b723a4cd1fbf0edda62d6358132fb159e26445eb8c5bf8a4fb517e",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    min_sum = float('inf')\n    current_sum = 0\n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum)\n        if current_sum > 0:\n            current_sum = 0\n    return min_sum\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

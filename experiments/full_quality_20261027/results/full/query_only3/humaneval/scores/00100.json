@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/100",
+  "dataset": "humaneval",
+  "index": 100,
+  "policy": "query_only3",
+  "generation_sha256": "518b9f53962858123e88dfd1c1ceab9f1122a03193398fd903ce0890403c21c7",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef make_a_pile(n):\n    \"\"\"\n    Given a positive integer n, you have to make a pile of n levels of stones.\n    The first level has n stones.\n    The number of stones in the next level is:\n        - the next odd number if n is odd.\n        - the next even number if n is even.\n    Return the number of stones in each level in a list, where element at index\n    i represents the number of stones in the level (i+1).\n    \"\"\"\n    result = [n]\n    current = n\n    for _ in range(n - 1):\n        if n % 2 == 1:\n            current += 2\n        else:\n            current += 2\n        result.append(current)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

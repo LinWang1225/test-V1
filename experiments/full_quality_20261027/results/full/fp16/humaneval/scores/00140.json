@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/140",
+  "dataset": "humaneval",
+  "index": 140,
+  "policy": "fp16",
+  "generation_sha256": "e09c2099e118d29291b433950e548d6de309b5e511832909f4006a8344f5939b",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fix_spaces(text):\n    \"\"\"\n    Given a string text, replace all spaces in it with underscores, \n    and if a string has more than 2 consecutive spaces, \n    then replace all consecutive spaces with - \n    \"\"\"\n    result = []\n    i = 0\n    while i < len(text):\n        if text[i] == ' ':\n            count = 0\n            while i < len(text) and text[i] == ' ':\n                count += 1\n                i += 1\n            if count > 2:\n                result.append('-')\n            else:\n                result.append('_' * count)\n        else:\n            result.append(text[i])\n            i += 1\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

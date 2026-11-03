@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/9",
+  "dataset": "humaneval",
+  "index": 9,
+  "policy": "uniform3",
+  "generation_sha256": "d372c0119d3eba48c0b92d11b01ce9289cfc3fe1e0c947dd7a191d1a97a8bad2",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    result = []\n    max_so_far = None\n    for num in numbers:\n        if max_so_far is None or num > max_so_far:\n            max_so_far = num\n        result.append(max_so_far)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

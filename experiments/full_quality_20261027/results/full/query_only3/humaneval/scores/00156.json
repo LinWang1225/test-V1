@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/156",
+  "dataset": "humaneval",
+  "index": 156,
+  "policy": "query_only3",
+  "generation_sha256": "c081623c61be34b5ff5cfdf379c991b4bd02b56fac547e89aeae167c91e540e3",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef int_to_mini_roman(number):\n    roman_numerals = [\n        (1000, 'm'), (900, 'cm'), (500, 'd'), (400, 'cd'),\n        (100, 'c'), (90, 'xc'), (50, 'l'), (40, 'xl'),\n        (10, 'x'), (9, 'ix'), (5, 'v'), (4, 'iv'), (1, 'i')\n    result = ''\n    for value, symbol in roman_numerals:\n        while number >= value:\n            result += symbol\n            number -= value\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '[' was never closed (<string>, line 16)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '[' was never closed (<string>, line 16)\"]\n",
+    "returncode": 0
+  }
+}

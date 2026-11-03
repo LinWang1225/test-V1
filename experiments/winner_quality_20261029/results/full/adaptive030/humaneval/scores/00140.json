@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/140",
+  "dataset": "humaneval",
+  "index": 140,
+  "policy": "adaptive030",
+  "generation_sha256": "cf95e978fa091c627821bca76b93d942cd0b7436d3ef33cf4d8ad8151f35a501",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fix_spaces(text):\n    \"\"\"\n    Given a string text, replace all spaces in it with underscores, \n    and if a string has more than 2 consecutive spaces, \n    then replace all consecutive spaces with - \n    \"\"\"\n    # Replace multiple spaces with a single space first\n    text = ' '.join(text.split())\n    # Now replace single spaces with underscores\n    text = text.replace(' ', '_')\n    # Now replace sequences of more than 2 spaces with -\n    # We can do this by replacing two or more underscores with -\n    # But since we already replaced spaces with underscores, we need to check for sequences\n    # So we can use a regular expression to find sequences of 3 or more underscores\n    import re\n    text = re.sub(r'_{3,}', '-', text)\n    return text\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 2 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 2 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

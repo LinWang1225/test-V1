@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/51",
+  "dataset": "humaneval",
+  "index": 51,
+  "policy": "adaptive005",
+  "generation_sha256": "e6c0947207a8953e1d235457710059bb6e2c0ad24bbd94362c58cfb926177520",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef remove_vowels(text):\n    \"\"\"\n    remove_vowels is a function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n    vowels = \"aeiouAEIOU\"\n    return ''.join(char for char in text if char not in vowels)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

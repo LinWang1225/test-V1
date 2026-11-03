@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/104",
+  "dataset": "humaneval",
+  "index": 104,
+  "policy": "adaptive030",
+  "generation_sha256": "f57f7506367ed812a4f0b86754773121b2089d88ee5d5b9af6179fd2a05f212f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef unique_digits(x):\n    \"\"\"Given a list of positive integers x. return a sorted list of all \n    elements that hasn't any even digit.\n\n    Note: Returned list should be sorted in increasing order.\n    \n    \"\"\"\n    result = []\n    for num in x:\n        if all(int(digit) % 2 != 0 for digit in str(num)):\n            result.append(num)\n    return sorted(result)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

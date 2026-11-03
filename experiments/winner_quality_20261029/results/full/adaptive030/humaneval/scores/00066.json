@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/66",
+  "dataset": "humaneval",
+  "index": 66,
+  "policy": "adaptive030",
+  "generation_sha256": "6301ff7dd78d71b808d0e0d84d1d10253afff90f8443563a65f8d48caac0539a",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef digitSum(s(s):\n    \"\"\"Task\n    Write a function that takes a string as input and returns the sum of the upper characters only'\n    ASCII codes.\n\n    Examples:\n\n        digitSum(\"\") => 0\n        digitSum(\"abAB\") => 131\n        digitSum(\"abcCd\") => 67\n        digitSum(\"helloE\") => 69\n        digitSum(\"woArBld\") => 131\n        digitSum(\"aAaaaXa\") => 153\n    \"\"\"\n    return sum(ord(c) for c in s if c.isupper())\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 17)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 17)']\n",
+    "returncode": 0
+  }
+}

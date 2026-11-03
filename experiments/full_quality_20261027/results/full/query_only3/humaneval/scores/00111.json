@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/111",
+  "dataset": "humaneval",
+  "index": 111,
+  "policy": "query_only3",
+  "generation_sha256": "cbe1b4fb0a7d02cfd4b4aa8687b02a2b8074675510a7f173f07bff59c8fb26a9",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef histogram(test):\n    from collections import Counter\n    counts = Counter(test.split())\n    max_count = max(counts.values(), default=0)\n    return {k: v for k, v in counts.items() if v == max_count}\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

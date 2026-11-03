@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/109",
+  "dataset": "humaneval",
+  "index": 109,
+  "policy": "full4",
+  "generation_sha256": "89f9a949795972f217da9f0ceef7f078862717643ad1bc3065e75affbcd51c68",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef move_one_ball(arr):\n    \"\"\"We have an array 'arr' of N integers arr[1], arr[2], ..., arr[N].The\n    numbers in the array will be randomly ordered. Your task is to determine if\n    it is possible to get an array sorted in non-decreasing order by performing \n    the following:\n        You are allowed to perform right shift operation any number of times.\n    \n    One right shift operation means shifting all elements of the array by one\n    position in the right direction. The last element of the array will be moved to\n    the starting position in the array i.e. 0th index. \n\n    If it is possible to obtain the sorted array by performing the above operation\n    then return True else return False.\n    If the given array is empty then return True.\n\n    Note: The given list is guaranteed to have unique elements.\n    \"\"\"\n    if not arr:\n        return True\n\n    n = len(arr)\n    sorted_arr = sorted(arr)\n\n    # Find the index where the sorted array starts in the original array\n    start = 0\n    while start < n and arr[start] != sorted_arr[start]:\n        start += 1\n\n    # If the array is already sorted, return True\n    if start == n:\n        return True\n\n    # Check if the rest of the array is in order after the start index\n    for i in range(start, n):\n        if arr[i] > sorted_arr[i]:\n            return False\n\n    # Check if the array can be rotated to match the sorted array\n    for i in range(start, n):\n        if arr[i] != sorted_arr[(i - start) % n]:\n            return False\n\n    return True\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

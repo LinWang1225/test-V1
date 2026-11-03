@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/5",
+  "dataset": "humaneval",
+  "index": 5,
+  "policy": "uniform3",
+  "generation_sha256": "44d366b751ed4bdba2e9d76db590ce703c6912a45c964028e503c76157083654",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    result = []\n    for i in range(len(numbers):\n        result.append(numbers[i])\n        if i < len(numbers) - 1:\n            result.append(delimeter)\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 17)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 17)']\n",
+    "returncode": 0
+  }
+}

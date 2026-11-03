@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/65",
+  "dataset": "humaneval",
+  "index": 65,
+  "policy": "query_curve3",
+  "generation_sha256": "80f6d248eb6d2ce6bc85e9ae2c947dbbf00bdf1de300518c7f9b367aefde040c",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef circular_shift(x, shift):\n    \"\"\"Circular shift the digits of the integer x, shift the digits right by shift\n    and return the result as a string.\n    If shift > number of digits, return digits reversed.\n    >>> circular_shift(12, 1)\n    \"21\"\n    >>> circular_shift(12,2)\n    \"12\"\n    \"\"\"\n    s = str(x)\n    n = len(s)\n    shift = shift % n\n    if shift > n:\n        return s[::-1]\n    return s[-shift:] + s[:-shift]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

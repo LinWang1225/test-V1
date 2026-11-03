@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/111",
+  "dataset": "humaneval",
+  "index": 111,
+  "policy": "adaptive030",
+  "generation_sha256": "6f4c4595f384031a380772a6a6b5cb687bc213b5027652aa7ab30eff5bf95fb4",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef histogram(test):\n    \"\"\"Given a string representing a space-separated lowercase letters, return a dictionary of the letter with the most repetition and containing the corresponding count. If several letters have the same occurrence, return all of them.\"\"\"\n    from collections import Counter\n    letters = test.split()\n    count = Counter(letters)\n    max_count = max(count.values())\n    result = {k: v for k, v in count.items() if v == max_count}\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: max() arg is an empty sequence']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: max() arg is an empty sequence']\n",
+    "returncode": 0
+  }
+}

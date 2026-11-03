@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/18",
+  "dataset": "humaneval",
+  "index": 18,
+  "policy": "query_curve3",
+  "generation_sha256": "e8f9c843ff02eaa6976daa94a9c1ad61c6c18b2be7bc27e610598216c0bd3377",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlapping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa    'aa')\n    3\n    \"\"\"\n    count = 0\n    start = 0\n    while True:\n        pos = string.find(substring, start)\n        if pos == -1:\n            break\n        count += 1\n        start = pos + 1  # Move past the current match to allow overlapping\n    return count\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

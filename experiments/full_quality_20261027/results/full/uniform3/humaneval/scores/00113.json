@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/113",
+  "dataset": "humaneval",
+  "index": 113,
+  "policy": "uniform3",
+  "generation_sha256": "9f6cc9b085b20452379ef79b3b0a14c3dfe6f85b731c613376879dc90c51a1cb",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef odd_count(lst):\n    \"\"\"Given a list of strings, where each string consists of only digits, return a list.\n    Each element i of the output should be \"the number of odd elements x in the string i of the input.\" where x is the number of odd digits in the i-th string.\n    \"\"\"\n    result = []\n    for i, s in enumerate(lst):\n        odd_count = sum(1 for c in s if int(c) % 2 != 0)\n        result.append(f\"the number of odd elements {odd_count}n the str{odd_count}ng {odd_count} of the {odd_count}nput.\")\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/84",
+  "dataset": "humaneval",
+  "index": 84,
+  "policy": "query_only3",
+  "generation_sha256": "e1ccd923c88766fc4c31f7bd7e156075832f6c46e5aad574526b9d1c824f5b46",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef solve(N):\n    \"\"\"Given a positive integer N, return the total sum of its digits in binary.\n    \n    Example\n        For N = 1000, the sum of digits will be 1 the output should be \"1\".\n        For N = 150, the sum of digits will be 6 the output should be \"110\".\n        For N = 147, the sum of digits will be 12 the output should be \"1100\".\n    \"\"\"\n    digit_sum = sum(int(d) for d in str(N))\n    return bin(digit_sum)[2:]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

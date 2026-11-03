@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/140",
+  "dataset": "humaneval",
+  "index": 140,
+  "policy": "adaptive015",
+  "generation_sha256": "25a29d12ca673c49c0c41f9564e064787a009cddc3328ab1552083057221a146",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fix_spaces(text):\n    result = []\n    i = 0\n    while i < len(text):\n        if text[i] == ' ':\n            count = 0\n            while i < len(text) and text[i] == ' ':\n                count += 1\n                i += 1\n            if count > 2:\n                result.append('-')\n            else:\n                result.append('_') * count\n        else:\n            result.append(text[i])\n            i += 1\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: unsupported operand type(s) for *: 'NoneType' and 'int'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: unsupported operand type(s) for *: 'NoneType' and 'int'\"]\n",
+    "returncode": 0
+  }
+}

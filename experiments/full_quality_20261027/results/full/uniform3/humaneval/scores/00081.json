@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/81",
+  "dataset": "humaneval",
+  "index": 81,
+  "policy": "uniform3",
+  "generation_sha256": "b715f8759d7f61ca9d4b91eb071d9a207f2d3bece4cd62b14045ddf5ff9e5339",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef numerical_letter_grade(grades):\n    \"\"\"Convert a list of GPA values to their corresponding letter grades based on a specific grading scale.\"\"\"\n    letter_grades = []\n    for gpa in grades:\n        if gpa == 4.0:\n            letter_grades.append(\"A+\")\n        elif gpa > 3.7:\n            letter_grades.append(\"A\")\n        elif gpa > 3.3:\n            letter_grades.append(\"A-\")\n        elif gpa > 2.7:\n            letter_grades.append(\"B+\")\n        elif gpa > 2.3:\n            letter_grades.append(\"B\")\n        elif gpa > 1.7:\n            letter_grades.append(\"C+\")\n        elif gpa > 1.3:\n            letter_grades.append(\"C\")\n        elif gpa > 0.7:\n            letter_grades.append(\"D+\")\n        elif gpa > 0.0:\n            letter_grades.append(\"D-\")\n        else:\n            letter_grades.append(\"E\")\n    return letter_grades\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

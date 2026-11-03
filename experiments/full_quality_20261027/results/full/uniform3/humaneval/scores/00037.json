@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/37",
+  "dataset": "humaneval",
+  "index": 37,
+  "policy": "uniform3",
+  "generation_sha256": "f0da8cc83f05dbd798d56ff0a2e275bb62b48119ad445db8eea15fa01327dd28",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_even(l: list):\n    \"\"\"This function takes a list l and returns a list l' such that\n    l' is identical to l in the odd indices, while its values at the even indices are equal\n    to the values of the even indices of l, but sorted.\n    >>> sort_even([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_even([5, 6, 3, 4])\n    [3, 6, 5, 4]\n    \"\"\"\n    # Extract even-indexed elements (0-based index: 0, 2, 4, ...)\n    even_indices = [l[i] for i in range(0, len(l), 2)\n    # Sort the even-indexed elements\n    sorted_evens = sorted(even_indices)\n    # Rebuild the list with sorted even-indexed elements\n    result = []\n    even_idx = 0\n    odd_idx = 1\n    for i in range(len(l)):\n        if i % 2 == 0:\n            result.append(sorted_evens[even_idx])\n            even_idx +=1\n        else:\n            result.append(l[i])\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '[' was never closed (<string>, line 24)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '[' was never closed (<string>, line 24)\"]\n",
+    "returncode": 0
+  }
+}

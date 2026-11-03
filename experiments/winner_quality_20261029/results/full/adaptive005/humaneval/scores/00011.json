@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/11",
+  "dataset": "humaneval",
+  "index": 11,
+  "policy": "adaptive005",
+  "generation_sha256": "19fbbb31193f7fa23677cca0a8f002f811751fcdcc94ac1a802099bf4776c527",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    # Ensure the strings are of equal length\n    if len(a) != len(b):\n        raise ValueError(\"Strings must be of equal length\")\n    \n    # Perform XOR on each character\n    result = []\n    for char_a, char_b in zip(a, b):\n        # Convert characters to integers, XOR, then back to string\n        result.append(str(int(char_a) ^ int(char_b))\n    \n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 26)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 26)\"]\n",
+    "returncode": 0
+  }
+}

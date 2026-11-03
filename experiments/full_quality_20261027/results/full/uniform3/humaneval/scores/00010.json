@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/10",
+  "dataset": "humaneval",
+  "index": 10,
+  "policy": "uniform3",
+  "generation_sha256": "093eefd61fb8055015d90dedf6f2d5818b186bc2ab09bf77f62b4ccd4c3c0bdc",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef make_palindrome(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with the supplied string.\n    Algorithm idea:\n    - Find the longest postfix of the string that is a palindrome.\n    - Append the reverse of the prefix before the palindromic suffix.\n    \"\"\"\n    # Find the longest suffix that is a palindrome\n    for i in range(len(string):\n        if string[-i:] == string[-i:][::-1]:\n            return string + string[:-i][::-1]\n    return string + string[::-1]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 29)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 29)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/83",
+  "dataset": "humaneval",
+  "index": 83,
+  "policy": "adaptive030",
+  "generation_sha256": "fec1113690a0eaa4308abcc3df9d669abb978b48ed606d5f40e65504c50c3337",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef starts_one_ends(n):\n    \"\"\"\n    Given a positive integer n, return the count of the numbers of n-digit\n    positive integers that start or end with 1.\n    \"\"\"\n    if n == 1:\n        return 1  # Only the number 1\n    # Numbers with n digits that start with 1: 1 followed by (n-1) digits\n    start_with_1 = 1 * (10 ** (n - 1))\n    # Numbers with n digits that end with 1: (10 ** n - 1) - 9 * (10 ** (n - 1)) + 1\n    end_with_1 = (10 ** n - 1) - 9 * (10 ** (n - 1)) + 1\n    # Subtract the overlap (numbers that both start and end with 1)\n    overlap = 1 * (10 ** (n - 2))\n    return start_with_1 + end_with_1 - overlap\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

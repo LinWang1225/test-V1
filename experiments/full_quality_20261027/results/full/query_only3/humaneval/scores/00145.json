@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/145",
+  "dataset": "humaneval",
+  "index": 145,
+  "policy": "query_only3",
+  "generation_sha256": "caaa85c502817304bc6add7b8958f1053ad01f21f7ec0fa2e1d5924b10fcd9e1",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef order_by_points(nums):\n    def digit_sum(n):\n        return sum(int(d) for d in str(abs(n)))\n\n    return sorted(nums, key=lambda x: (digit_sum(x), nums.index(x))) if x in nums else (digit_sum(x), float('inf')))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: unmatched ')' (<string>, line 19)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: unmatched ')' (<string>, line 19)\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/162",
+  "dataset": "humaneval",
+  "index": 162,
+  "policy": "full4",
+  "generation_sha256": "1af9412d427d076f15082349729e12f3bd09d4c3b6e4898ec1517e3bcd5fae12",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n\n    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'\n    \"\"\"\n    if not text:\n        return None\n    import hashlib\n    return hashlib.md5(text.encode('utf-8')).hexdigest()\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/156",
+  "dataset": "humaneval",
+  "index": 156,
+  "policy": "adaptive030",
+  "generation_sha256": "6e25f94dca40dff41f68bec647dc8297f4a346e37687432598613f0697e8a525",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef int_to_mini_roman(number):\n    \"\"\"\n    Given a positive integer, obtain its roman numeral equivalent as a string,\n    and return it in lowercase.\n    Restrictions: 1 <= num <= 1000\n\n    Examples:\n\n    >>> int_to_mini_roman(19) == 'xix'\n    >>> int_to_mini_roman(152) == 'clii'\n    >>> int_to_mini_roman(426) == 'cdxxvi'\n    \"\"\"\n    roman_numerals = [\n        (1000, 'm'),\n        (900, 'cm'),\n        (500, 'd'),\n        (400, 'cd'),\n        (100, 'c'),\n        (90, 'xc'),\n        (50, 'l'),\n        (40, 'xl'),\n        (10, 'x'),\n        (9, 'ix'),\n        (5, 'v'),\n        (4, 'iv'),\n        (1, 'i')\n    ]\n    res = ''\n    for value, symbol in roman_numerals:\n        while number >= value:\n            res += symbol\n            number -= value\n    return res\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

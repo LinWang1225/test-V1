@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/129",
+  "dataset": "humaneval",
+  "index": 129,
+  "policy": "adaptive030",
+  "generation_sha256": "2eef8adceebfda9b6a2d4930fe905a44102a30c88cbad51bb9347d7e1d0eec2b",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef minPath(grid, k):\n    n = len(grid)\n    from heapq import import heapify\n\n    # Priority queue: (value, row, col, path)\n    heap = []\n    for i in range(n):\n        for j in range(n):\n            val = grid[i][j]\n            heap.append((val, i, j, [val]))\n            heapify(heap)\n\n    for _ in range(k - 1):\n        new_heap = []\n        while heap:\n            val, i, j, path = heapq.heappop(heap)\n            for di, dj in [(-1, 0), (1, 0), (0,-1), (0,1)]:\n                ni, nj = i + di, j + dj\n                if 0 <= ni < n and 0 <= nj < n:\n                    new_val = grid[ni][nj]\n                    new_path = path + [new_val]\n                    heapq.heappush(new_heap, (new_val, ni, nj, new_path))\n        heap = new_heap\n\n    return min(heap, key=lambda x: x[3])[-1]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 36)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 36)']\n",
+    "returncode": 0
+  }
+}

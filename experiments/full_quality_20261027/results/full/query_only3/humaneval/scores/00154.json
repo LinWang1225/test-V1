@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/154",
+  "dataset": "humaneval",
+  "index": 154,
+  "policy": "query_only3",
+  "generation_sha256": "ba87877dd9f84b79264342d19a8e6c89975ee0b5b6ae553170673543d89e228e",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef cycpattern_check(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\"\"\"\n    rotations = [b[i:] + b[:i] for i in range(len(b))]\n    return any(brot in a for rot in rotations)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: name 'brot' is not defined\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: name 'brot' is not defined\"]\n",
+    "returncode": 0
+  }
+}

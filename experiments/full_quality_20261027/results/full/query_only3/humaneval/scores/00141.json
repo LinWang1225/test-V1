@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/141",
+  "dataset": "humaneval",
+  "index": 141,
+  "policy": "query_only3",
+  "generation_sha256": "007de031385a73e62034fc40a498dc85d115ba51ade91ed897893ca9a8c96b1f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef file_name_check(file_name):\n    \"\"\"Create a function which takes a string representing a file's name, and returns\n    'Yes' if the the file's name is valid, and returns 'No' otherwise.\n    A file's name is considered to be valid if and only if all the following conditions\n    are met:\n    - There should not be more than three digits ('0'-'9') in the file's name.\n    - The file's name contains exactly one dot '.'.\n    - The substring before the dot should not be empty, and it starts with a letter from\n    the latin alphabet ('a'-'z' and 'A'-'Z').\n    - The substring after the dot should be one of these: ['txt', 'exe', 'dll']\n    \"\"\"\n    if file_name.count('.') != 1:\n        return 'No'\n    name_part, ext_part = file_name.split('.', 1)\n    if not name_part or not ext_part:\n        return 'No'\n    if not name_part[0].isalpha():\n        return 'No'\n    if ext_part not in ['txt', 'exe', 'dll']:\n        return 'No'\n    if sum(c.isdigit() for c in file_name) > 3:\n        return 'No'\n    return 'Yes'\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

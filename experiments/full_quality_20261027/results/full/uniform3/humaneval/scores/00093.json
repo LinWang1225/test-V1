@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/93",
+  "dataset": "humaneval",
+  "index": 93,
+  "policy": "uniform3",
+  "generation_sha256": "8f102699e5aeb3a91d32275c6e62a53b8c690468b2e7a5a704036728dc500a71",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef encode(message):\n    vowels = \"aeiouAEIOUAEIOU\"\n    result = \"\"\n    for char in message:\n        if char.isalpha():\n            # Swap case\n            if char.islower():\n                result += chr(ord(char) ^ 32)\n            else:\n                result += chr(ord(char) ^ 32)\n            # Replace vowels\n            if char in vowels:\n                # Find the index of the vowel\n                idx = vowels.index(char)\n                # Get the letter 2 places ahead\n                new_char = vowels[(idx + 2) % 26\n                result += new_char\n        else:\n            result += char\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '[' was never closed (<string>, line 33)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '[' was never closed (<string>, line 33)\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/9",
+  "dataset": "humaneval",
+  "index": 9,
+  "policy": "query_curve3",
+  "generation_sha256": "73294686798d1f8f43f8d0c694d69db4907a596343137b790aa57da499ed1a04",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    \"\"\"From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    result = []\n    max_so_far = float('-inf')\n    for num in numbers:\n        max_so_far = max(max_so_far, num)\n        result.append(max_so_far)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/119",
+  "dataset": "humaneval",
+  "index": 119,
+  "policy": "full4",
+  "generation_sha256": "34913d7a30068ede23a4cdb7df4e23c3977e433463630730f46be24115f1f42d",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef match_parens(lst):\n    def is_balanced(s):\n        balance = 0\n        for char in s:\n            if char == '(':\n                balance += 1\n            else:\n                balance -= 1\n            if balance < 0:\n                return False\n        return balance == 0\n\n    s1, s2 = lst[0], lst[1]\n    return 'Yes' if is_balanced(s1 + s2) or is_balanced(s2 + s1) else 'No'\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

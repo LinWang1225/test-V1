@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/11",
+  "dataset": "humaneval",
+  "index": 11,
+  "policy": "full4",
+  "generation_sha256": "1741955b06956501350e355a5b43f5f7796ac90de3466b9c879c40b2fee59f9f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    result = ''\n    for i in range(len(a)):\n        result += '1' if a[i] != b[i] else '0'\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

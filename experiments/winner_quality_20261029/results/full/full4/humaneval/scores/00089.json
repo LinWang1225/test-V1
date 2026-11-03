@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/89",
+  "dataset": "humaneval",
+  "index": 89,
+  "policy": "full4",
+  "generation_sha256": "6fbfb86f9c442ca2ef0d8e410c72e34d1a6725ff686a0cd337f8fe8374cc49d2",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef encrypt(s):\n    \"\"\"Create a function encrypt that takes a string as an argument and\n    returns a string encrypted with the alphabet being rotated. \n    The alphabet should be rotated in a manner such that the letters \n    shift down by two multiplied to two places.\n    For example:\n    encrypt('hi') returns 'lm'\n    encrypt('asdfghjkl') returns 'ewhjklnop'\n    encrypt('gf') returns 'kj'\n    encrypt('et') returns 'ix'\n    \"\"\"\n    # Define the alphabet\n    alphabet = 'abcdefghijklmnopqrstuvwxyz'\n    # Create a mapping for each character shifted by 2 positions\n    shifted = {char: alphabet[(alphabet.index(char) + 2) % 26 for char in alphabet}\n    # Encrypt the input string\n    return ''.join(shifted[char] for char in s)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: closing parenthesis '}' does not match opening parenthesis '[' (<string>, line 29)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: closing parenthesis '}' does not match opening parenthesis '[' (<string>, line 29)\"]\n",
+    "returncode": 0
+  }
+}

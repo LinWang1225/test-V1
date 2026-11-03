@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/44",
+  "dataset": "humaneval",
+  "index": 44,
+  "policy": "adaptive015",
+  "generation_sha256": "c22fffbadd14fb742a5aab85bf061262eb2d158f6136d23cb968823388ecbfba",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef change_base(x: int, base: int) -> str:\n    \"\"\"Change numerical base of input number x to base.\n    return string representation after the conversion.\n    base numbers are less than 10.\n    >>> change_base(8, 3)\n    '22'\n    >>> change_base(8, 2)\n    '1000'\n    >>> change_base(7, 2)\n    '111'\n    \"\"\"\n    if x == 0:\n        return '0'\n    digits = []\n    while x > 0:\n        digits.append(x % base)\n        x = x // base\n    return ''.join(str(d) for d in reversed(digits))\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

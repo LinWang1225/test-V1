@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/93",
+  "dataset": "humaneval",
+  "index": 93,
+  "policy": "adaptive015",
+  "generation_sha256": "b365c6eb61c0a9cb658614e3ead8f694fe246ea8f6a087db59598f2f1ef38742",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef encode(message):\n    vowels = {'a': 'c', 'e': 'g', 'i': 'k', 'o': 'q', 'u': 'w'}\n    result = []\n    for char in message:\n        if char.isalpha():\n            # Swap case\n            swapped = char.swapcase()\n            # Replace vowel\n            if swapped.lower() in vowels:\n                result.append(vowels[swapped.lower()])\n            else:\n                result.append(swapped)\n        else:\n            result.append(char)\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 2 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 2 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

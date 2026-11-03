@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/93",
+  "dataset": "humaneval",
+  "index": 93,
+  "policy": "adaptive030",
+  "generation_sha256": "812f747196c3e10fb693dc1b2674928b496f2964b2625b8f6f98f239f451e421",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef encode(message):\n    \"\"\"\n    Write a function that takes a message, and encodes in such a \n    way that it swaps case of all letters, replaces all vowels in \n    the message with the letter that appears 2 places ahead of that \n    vowel in the english alphabet. \n    Assume only letters. \n    \"\"\"\n    result = []\n    for char in message:\n        if char.isalpha():\n            # Swap case\n            swapped = char.swapcase()\n            # Check if it's a vowel\n            if swapped in 'aeiouAEIOU':\n                # Replace vowel with the letter 2 places ahead\n                # Handle both lowercase and uppercase\n                if swapped.islower():\n                    # For lowercase vowels, move 2 places forward\n                    new_char = chr(ord(swapped) + 2)\n                else:\n                    # For uppercase vowels, move 2 places forward\n                    new_char = chr(ord(swapped) - 2)\n                result.append(new_char)\n            else:\n                result.append(swapped)\n        else:\n            result.append(char)\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 2 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 2 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

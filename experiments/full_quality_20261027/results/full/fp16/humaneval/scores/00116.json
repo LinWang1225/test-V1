@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/116",
+  "dataset": "humaneval",
+  "index": 116,
+  "policy": "fp16",
+  "generation_sha256": "5221a2914d66ee22574a6952cb735b1fedbdfa305bbd39190c9fca49dcf14474",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_array(arr):\n    \"\"\"\n    Sorts an array of non-negative integers based on the number of ones in their binary representation.\n    If two numbers have the same number of ones, they are sorted by their decimal value.\n    \"\"\"\n    def key(x):\n        return (bin(x).count('1'), x)\n    \n    return sorted(arr, key=key)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/76",
+  "dataset": "humaneval",
+  "index": 76,
+  "policy": "adaptive005",
+  "generation_sha256": "1ea6ea7fdbe1a42db83f6d2175a3da64329f2e4e9a4bbf4a7bba91433f15f244",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_simple_power(x, n):\n    \"\"\"Your task is to write a function that returns true if a number x is a simple\n    power of n and false in other cases.\n    x is a simple power of n if n**int = x\n    For example:\n    is_simple_power(1, 4) => true\n    is_simple_power(2, 2) => true\n    is_simple_power(8, 2) => true\n    is_simple_power(3, 2) => false\n    is_simple_power(3, 1) => false\n    is_simple_power(5, 3) => false\n    \"\"\"\n    if n == 1:\n        return x == 1\n    if x < 1:\n        return False\n    power = 1\n    while power <= x:\n        if power == x:\n            return True\n        power *= n\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

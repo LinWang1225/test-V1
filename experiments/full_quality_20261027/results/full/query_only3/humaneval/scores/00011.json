@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/11",
+  "dataset": "humaneval",
+  "index": 11,
+  "policy": "query_only3",
+  "generation_sha256": "f107697a0de707d0771b69fb3fc90aac38c713b9e96160aac1b9774dc4ac3ad5",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\"Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    # Convert the binary strings to integers\n    num_a = int(a, 2)\n    num_b = int(b, 2)\n    \n    # Perform XOR operation\n    result = num_a ^ num_b\n    \n    # Convert the result back to binary string\n    return bin(result)[2:]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

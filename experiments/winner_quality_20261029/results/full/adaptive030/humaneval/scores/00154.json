@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/154",
+  "dataset": "humaneval",
+  "index": 154,
+  "policy": "adaptive030",
+  "generation_sha256": "97d15e56ad5e96480af0593a1150e4edc949201cdde1f968da0c56f860ca3dda",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef cycpattern_check(a, b):\n    \"\"\"You are given 2 words. You need to to return True if the second word or any of its rotations is a substring in the first word.\"\"\"\n    rotations = [b[i:] + b[:i] for i in range(len(b))]\n    return any(b in in in a for b in rotations)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 17)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 17)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/89",
+  "dataset": "humaneval",
+  "index": 89,
+  "policy": "adaptive015",
+  "generation_sha256": "6adc6f7ab01dd4802e5d0e8805cfd2588cbd6128216f33147e1a33cf852ed699",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef encrypt(s):\n    \"\"\"Create a function encrypt that takes a string as an argument and\n    returns a string encrypted with the alphabet being rotated. \n    The alphabet should be rotated in a manner such that the letters \n    shift down by two multiplied to two places.\n    For example:\n    encrypt('hi') returns 'lm'\n    encrypt('asdfghjkl') returns 'ewhjklnop'\n    encrypt('gf') returns 'kj'\n    encrypt('et') returns 'ix'\n    \"\"\"\n    # Define the alphabet\n    alphabet = 'abcdefghijklmnopqrstuvwxyz'\n    # Create a mapping for the shifted alphabet\n    shifted_alphabet = alphabet[2:] + alphabet[:2]\n    # Create a translation table\n    translation_table = str.maketrans(alphabet, shifted_alphabet)\n    # Apply the translation table to the input string\n    return s.translate(translation_table)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 1 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 1 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

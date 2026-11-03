@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/65",
+  "dataset": "humaneval",
+  "index": 65,
+  "policy": "adaptive030",
+  "generation_sha256": "d78502da5fade91c59d3e063d550fd5636250b3b02a2ba1e1d5f23a5a370762a",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef circular_shift(x, shift):\n    \"\"\"Circular shift the digits of the integer x, shift the digits right by shift\n    and return the result as a string.\n    If shift > number of digits, return digits reversed.\n    >>> circular_shift(12, 1)\n    \"21\"\n    >>> circular_shift(12,2)\n    \"12\"\n    \"\"\"\n    s = str(x)\n    n = len(s)\n    if shift > n:\n        return s[::-1]\n    else:\n        return s[-shift:] + s[:-shift:]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

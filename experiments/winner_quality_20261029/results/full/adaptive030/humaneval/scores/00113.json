@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/113",
+  "dataset": "humaneval",
+  "index": 113,
+  "policy": "adaptive030",
+  "generation_sha256": "756cde084b85e7d6aee1103124b1bede46c7b8100099d5d2d88fbd4b587cd5dd",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef odd_count(lst):\n    \"\"\"Given a list of strings, where each string consists of only digits, return a list.\n    Each element i of the output should be \"the number of odd elements in the\n    string i of the input.\" where all the i's should be replaced by the number\n    of odd digits in the i'th string of the input.\"\"\"\n\n    result = []\n    for i, s in enumerate(lst):\n        odd_count = sum(1 for c in s if int(c) % 2 != 0)\n        replacement = f\"the number of odd elements {odd_count}n the str{odd_count}ng {odd_count} of the {odd_count}nput.\"\n        result.append(replacement)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

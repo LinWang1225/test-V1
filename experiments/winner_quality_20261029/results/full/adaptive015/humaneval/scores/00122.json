@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/122",
+  "dataset": "humaneval",
+  "index": 122,
+  "policy": "adaptive015",
+  "generation_sha256": "52ac0e0b5162a1bfc57c721e4256755d0c321e42990de8f52f1801f82a986c1c",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef add_elements(arr, k):\n    \"\"\"\n    Given a array of integers arr and an integer k, return\n    the sum of the elements with at most two digits from the first k elements of arr.\n    \"\"\"\n    return sum(x for x in arr[:k] if -999 < x < 1000)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

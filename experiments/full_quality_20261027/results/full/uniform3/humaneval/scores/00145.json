@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/145",
+  "dataset": "humaneval",
+  "index": 145,
+  "policy": "uniform3",
+  "generation_sha256": "8a19fe827ad9d55cbccdfbb9fac432debdbcb6819180480c56b100e8bfbc9f72",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef order_by_points(nums):\n    def digit_sum(n):\n        s = 0\n        for c in str(abs(n)):\n            s += int(c)\n        return s\n\n    def sort_key(n):\n        return (digit_sum(n), nums.index(n))\n\n    nums.sort(key=sort_key)\n    return nums\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: 1 is not in list']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: 1 is not in list']\n",
+    "returncode": 0
+  }
+}

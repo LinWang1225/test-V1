@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/46",
+  "dataset": "humaneval",
+  "index": 46,
+  "policy": "full4",
+  "generation_sha256": "3b234ca8691565c44080084b758ef1211f6bab74b3f6117a5879df4a7c048235",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fib4(n: int):\n    \"\"\"The Fib4 number sequence is a sequence similar to the Fibonacci sequence that's defined as follows:\n    fib4(0) -> 0\n    fib4(1) -> 0\n    fib4(2) -> 2\n    fib4(3) -> 0\n    fib4(n) -> fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4).\n    Please write a function to efficiently compute the n-th element of the fib4 number sequence.  Do not use recursion.\n    \"\"\"\n    if n == 0 or n == 1:\n        return 0\n    if n == 2:\n        return 2\n    if n == 3:\n        return 0\n\n    a, b, c, d = 0, 0, 2, 0  # fib4(0), fib4(1), fib4(2), fib4(3)\n    for _ in range(4, n + 1):\n        next_val = a + b + c + d\n        a, b, c, d = b, c, d, next_val\n    return d\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

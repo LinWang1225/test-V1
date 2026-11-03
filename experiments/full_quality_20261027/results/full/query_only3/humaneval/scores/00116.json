@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/116",
+  "dataset": "humaneval",
+  "index": 116,
+  "policy": "query_only3",
+  "generation_sha256": "0b9aa86c37b4d4a7a4ada3da97546347d5ebb6a8349f37c9287d4a4225dbfaad",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_array(arr):\n    \"\"\"\n    Sorts the array based on the number of ones in the binary representation, and then by the decimal value.\n    \"\"\"\n    def key(x):\n        return (bin(x).count('1'), x\n    return sorted(arr, key=key)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 20)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 20)\"]\n",
+    "returncode": 0
+  }
+}

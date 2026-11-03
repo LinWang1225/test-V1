@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/99",
+  "dataset": "humaneval",
+  "index": 99,
+  "policy": "query_only3",
+  "generation_sha256": "58666fa6b3e704b4c8d3f98fe2a095c05099427a6e52acf43c09cd12361b6804",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef closest_integer(value):\n    '''\n    Create a function that takes a value (string) representing a number\n    and returns the closest integer to it. If the number is equidistant\n    from two integers, round it away from zero.\n\n    Examples\n    >>> closest_integer(\"10\")\n    10\n    >>> closest_integer(\"15.3\")\n    15\n    '''\n    num = float(value)\n    decimal_part = num - int(num)\n    if decimal_part >= 0.5:\n        return int(num) + 1\n    elif decimal_part <= -0.5:\n        return int(num) - 1\n    else:\n        return int(num)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

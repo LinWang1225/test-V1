@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/70",
+  "dataset": "humaneval",
+  "index": 70,
+  "policy": "adaptive005",
+  "generation_sha256": "ce989ee83b702821ac794cd07dff91b6dd4e2a5171b795ee3c1955196aa7d29d",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef strange_sort_list(lst):\n    '''\n    Given list of integers, return list in strange order.\n    Strange sorting, is when you start with the minimum value,\n    then maximum of the remaining integers, then minimum and so on.\n\n    Examples:\n    strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]\n    strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]\n    strange_sort_list([]) == []\n    '''\n    if not lst:\n        return []\n    \n    result = []\n    while lst:\n        min_val = min(lst)\n        result.append(min_val)\n        lst.remove(min_val)\n        if not lst:\n            break\n        max_val = max(lst)\n        result.append(max_val)\n        lst.remove(max_val)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

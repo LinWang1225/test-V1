@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/73",
+  "dataset": "humaneval",
+  "index": 73,
+  "policy": "adaptive030",
+  "generation_sha256": "425f10a643623c9af2938cfac6c918ffa38de59b9d71d0889d548a9931853249",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef smallest_change(arr):\n    \"\"\"\n    Given an array arr of integers, find the minimum number of elements that\n    need to be changed to make the array palindromic. A palindromic array is an array that\n    is read the same backwards and forwards. In one change, you can change one element to any other element.\n    \"\"\"\n    n = len(arr)\n    changes = 0\n    for i in range(n // 2):\n        if arr[i] != arr[n - 1 - i]:\n            changes += 1\n    return changes\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

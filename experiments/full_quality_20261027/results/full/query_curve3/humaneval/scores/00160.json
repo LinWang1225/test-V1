@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/160",
+  "dataset": "humaneval",
+  "index": 160,
+  "policy": "query_curve3",
+  "generation_sha256": "aaf982b74048ad7eb7286229392aca1573a5a3b42f983f6579c943cd089bf7d4",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef do_algebra(operator, operand):\n    \"\"\"\n    Given two lists operator, and operand. The first list has basic algebra operations, and \n    the second list is a list of integers. Use the two given lists to build the algebraic \n    expression and return the evaluation of this expression.\n\n    The basic algebra operations:\n    Addition ( + ) \n    Subtraction ( - ) \n    Multiplication ( * ) \n    Floor division ( // ) \n    Exponentiation ( ** ) \n\n    Example:\n    operator = ['+', '*', '-']\n    operand = [2, 3, 4, 5]\n    result = 2 + 3 * 4 - 5\n    => result = 9\n    \"\"\"\n    # Build the expression as a string\n    expr = str(operand[0])\n    for op, num in zip(operator, operand[1:]):\n        expr += f\" {op} {num}\"\n    # Evaluate the expression\n    return eval(expr)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

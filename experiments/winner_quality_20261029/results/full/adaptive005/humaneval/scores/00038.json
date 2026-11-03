@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/38",
+  "dataset": "humaneval",
+  "index": 38,
+  "policy": "adaptive005",
+  "generation_sha256": "141c856de675c870b0663794525bbe891f40775843e05bd6b6f672c9070cee02",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef decode_cyclic(s: str):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s)] for i in range((len(s) + 2) // 3]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[-1:] + group[:-1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: closing parenthesis ']' does not match opening parenthesis '(' (<string>, line 25)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: closing parenthesis ']' does not match opening parenthesis '(' (<string>, line 25)\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/0",
+  "dataset": "humaneval",
+  "index": 0,
+  "policy": "full4",
+  "generation_sha256": "47b6b1ae06527be67ad860deb685cee802233062be7a6232c092b98428d0e4d2",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    numbers.sort()\n    for i in range(len(numbers) - 1):\n        if numbers[i+1] - numbers[i] < threshold:\n            return True\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

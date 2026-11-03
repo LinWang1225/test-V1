@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/119",
+  "dataset": "humaneval",
+  "index": 119,
+  "policy": "adaptive030",
+  "generation_sha256": "0581ad92afee33ac94c00f1141b78af32152da8c65b4153469b5d9fb722fcc37",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef match_parens(lst):\n    def is_balanced(s):\n        balance = 0\n        for char in s:\n        if char == '(':\n            balance += 1\n        else:\n            balance -= 1\n        if balance < 0:\n            return False\n        return balance == 0\n\n    s1 = lst[0]\n    s2 = lst[1]\n    return 'Yes' if is_balanced(s1 + s2) or is_balanced(s2 + s1) else 'No'\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: expected an indented block after 'for' statement on line 22 (<string>, line 23)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: expected an indented block after 'for' statement on line 22 (<string>, line 23)\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/10",
+  "dataset": "humaneval",
+  "index": 10,
+  "policy": "query_curve3",
+  "generation_sha256": "a1e627c7e53bbd98953557f9164f4f229ad669f15a0216d2ad90b25f889ef3a5",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef make_palindrome(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    >>> make_palindrome('')\n    ''\n    >>> make_palindrome('cat')\n    'catac'\n    >>> make_palindrome('cata')\n    'cataca'\n    \"\"\"\n    if not string:\n        return \"\"\n    \n    # Find the longest palindromic suffix\n    for i in range(len(string), -1, -1):\n        if string[:i] == string[:i][::-1]:\n            # The prefix is string[:i], the suffix is string[i:]\n            return string + string[:i][::-1]\n    \n    # If no such suffix found, return the string with its reverse appended\n    return string + string[::-1]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

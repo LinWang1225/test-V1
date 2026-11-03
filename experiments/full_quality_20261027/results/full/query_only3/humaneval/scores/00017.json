@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/17",
+  "dataset": "humaneval",
+  "index": 17,
+  "policy": "query_only3",
+  "generation_sha256": "067d64a73ced34066c35eaecd88c030e3441c29fe032cf6b6288f2a58b3b29dc",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    Your task is to parse this string and return a list of integers corresponding to how many beats each note lasts.\n\n    Here is a legend:\n    'o' - whole note, lasts four beats\n    'o|' - half note, lasts two beats\n    '.|' - quarter note, lasts one beat\n    \"\"\"\n    notes = music_string.split()\n    result = []\n    for note in notes:\n        if note == 'o':\n            result.append(4)\n        elif note == 'o|':\n            result.append(2)\n        elif note == '.|':\n            result.append(1)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

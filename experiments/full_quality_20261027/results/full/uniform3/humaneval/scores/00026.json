@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/26",
+  "dataset": "humaneval",
+  "index": 26,
+  "policy": "uniform3",
+  "generation_sha256": "b3b1c2ea3fd7abc5bd4f075d54730945994e3fb94232ed623629460790bc71d0",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef remove_duplicates(numbers: List[int]) -> List[int]:\n    seen = set()\n    result = []\n    for num in numbers:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

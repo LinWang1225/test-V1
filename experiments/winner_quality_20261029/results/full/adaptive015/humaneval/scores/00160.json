@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/160",
+  "dataset": "humaneval",
+  "index": 160,
+  "policy": "adaptive015",
+  "generation_sha256": "27c7d5d0e6f31b5efccb1e6fcf4de97f443f64b226512044bbdd0ebb502fb71a",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef do_algebra(operator(operator:\n    \"\"\"\n    Given two lists operator, and operand. The first list has basic algebra operations, and \n    the second list is a list of integers. Use the two given lists to build the algebric \n    expression and return the evaluation of this expression.\n\n    The basic algebra operations:\n    Addition ( + ) \n    Subtraction ( - ) \n    Multiplication ( * )\n    Floor division ( // )\n    Exponentiation ( ** ) \n\n    Example:\n    operator = ['+', '*', '-']\n    operand = [2, 3,4,5]\n    result = 2 + 3 * 4 - 5\n    => result = 9\n    \"\"\"\n    # Build the expression as a string\n    expr = \"\"\n    for i in range(len(operand) - 1):\n        expr += str(operand[i])\n        expr += operator[i]\n    expr += str(operand[-1])\n    \n    # Evaluate the expression\n    return eval(expr)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 29)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 29)']\n",
+    "returncode": 0
+  }
+}

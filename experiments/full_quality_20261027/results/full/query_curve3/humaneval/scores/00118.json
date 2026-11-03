@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/118",
+  "dataset": "humaneval",
+  "index": 118,
+  "policy": "query_curve3",
+  "generation_sha256": "862d1c81ae87e00c790d588586f43b1c879d9bed43f76cf66b10a808d1030e54",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef get_closest_vowel(word):\n    vowels = \"AEIOUaeiou\"\n    n = len(word)\n    for i in range(n-2, -1, -1):\n        if word[i] in vowels:\n            # Check if there is a consonant before this vowel\n            if i > 0 and word[i-1] not in vowels:\n                return word[i]\n            # Check if there is a consonant after this vowel\n            if i < n-1 and word[i+1] not in vowels:\n                return word[i]\n    return \"\"\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

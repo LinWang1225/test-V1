@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/155",
+  "dataset": "humaneval",
+  "index": 155,
+  "policy": "query_only3",
+  "generation_sha256": "e4cf396f25f6069fc3d70dc15344988ef57f94e817381315a98b1f972c56ceaf",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef even_odd_count(num):\n    \"\"\"Given an integer. return a tuple that has the number of even and odd digits respectively.\n\n     Example:\n        even_odd_count(-12) ==> (1, 1)\n        even_odd_count(123) ==> (1, 2)\n    \"\"\"\n    count_even = 0\n    count_odd = 0\n    num = abs(num)  # Take absolute value to handle negative numbers\n    for digit in str(num):\n        digit = int(digit)\n        if digit % 2 == 0:\n            count_even += 1\n        else:\n            count_odd += 1\n    return (count_even, count_odd)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

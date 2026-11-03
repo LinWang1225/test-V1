@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/107",
+  "dataset": "humaneval",
+  "index": 107,
+  "policy": "query_only3",
+  "generation_sha256": "118c703c1f4c315a0bf7bd3c0913f0b4ea18eae9a28f959e586e32a5402b5dcd",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef even_odd_palindrome(n):\n    even = 0\n    odd = 0\n    for i in range(1, n + 1):\n        s = str(i)\n        if s == s[::-1]:\n            if i % 2 == 0:\n                even += 1\n            else:\n                odd += 1\n    return (even, odd)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

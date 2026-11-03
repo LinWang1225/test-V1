@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/37",
+  "dataset": "humaneval",
+  "index": 37,
+  "policy": "query_only3",
+  "generation_sha256": "3cc8bb5834d42af0c742623c9aa2b04378b235fb0e431a84c47f0bb15282c559",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_even(l: list):\n    \"\"\"This function takes a list l and returns a list l' such that\n    l' is identical to l in the odd indicies, while its values at the even indicies are equal\n    to the values of the even indicies of l, but sorted.\n    >>> sort_even([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_even([5, 6, 3, 4])\n    [3, 6, 5, 4]\n    \"\"\"\n    # Extract even-indexed elements\n    even_indices = l[::2]\n    # Sort the even-indexed elements\n    sorted_evens = sorted(even_indices)\n    # Create the result list\n    result = []\n    even_idx = 0\n    odd_idx = 1\n    for i in range(len(l)):\n        if i % 2 == 0:\n            result.append(sorted_evens[even_idx])\n            even_idx += 1\n        else:\n            result.append(l[odd_idx])\n            odd_idx += 1\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

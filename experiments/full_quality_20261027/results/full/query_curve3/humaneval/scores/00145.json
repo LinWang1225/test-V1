@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/145",
+  "dataset": "humaneval",
+  "index": 145,
+  "policy": "query_curve3",
+  "generation_sha256": "b49f0b875465bc9b7d597e12260101dab702183e04f13d8132d34571b48ac024",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef order_by_points(nums):\n    def digit_sum(n):\n        return sum(int(d) for d in str(abs(n)))\n\n    return sorted(nums, key=lambda x: (digit_sum(x), nums.index(x)))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

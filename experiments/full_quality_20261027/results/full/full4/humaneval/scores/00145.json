@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/145",
+  "dataset": "humaneval",
+  "index": 145,
+  "policy": "full4",
+  "generation_sha256": "8177850d1093896487a06ee946e0ec53c9fbc1be3a1cd1eddbfea34af11bcfcc",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef order_by_points(nums):\n    \"\"\"\n    Write a function which sorts the given list of integers\n    in ascending order according to the sum of their digits.\n    Note: if there are several items with similar sum of their digits,\n    order them based on their index in original list.\n    \"\"\"\n    def digit_sum(n):\n        return sum(int(d) for d in str(abs(n)))\n\n    # Create a list of tuples: (sum_of_digits, index, number)\n    indexed_sum = [(digit_sum(num), idx, num) for idx, num in enumerate(nums)]\n    \n    # Sort by sum of digits, then by index\n    indexed_sum.sort(key=lambda x: (x[0], x[1]))\n    \n    # Extract the numbers in the sorted order\n    return [num for _, _, num in indexed_sum]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/25",
+  "dataset": "humaneval",
+  "index": 25,
+  "policy": "full4",
+  "generation_sha256": "0f91277ef99291624285100225ea3fc22e604a23cb1e1b5e18fcb2794d905258",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef factorize(n: int) -> List[int]:\n    \"\"\" Return list of prime factors of given integer in the order from smallest to largest.\n    Each of the factors should be listed number of times corresponding to how many times it appears in factorization.\n    Input number should be equal to the product of all factors\n    >>> factorize(8)\n    [2, 2, 2]\n    >>> factorize(25)\n    [5, 5]\n    >>> factorize(70)\n    [2, 5, 7]\n    \"\"\"\n    factors = []\n    # Factor out 2s\n    while n % 2 == 0:\n        factors.append(2)\n        n //= 2\n    # Factor out other primes\n    i = 3\n    while i * i <= n:\n        while n % i == 0:\n            factors.append(i)\n            n //= i\n        i += 2\n    # If n is a prime number greater than 2\n    if n > 1:\n        factors.append(n)\n    return factors\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

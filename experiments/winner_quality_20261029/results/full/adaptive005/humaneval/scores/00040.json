@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/40",
+  "dataset": "humaneval",
+  "index": 40,
+  "policy": "adaptive005",
+  "generation_sha256": "0435aa9b5488b95f1e0b0c121deb16a4c994adf6666489a3be0582ca4ba7d1c4",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef triples_sum_to_zero(l: list):\n    \"\"\"\n    triples_sum_to_zero takes a list of integers as an input.\n    it returns True if there are three distinct elements in the list that\n    sum to zero, and False otherwise.\n    \"\"\"\n    n = len(l)\n    for i in range(n):\n        for j in range(i + 1, n):\n            for k in range(j + 1, n):\n                if l[i] + l[j] + l[k] == 0:\n                    return True\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

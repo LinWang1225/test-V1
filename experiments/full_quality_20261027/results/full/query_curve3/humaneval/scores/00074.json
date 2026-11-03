@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/74",
+  "dataset": "humaneval",
+  "index": 74,
+  "policy": "query_curve3",
+  "generation_sha256": "e52c987340265756a51416d04de37ad8a895b532208cf5d6b18055c6aa0484ed",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef total_match(lst1, lst2):\n    def count_chars(lst):\n        return sum(len(s) for s in lst)\n\n    total1 = count_chars(lst1)\n    total2 = count_chars(lst2)\n\n    if total1 < total2:\n        return lst1\n    else:\n        return lst2\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

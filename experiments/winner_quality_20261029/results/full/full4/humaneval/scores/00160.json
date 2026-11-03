@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/160",
+  "dataset": "humaneval",
+  "index": 160,
+  "policy": "full4",
+  "generation_sha256": "e055e26e21f340e6e425f56cf5d61cf352452a78b3a186dd35dd36716949266e",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef do_algebra(operator(operator:\n    \"\"\"\n    Given two lists operator, and operand. The first list has basic algebra operations, and \n    the second list is a list of integers. Use the two given lists to build the algebric \n    expression and return the evaluation of this expression.\n\n    The basic algebra operations:\n    Addition ( + ) \n    Subtraction ( - ) \n    Multiplication ( * )\n    Floor division ( // )\n    Exponentiation ( ** ) \n\n    Example:\n    operator = ['+', '*', '-']\n    operand = [2, 3, 4, 5]\n    result = 2 + 3 * 4 - 5\n    => result = 9\n    \"\"\"\n    # Map operator symbols to their corresponding Python operators\n    op_map = {\n        '+': '+',\n        '-': '-',\n        '*': '*',\n        '//': '//',\n        '**': '**'\n    }\n    \n    # Build the expression string\n    expr = str(operand[0])\n    for op, operand in zip(operator, operand[1:]):\n        expr += op_map[op] + str(operand)\n    \n    # Evaluate the expression\n    return eval(expr)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 29)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 29)']\n",
+    "returncode": 0
+  }
+}

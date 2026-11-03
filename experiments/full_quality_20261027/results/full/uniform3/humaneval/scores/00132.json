@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/132",
+  "dataset": "humaneval",
+  "index": 132,
+  "policy": "uniform3",
+  "generation_sha256": "db82eb11488e54f3ebb2dd50f4001a0a505395e42002a224293f1799eb5f2bf1",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_nested(string):\n    stack = []\n    nested = False\n    for char in string:\n        if char == '[':\n            stack.append(char)\n            if len(stack) > 1:\n                nested = True\n    return nested\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

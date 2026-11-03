@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/139",
+  "dataset": "humaneval",
+  "index": 139,
+  "policy": "fp16",
+  "generation_sha256": "a1ba4d7aa4a81440424ec1eb5a0138f3e8636d1081f8743d05f3a32ef2ca4d58",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef special_factorial(n):\n    \"\"\"The Brazilian factorial is defined as:\n    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!\n    where n > 0\n\n    For example:\n    >>> special_factorial(4)\n    288\n    \"\"\"\n    result = 1\n    for i in range(1, n + 1):\n        result *= factorial(i)\n    return result\n\ndef factorial(x):\n    if x == 0:\n        return 1\n    return x * factorial(x - 1)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

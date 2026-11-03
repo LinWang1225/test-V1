@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/116",
+  "dataset": "humaneval",
+  "index": 116,
+  "policy": "adaptive030",
+  "generation_sha256": "d1765d763534c42932122b168127555492312f9835dd7acb362a28a85ed6f3fd",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_array(arr):\n    \"\"\"\n    In this Kata, you have to sort an array of non-negative integers according to\n    number of ones in their binary representation in ascending order.\n    For similar number of ones, sort based on decimal value.\n    \"\"\"\n    def key(x):\n        return (bin(x).count('1'), x)\n    return sorted(arr, key=key)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

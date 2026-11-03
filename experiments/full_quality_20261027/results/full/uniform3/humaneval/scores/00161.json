@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/161",
+  "dataset": "humaneval",
+  "index": 161,
+  "policy": "uniform3",
+  "generation_sha256": "7f9270284be4ac5892bf152a3504f0f934a516382e0fc5d3d869875ac3978dbc",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef solve(s):\n    result = \"\"\n    for i in range(len(s)):\n        char = s[i]\n        if char.isalpha():\n            result += char.swapcase()\n        else:\n            result += char\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

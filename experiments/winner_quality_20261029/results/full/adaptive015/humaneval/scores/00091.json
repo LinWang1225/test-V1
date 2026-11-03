@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/91",
+  "dataset": "humaneval",
+  "index": 91,
+  "policy": "adaptive015",
+  "generation_sha256": "46ef39e033c2f7deabfcfe391cb247aa339a86d349b4d75db4148f826bda2770",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_bored(S):\n    \"\"\"\n    You'll be given a string of words, and your task is to count the number\n    of boredoms. A boredom is a sentence that starts with the word \"I\".\n    Sentences are are delimited by '.', '?' or '!'.\n   \n    For example:\n    >>> is_bored(\"Hello world\")\n    0\n    >>> is_bored(\"The sky is blue. The sun is shining. I love this weather\")\n    1\n    \"\"\"\n    count = 0\n    sentences = [s.strip() for s in S.split('.') if s.strip()]\n    for sentence in sentences:\n        if sentence.startswith('I'):\n            count += 1\n    return count\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 2']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 2']\n",
+    "returncode": 0
+  }
+}

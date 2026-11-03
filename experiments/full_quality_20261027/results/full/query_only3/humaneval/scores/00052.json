@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/52",
+  "dataset": "humaneval",
+  "index": 52,
+  "policy": "query_only3",
+  "generation_sha256": "8b1e2511407d30bf4d0e23c2ece34efffb3205de38d8cfcd691aea9f54dec2ff",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef below_threshold(l: list, t: int):\n    \"\"\"Return True if all numbers in the list l are below threshold threshold t.\n    >>> below_threshold([1, 2, 4, 10], 100)\n    True\n    >>> below_threshold([1, 20, 4, 10], 5)\n    False\n    \"\"\"\n    return all(x < t for x in l)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

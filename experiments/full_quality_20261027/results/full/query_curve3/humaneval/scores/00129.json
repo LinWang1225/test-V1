@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/129",
+  "dataset": "humaneval",
+  "index": 129,
+  "policy": "query_curve3",
+  "generation_sha256": "93bb2e774e9bfb5c499fa22acc37ae9b8ee893e66e95a0567ed40897543ee814",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef minPath(grid, k):\n    n = len(grid)\n    from heapq import heapp\n\n    # Priority queue: (lexicographical order, current position, path)\n    heap = [(0, (0, 0), [grid[0][0]])]\n    visited = set()\n\n    while heap:\n        _, (i, j), path = heappop(heap)\n        if (i, j) in visited:\n            continue\n        visited.add((i, j))\n        if len(path) == k:\n            return path\n        for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:\n            ni, nj = i + di, j + dj\n            if 0 <= ni < n and 0 <= nj < n:\n                new_path = path + [grid[ni][nj]]\n                heappush(heap, (new_path, (ni, nj), new_path))\n    return []\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: cannot import name 'heapp' from 'heapq' (/usr/lib/python3.11/heapq.py)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: cannot import name 'heapp' from 'heapq' (/usr/lib/python3.11/heapq.py)\"]\n",
+    "returncode": 0
+  }
+}

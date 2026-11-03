@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/32",
+  "dataset": "humaneval",
+  "index": 32,
+  "policy": "uniform3",
+  "generation_sha256": "66dc83ac940ef5d8d9bcaed7a96755de0f7f562367be1f6bf963c572777c9f20",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef find_zero(xs: list):\n    \"\"\"\n    xs are coefficients of a polynomial.\n    find_zero finds x such that poly(x) = 0.\n    find_zero returns only one zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    \"\"\"\n    # Find the index of the first non-zero coefficient\n    for i, coeff in enumerate(xs):\n        if coeff != 0:\n            # The root is -coeff / previous coefficient\n            return -coeff / xs[i - 1]\n    return 0.0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

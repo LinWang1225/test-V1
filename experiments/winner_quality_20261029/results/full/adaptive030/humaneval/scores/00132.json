@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/132",
+  "dataset": "humaneval",
+  "index": 132,
+  "policy": "adaptive030",
+  "generation_sha256": "8ebb87d4109fbc13b931b2c3f1ba48e12b42a6b6e1425d4c6e2b722346cea5b2",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_nested(string):\n    '''\n    Create a function that takes a string as input which contains only square brackets.\n    The function should return True if and only if there is a valid subsequence of brackets \n    where at least one bracket in the subsequence is nested.\n    '''\n    stack = []\n    for char in string:\n        if char == '[':\n            stack.append(char)\n        elif char == ']':\n            if not stack:\n                return False\n            stack.pop()\n    return len(stack) > 0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 1 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 1 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

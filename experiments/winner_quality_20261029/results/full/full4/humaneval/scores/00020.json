@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/20",
+  "dataset": "humaneval",
+  "index": 20,
+  "policy": "full4",
+  "generation_sha256": "088e5a0af1e27f4bae6573b6c7a8e705f74a8f4cbdfc2547c60e3c7c90d144c1",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List, Tuple\n\ndef find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    min_diff = float('inf')\n    closest_pair = (0.0, 0.0)\n    \n    # Sort the list to make it easier to compare adjacent elements\n    numbers.sort()\n    \n    for i in range(len(numbers) - 1):\n        current_diff = numbers[i+1] - numbers[i]\n        if current_diff < min_diff:\n            min_diff = current_diff\n            closest_pair = (numbers[i], numbers[i+1])\n    \n    return closest_pair\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

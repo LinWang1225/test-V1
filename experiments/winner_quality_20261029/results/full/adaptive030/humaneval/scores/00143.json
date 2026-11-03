@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/143",
+  "dataset": "humaneval",
+  "index": 143,
+  "policy": "adaptive030",
+  "generation_sha256": "5eaa4c8c9b3c116779db8c19fe0d0c6063466f9102e0f3c37c7c4199fb3f9a52",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef words_in_sentence(sentence(sentence(sentence:\n\n    def is_prime_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, int(n**0.5) + 1:\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    result = [word for word in words if is_prime(len(word))]\n    return ' '.join(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 24)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 24)']\n",
+    "returncode": 0
+  }
+}

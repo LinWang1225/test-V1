@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/109",
+  "dataset": "humaneval",
+  "index": 109,
+  "policy": "query_only3",
+  "generation_sha256": "bccfdc318fb8755e15ae8d2757021aec41a6512fb6178cb5028d1d28fbe807dd",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef move_one_ball(arr):\n    if not arr:\n        return True\n\n    n = len(arr)\n    sorted_arr = sorted(arr)\n\n    # Find the index where the sorted array starts\n    start = 0\n    for i in range(n):\n        if sorted_arr[i] != arr[i]:\n            start = i\n            break\n\n    # Check if the array can be rotated to match the sorted array\n    for i in range(n):\n        if sorted_arr[(start + i) % n] != arr[i]:\n            return False\n    return True\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 1 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 1 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

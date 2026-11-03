@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/113",
+  "dataset": "humaneval",
+  "index": 113,
+  "policy": "fp16",
+  "generation_sha256": "b35d9554871b83cdbf4b32dbd5ec711c907b95a2b6d18460644e1a9e3219614d",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef odd_count(lst):\n    \"\"\"Given a list of strings, where each string consists of only digits, return a list.\n    Each element i of the output should be \"the number of odd elements in the\n    string i of the input.\" where all the i's should be replaced by the number\n    of odd digits in the i'th string of the input.\"\"\"\n    result = []\n    for i, s in enumerate(lst):\n        odd_count = sum(1 for c in s if int(c) % 2 != 0)\n        replacement = f\"{odd_count}n\"\n        string = \"the number of odd elements {replacement} the str{replacement}ng {replacement} of the {replacement}put.\"\n        result.append(string.format(replacement=replacement))\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 1']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 1']\n",
+    "returncode": 0
+  }
+}

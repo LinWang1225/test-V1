@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/114",
+  "dataset": "humaneval",
+  "index": 114,
+  "policy": "uniform3",
+  "generation_sha256": "bf3938977d8c315829db8044a9a4b9d06d72cb3f5a569fb8191f733f04638f27",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef minSubArraySum(nums):\n    min_sum = float('inf')\n    current_sum = 0\n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum)\n    return min_sum\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 1 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 1 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

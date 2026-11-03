@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/14",
+  "dataset": "humaneval",
+  "index": 14,
+  "policy": "adaptive030",
+  "generation_sha256": "bb8be2ce249d58d8bc9b8d36b686369a1572ea55525c3bc322e34fc017c554ed",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "indent_body",
+  "completion": "    def all_prefix(string: str) -> List[str:\n        \"\"\" Return list of all prefixes from shortest to longest of the input string\n        >>> all_prefixes('abc')\n        ['a', 'ab', 'abc']\n        \"\"\"\n        return [string[:i] for i in range(1, len(string) + 1)]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '[' was never closed (<string>, line 9)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '[' was never closed (<string>, line 9)\"]\n",
+    "returncode": 0
+  }
+}

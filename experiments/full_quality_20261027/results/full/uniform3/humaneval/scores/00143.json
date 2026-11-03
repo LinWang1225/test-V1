@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/143",
+  "dataset": "humaneval",
+  "index": 143,
+  "policy": "uniform3",
+  "generation_sha256": "2fe161b43a364ea2781ab728c2d318f6b4af25772d00b19dfaed258f87566f1e",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef words_in_sentence(sentence):\n    def is_prime(n):\n        return n >= 2 and all(n % i == 0 for i in range(2, int(n**0.5) + 1)\n\n    return ' '.join(word for word in sentence.split() if is_prime(len(word)) )\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 26)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 26)\"]\n",
+    "returncode": 0
+  }
+}

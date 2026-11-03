@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/32",
+  "dataset": "humaneval",
+  "index": 32,
+  "policy": "query_only3",
+  "generation_sha256": "cb7bd17edb9e93a424fdcec72d6e38714e3831f195cd0cd3bb66b5e3c2778eaa",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef find_zero(xs: list):\n    \"\"\" xs are coefficients of a polynomial.\n    find_zero find x such that poly(x) = 0.\n    find_zero returns only only zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    >>> round(find_zero([1, 2]), 2) # f(x) = 1 + 2x\n    -0.5\n    >>> round(find_zero([-6, 11, -6, 1]), 2) # (x - 1) * (x - 2) * (x - 3) = -6 + 11x - 6x^2 + x^3\n    1.0\n    \"\"\"\n    # Find the index of the largest non-zero coefficient\n    max_index = max(range(len(xs), key=lambda i: abs(xs[i])))\n    \n    # If the largest coefficient is at an even index (0-based), return -coeff / coeff_prev\n    if max_index % 2 == 0:\n        return -xs[max_index] / xs[max_index - 1]\n    else:\n        return xs[max_index] / xs[max_index - 1]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: range() takes no keyword arguments']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: range() takes no keyword arguments']\n",
+    "returncode": 0
+  }
+}

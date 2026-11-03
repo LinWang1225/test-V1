@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/136",
+  "dataset": "humaneval",
+  "index": 136,
+  "policy": "adaptive005",
+  "generation_sha256": "f10a1ab7a38e934f9edff8f3d418a2f1ee54ccdb382073358fbd0d33b72ad656",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_smallest_integers(lst):\n    '''\n    Create a function that returns a tuple (a, b), where 'a' is\n    the largest of negative integers, and 'b' is the smallest\n    of positive integers in a list.\n    If there is no negative or positive integers, return them as None.\n    '''\n    neg = [x for x in lst if x < 0]\n    pos = [x for x in lst if x > 0]\n    a = max(neg) if neg else None\n    b = min(pos) if pos else None\n    return (a, b)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

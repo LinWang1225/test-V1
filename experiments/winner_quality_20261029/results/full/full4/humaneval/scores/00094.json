@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/94",
+  "dataset": "humaneval",
+  "index": 94,
+  "policy": "full4",
+  "generation_sha256": "005c85ea1d5cc5057dc4a0af97df4cfe531df3e07f449e6072f0e733051ae586",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef skjkasdkd(lst):\n    \"\"\"You are given a list of integers.\n    You need to find the largest prime value and return the sum of its digits.\"\"\"\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    max_prime = 0\n    for num in lst:\n        if is_prime(num) and num > max_prime:\n            max_prime = num\n\n    def sum_digits(n):\n        return sum(int(d) for d in str(n))\n\n    return sum_digits(max_prime) if max_prime != 0 else 0\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

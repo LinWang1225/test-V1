@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/56",
+  "dataset": "humaneval",
+  "index": 56,
+  "policy": "uniform3",
+  "generation_sha256": "d42e256e9537cf7c828d965e7eb4f760ac81571caa323f4a3f939c279b625c1b",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef correct_bracketing(brackets: str):\n    stack = []\n    for char in brackets:\n        if char == '<':\n            stack.append(char)\n        else:\n            if not stack or stack[-1] == '<':\n                stack.pop()\n            else:\n                return False\n    return len(stack) == 0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: pop from empty list']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: pop from empty list']\n",
+    "returncode": 0
+  }
+}

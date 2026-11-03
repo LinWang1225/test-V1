@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/105",
+  "dataset": "humaneval",
+  "index": 105,
+  "policy": "query_curve3",
+  "generation_sha256": "334ac3e9dbeb805fee6f7768b47c7c1ea9a2e1731c440b74b759cbc32e5b53fa",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef by_length(arr):\n    \"\"\"\n    Given an array of integers, sort the integers that are between 1 and 9 inclusive,\n    reverse the resulting array, and then replace each digit by its corresponding name from\n    \"One\", \"Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\".\n\n    For example:\n      arr = [2, 1,1,4,5,8,2,3]   \n            -> sort arr -> [1,1,2,2,3,4,5,8] \n            -> reverse arr -> [8,5,4,3,2,2,1,1]\n      return [\"Eight\", \"Five\", \"Four\", \"Three\", \"Two\", \"Two\", \"One\", \"One\"]\n    \n    If the array is empty, return an empty array:\n    arr = []\n    return []\n    \n    If the array has any strange number ignore it:\n    arr = [1, -1 ,55] \n            -> sort arr -> [-1, 1, 55]\n            -> reverse arr -> [55, 1, -1]\n    return = ['One']\n    \"\"\"\n    # Filter numbers between 1 and 9 inclusive\n    filtered = [num for num in arr if 1 <= num <= 9]\n    # Sort the filtered numbers\n    sorted_nums = sorted(filtered)\n    # Reverse the sorted list\n    reversed_nums = sorted_nums[::-1]\n    # Map numbers to their corresponding names\n    number_names = {\n        1: \"One\",\n        2: \"Two\",\n        3: \"Three\",\n        4: \"Four\",\n        5: \"Five\",\n        6: \"Six\",\n        7: \"Seven\",\n        8: \"Eight\",\n        9: \"Nine\"\n    }\n    # Replace numbers with their names\n    result = [number_names[num] for num in reversed_nums]\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/32",
+  "dataset": "humaneval",
+  "index": 32,
+  "policy": "full4",
+  "generation_sha256": "db0c47a47665558a8f26e62e235f2c996b9a958edcef2b2cef4e939268062a63",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef find_zero(xs: list):\n    \"\"\"\n    xs are coefficients of a polynomial.\n    find_zero find x such that poly(x) = 0.\n    find_zero returns only only zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    >>> round(find_zero([1, 2]), 2) # f(x) = 1 + 2x\n    -0.5\n    >>> round(find_zero([-6, 11, -6, 1]), 2) # (x - 1) * (x - 2) * (x - 3) = -6 + 11x - 6x^2 + x^3\n    1.0\n    \"\"\"\n    # Find the index of the largest non-zero coefficient\n    max_coeff_index = 0\n    max_coeff = 0\n    for i, coeff in enumerate(xs):\n        if coeff != 0 and abs(coeff) > max_coeff:\n            max_coeff = abs(coeff)\n            max_coeff_index = i\n    # The root is -coeff / coeff_next where coeff is the largest non-zero coefficient\n    # and coeff_next is the coefficient of the next lower degree\n    # For example, if the largest non-zero coefficient is at index i, then the root is -xs[i] / xs[i-1]\n    # because the polynomial is of even degree and the leading coefficient is the largest\n    return -xs[max_coeff_index] / xs[max_coeff_index - 1] if max_coeff_index > 0 else 0.0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

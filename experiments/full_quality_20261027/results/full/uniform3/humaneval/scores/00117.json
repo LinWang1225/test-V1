@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/117",
+  "dataset": "humaneval",
+  "index": 117,
+  "policy": "uniform3",
+  "generation_sha256": "504c51205133cb11a3c9fd4374d607a3d6acd60e78ed4e2665a51786508de255",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef select_words(s, n):\n    \"\"\"Given a string s and a natural number n, return a list of all words from string s that contain exactly n consonants, in order these words appear in s.\n    If the string s is empty, return an empty list.\n    Note: you may assume the input string contains only letters and spaces.\n    Examples:\n    select_words(\"Mary had a little lamb\", 4) ==> [\"little\"]\n    select_words(\"Mary had a little lamb\", 3) ==> [\"Mary\", \"lamb\"]\n    select_words(\"simple white space\", 2) ==> []\n    select_words(\"Hello world\", 4) ==> [\"world\"]\n    select_words(\"Uncle sam\", 3) ==> [\"Uncle\"]\n    \"\"\"\n    words = s.split()\n    result = []\n    for word in words:\n        consonants = sum(1 for c in word.lower() if c not in 'aeiouAEIOU')\n        if consonants == n:\n            result.append(word)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

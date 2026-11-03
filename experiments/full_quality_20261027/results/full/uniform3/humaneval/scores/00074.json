@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/74",
+  "dataset": "humaneval",
+  "index": 74,
+  "policy": "uniform3",
+  "generation_sha256": "567e826d064d891c8248d58f18de279a0b2b572bdf360c94a23cb1f4f43ec9a6",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef total_match(lst1, lst2):\n    '''\n    Write a function that accepts two lists of strings and returns the list that has the total number of chars in all strings of the list less than the other list.\n\n    if the two lists have the same number of chars, return the first list.\n    '''\n    total1 = sum(len(s) for s in lst1)\n    total2 = sum(len(s) for s in lst2)\n    if total1 < total2:\n        return lst1\n    elif total1 > total2:\n        return lst2\n    else:\n        return lst1\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/76",
+  "dataset": "humaneval",
+  "index": 76,
+  "policy": "uniform3",
+  "generation_sha256": "b27a620c47981c6891897a2cf08b586375799928294a7b506657df2c7788bd36",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_simple_power(x, n):\n    \"\"\"Returns True if x is a simple power of n, else False.\"\"\"\n    if n == 0:\n        return x == 1\n    if x < 1:\n        return False\n    power = 1\n    while power <= x:\n        if power == x:\n            return True\n        power *= n\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

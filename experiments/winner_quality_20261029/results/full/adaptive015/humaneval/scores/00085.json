@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/85",
+  "dataset": "humaneval",
+  "index": 85,
+  "policy": "adaptive015",
+  "generation_sha256": "8228010f209ad0b7eb49cc294915c27ae782160a0cf89ec47fa7d2a38d635be4",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef add(lst:\n    \"\"\"Given a non-empty of of of, add the even elements that are at odd indices.\"\"\"\n    return sum(num for i, num in enumerate(lst) if i % 2 == 1 and num % 2 == 0)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 11)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 11)\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/63",
+  "dataset": "humaneval",
+  "index": 63,
+  "policy": "uniform3",
+  "generation_sha256": "83f2ba24ad96be3a6b4299fb86bf0e4f6d4310a66b73528d8306b4fd749d01cc",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fibfib(n: int):\n    \"\"\"The FibFib number sequence is a sequence similar to the Fibonacci sequence that is defined as follows:\n    fibfib(0) == 0\n    fibfib(1) == 0\n    fibfib(2) == 1\n    fibfib(n) == fibfib(n-1) + fibfib(n-2) + fibfib(n-3).\n    \"\"\"\n    if n == 0 or n == 1:\n        return 0\n    if n == 2:\n        return 1\n    a, b, c = 0, 0, 1\n    for _ in range(3, n + 1):\n        a, b, c = b, c, a + b + c\n    return c\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/109",
+  "dataset": "humaneval",
+  "index": 109,
+  "policy": "uniform3",
+  "generation_sha256": "83a4328cd6664a92e93e34a538a3174d48d79c13a263772728c1fbfb239f6129",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef move_one_ball(arr):\n    if not arr:\n        return True\n\n    n = len(arr)\n    sorted_arr = sorted(arr)\n\n    # Check if the original array can be rotated to match the sorted array\n    for i in range(n):\n        if sorted_arr == arr[i:] + arr[:i]:\n            return True\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

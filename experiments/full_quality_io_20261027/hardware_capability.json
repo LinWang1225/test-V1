@@ -1,8 +1,34 @@
 {
-  "available": false,
+  "available": true,
   "attempted": true,
-  "checked_at": "2026-10-27 16:40:17",
-  "reason": "ERR_NVGPUCTRPERM from actual ncu DRAM read/write probe; sudo -n also failed because a password is required",
-  "driver_restriction": "RmProfilingAdminOnly=1",
-  "run_without_hardware_measurement": true
+  "checked_at": "2026-11-02 12:02:38",
+  "probe_metrics": {
+    "dram_read_bytes": 599680,
+    "dram_write_bytes": 3907968,
+    "dram_total_bytes": 4507648,
+    "profiled_kernel_launches": 1,
+    "raw_csv_sha256": "3e7228aeaced8c987b28bbfa574c955ea95280fc5963307c0cc3207663956fed",
+    "measurement": "hardware DRAM counters, complete eager attention including intermediates/output, not address-attributed K/V-only reads"
+  },
+  "command": [
+    "/usr/local/cuda-12.6/bin/ncu",
+    "--metrics",
+    "dram__bytes_read.sum,dram__bytes_write.sum",
+    "--nvtx",
+    "--nvtx-include",
+    "readkv_attention/",
+    "--cache-control",
+    "none",
+    "--clock-control",
+    "none",
+    "--csv",
+    "--page",
+    "raw",
+    "--print-units",
+    "base",
+    "--log-file",
+    "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_io_20261027/profiles/probes/20261102_120234.csv",
+    "/home/wanglin/kvarn-profile-20261019/.venv/bin/python",
+    "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_io_20261027/src/counter_probe.py"
+  ]
 }

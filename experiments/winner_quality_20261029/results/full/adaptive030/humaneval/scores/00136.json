@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/136",
+  "dataset": "humaneval",
+  "index": 136,
+  "policy": "adaptive030",
+  "generation_sha256": "92476f1e523689f6ca155f4995d28ddb6a9c52285b29c556b7bc090b61e57bd9",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_smallest_integers(lst):\n    neg = [x for x in lst if x < 0]\n    pos = [x for x in lst if x > 0]\n    return (max(neg, None) if neg else None else None, min(pos, None) if pos else None)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 19)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 19)']\n",
+    "returncode": 0
+  }
+}

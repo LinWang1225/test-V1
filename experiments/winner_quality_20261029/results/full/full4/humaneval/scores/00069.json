@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/69",
+  "dataset": "humaneval",
+  "index": 69,
+  "policy": "full4",
+  "generation_sha256": "a4a41d182b1440cbaa8cf5006725702887e45ba479610037b3a2fa7b1b87c35f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef search(lst):\n    freq = {}\n    for num in lst:\n        freq[num] = freq.get(num, 0) + 1\n    for num in sorted(freq.keys(), reverse=True):\n        if freq[num] >= num:\n            return num\n    return -1\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

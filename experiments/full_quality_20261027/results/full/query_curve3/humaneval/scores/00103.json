@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/103",
+  "dataset": "humaneval",
+  "index": 103,
+  "policy": "query_curve3",
+  "generation_sha256": "826a9fc6a70fc317a51c6606cb09600f581a867d77cf990e8fe228c07ad264a5",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef rounded_avg(n, m):\n    if n > m:\n        return -1\n    total = (n + m) * (m - n + 1) // 2\n    avg = total / (m - n + 1)\n    rounded = round(avg)\n    return bin(rounded)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

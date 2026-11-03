@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/69",
+  "dataset": "humaneval",
+  "index": 69,
+  "policy": "uniform3",
+  "generation_sha256": "30d63a5e2cf905c033ad57f74259b6d8dfddc7c879a65326483d8848c29c3a3c",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef search(lst):\n    freq = {}\n    for num in lst:\n        freq[num] = freq.get(num, 0) + 1\n    for num in freq:\n        if freq[num] >= num:\n            return num\n    return -1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/58",
+  "dataset": "humaneval",
+  "index": 58,
+  "policy": "full4",
+  "generation_sha256": "5312c677cb35c2b1a3fafb51d2c03b23306016438fb7758491bf524dffa72ed9",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef common(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n    \"\"\"\n    common_elements = set(l1) & set(l2)\n    return sorted(common_elements)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

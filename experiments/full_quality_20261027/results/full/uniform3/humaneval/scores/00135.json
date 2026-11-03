@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/135",
+  "dataset": "humaneval",
+  "index": 135,
+  "policy": "uniform3",
+  "generation_sha256": "2ca5e6e0eab663a3b54b83a25464d91139404beecf4f63f2d8e803f00bb94fca",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef can_arrange(arr):\n    for i in range(1, len(arr)):\n        if arr[i] < arr[i-1]:\n            return i\n    return -1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

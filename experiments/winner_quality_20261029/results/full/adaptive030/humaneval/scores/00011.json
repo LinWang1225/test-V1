@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/11",
+  "dataset": "humaneval",
+  "index": 11,
+  "policy": "adaptive030",
+  "generation_sha256": "88b9f999571b5f93f7a514b0978d5da10a96b170d2f8e44fc20a2d694741436b",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\"Perform binary XOR on two binary strings and return the result as a string.\"\"\"\n    result = ''\n    for i in range(len(a)):\n        if a[i] == '1' and b[i] == '1':\n            result += '0'\n        elif a[i] == '0' and b[i] == '0':\n            result += '0'\n        else:\n            result += '1'\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

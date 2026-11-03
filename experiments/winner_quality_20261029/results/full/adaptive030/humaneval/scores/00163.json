@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/163",
+  "dataset": "humaneval",
+  "index": 163,
+  "policy": "adaptive030",
+  "generation_sha256": "79a2dc9936ddd9607f124d3121e3a5ab1e6287476c6566d2cac3704a950f9915",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef generate_integers(a, b):\n    \"\"\"\n    Given two positive integers a and b, return the even digits between a and b, in ascending order.\n    \"\"\"\n    result = []\n    # Ensure a is the smaller number and b is the larger number\n    start = min(a, b)\n    end = max(a, b)\n    for num in range(start, end + 1):\n        for digit in str(num):\n            if int(digit) % 2 == 0:\n                result.append(int(digit))\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 1']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 1']\n",
+    "returncode": 0
+  }
+}

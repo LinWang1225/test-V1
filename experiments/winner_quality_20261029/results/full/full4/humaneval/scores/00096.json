@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/96",
+  "dataset": "humaneval",
+  "index": 96,
+  "policy": "full4",
+  "generation_sha256": "ee8a12a15330fb497a9d070f94e9416df432db8be0291bcb978a50370bde6539",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef count_up_to(n):\n    \"\"\"Implement a function that takes an non-negative integer and returns an array of the first n\n    integers that are prime numbers and less than n.\n    for example:\n    count_up_to(5) => [2,3]\n    count_up_to(11) => [2,3,5,7]\n    count_up_to(0) => []\n    count_up_to(20) => [2,3,5,7,11,13,17,19]\n    count_up_to(1) => []\n    count_up_to(18) => [2,3,5,7,11,13,17]\n    \"\"\"\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    primes = []\n    i = 2\n    while len(primes) < n and i < n:\n        if is_prime(i):\n            primes.append(i)\n        i += 1\n    return primes\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

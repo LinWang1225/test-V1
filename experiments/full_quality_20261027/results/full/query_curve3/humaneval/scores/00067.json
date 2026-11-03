@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/67",
+  "dataset": "humaneval",
+  "index": 67,
+  "policy": "query_curve3",
+  "generation_sha256": "0b1485bb4370516cd84baea7ab47a27d5cc7ce5afc99d52456484ed57587fd4e",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fruit_distribution(s, n):\n    \"\"\"\n    In this task, you will be given a string that represents a number of apples and oranges \n    that are distributed in a basket of fruit. This basket contains apples, oranges, and mango fruits. \n    Given the string that represents the total number of the oranges and apples and an integer that represent the total number of the fruits \n    in the basket, return the number of the mango fruits in the basket.\n    for example:\n    fruit_distribution(\"5 apples and 6 oranges\", 19) -> 19 - 5 - 6 = 8\n    fruit_distribution(\"0 apples and 1 oranges\",3) -> 3 - 0 - 1 = 2\n    fruit_distribution(\"2 apples and 3 oranges\", 100) -> 100 - 2 -3 = 95\n    fruit_distribution(\"100 apples and 1 oranges\",120) -> 120 -100 -1 =19\n    \"\"\"\n    # Extract the numbers from the string\n    apples, oranges = map(int, s.split()[0].split())\n    return n - apples - oranges\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: not enough values to unpack (expected 2, got 1)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: not enough values to unpack (expected 2, got 1)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/29",
+  "dataset": "humaneval",
+  "index": 29,
+  "policy": "full4",
+  "generation_sha256": "788bf221358b7c6d2af9615c61fa257a0e6329514c5fe610945a828bc81c627e",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef filter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that start with a given prefix.\n    >>> filter_by_prefix([], 'a')\n    []\n    >>> filter_by_prefix(['abc', 'bcd', 'cde', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [s for s in strings if s.startswith(prefix)]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

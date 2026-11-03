@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/71",
+  "dataset": "humaneval",
+  "index": 71,
+  "policy": "uniform3",
+  "generation_sha256": "da7022eb3e79404931b21fe884ff8635dd47d0c2fc8c9e51513afe4abe1a5ec6",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef triangle_area(a, b, c):\n    # Check if the sides form a valid triangle\n    if (a + b > c) and (a + c > b) and (b + c > a):\n        # Calculate the semi-perimeter\n        s = (a + b + c) / 2\n        # Use Heron's formula to calculate the area\n        area = (s * (s - a) * (s - b) * (s - c) ** 0.5\n        return round(area, 2)\n    else:\n        return -1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 21)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 21)\"]\n",
+    "returncode": 0
+  }
+}

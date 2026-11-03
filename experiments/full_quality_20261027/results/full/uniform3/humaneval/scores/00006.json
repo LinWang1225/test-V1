@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/6",
+  "dataset": "humaneval",
+  "index": 6,
+  "policy": "uniform3",
+  "generation_sha256": "eb5b51488b344cbe1de8fd62c9c1c68e284129af72b37f6f884aab0eab87ad29",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef parse_nested_parens(paren_string: str) -> List[int]:\n    \"\"\"Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g.g. (()()) has maximum two levels of nesting while ((())) has three and (())(()()) has three.\n    \"\"\"\n    result = []\n    current = 0\n    max_depth = 0\n    for char in paren_string:\n        if char == '(':\n            current += 1\n            if current > max_depth:\n                max_depth = current\n        elif char == ')':\n            current -= 1\n    return [max_depth]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

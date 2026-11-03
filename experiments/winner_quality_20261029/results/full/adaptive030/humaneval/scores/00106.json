@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/106",
+  "dataset": "humaneval",
+  "index": 106,
+  "policy": "adaptive030",
+  "generation_sha256": "4b3fa68fe607197ee9f18bc2b2312fb25e590a232385fe76d954e8c107bb628f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef f(n):\n    \"\"\" Implement the function f that takes n as a parameter,\n    and returns a list of size n, such that the value of the element at index i is the factorial of i if i is even\n    or the sum of numbers from 1 to i otherwise.\n    i starts from 1.\n    the factorial of i is the multiplication of the numbers from 1 to i (1 * 2 * ... * i).\n    Example:\n    f(5) == [1, 2, 6, 24, 15]\n    \"\"\"\n    result = []\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            # Calculate factorial of i\n            fact = 1\n            for j in range(1, i + 1):\n                fact *= j\n            result.append(fact)\n        else:\n            # Calculate sum of numbers from 1 to i\n            total = sum(range(1, i + 1))\n            result.append(total)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

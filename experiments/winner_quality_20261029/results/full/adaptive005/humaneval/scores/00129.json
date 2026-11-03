@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/129",
+  "dataset": "humaneval",
+  "index": 129,
+  "policy": "adaptive005",
+  "generation_sha256": "df797188f8813797de3dac66ebf2955993fed7285c3de5d0e5448afb79729eef",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef minPath(grid, k):\n    \"\"\"\n    Given a grid with N rows and N columns (N >= 2) and a positive integer k, \n    each cell of the grid contains a value. Every integer in the range [1, N * N]\n    inclusive appears exactly once on the cells of the grid.\n\n    You have to find the minimum path of length k in the grid. You can start\n    from any cell, and in each step you can move to any of the neighbor cells,\n    in other words, you can go to cells which share an edge with your current\n    cell.\n    Please note that a path of length k means visiting exactly k cells (not\n    necessarily distinct).\n    You CANNOT go off the grid.\n    A path A (of length k) is considered less than a path B (of length k) if\n    after making the ordered lists of the values on the cells that A and B go\n    through (let's call them lst_A and lst_B), lst_A is lexicographically less\n    than lst_B, in other words, there exist an integer index i (1 <= i <= k)\n    such that lst_A[i] < lst_B[i] and for any j (1 <= j < i) we have\n    lst_A[j] = lst_B[j].\n    It is guaranteed that the answer is unique.\n    Return an ordered list of the values on the cells that the minimum path go through.\n    \"\"\"\n    from heapq import heappush, heappop\n\n    n = len(grid)\n    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]\n\n    # Priority queue: (current_value, current_path, x, y)\n    heap = []\n    for i in range(n):\n        for j in range(n):\n            heappush(heap, (grid[i][j], [grid[i][j]], i, j))\n\n    visited = set()\n\n    while heap:\n        val, path, x, y = heappop(heap)\n        if len(path) == k:\n            return path\n        key = (x, y, len(path))\n        if key in visited:\n            continue\n        visited.add(key)\n        for dx, dy in directions:\n            nx, ny = x + dx, y + dy\n            if 0 <= nx < n and 0 <= ny < n:\n                new_path = path + [grid[nx][ny]]\n                heappush(heap, (grid[nx][ny], new_path, nx, ny))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

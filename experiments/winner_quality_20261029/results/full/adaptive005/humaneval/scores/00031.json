@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/31",
+  "dataset": "humaneval",
+  "index": 31,
+  "policy": "adaptive005",
+  "generation_sha256": "5f623922c4edb09386a1e77b789e315f930cd3f60070f3d29584de85120dc186",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_prime(n):\n    \"\"\"Return true if a given number is prime, and false otherwise.\"\"\"\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    w = 2\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += w\n        w = 6 - w\n    return True\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

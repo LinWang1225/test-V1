@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/76",
+  "dataset": "humaneval",
+  "index": 76,
+  "policy": "adaptive030",
+  "generation_sha256": "810e576c786d2e2c83221905637b953804dc18166b1312dba814bde6bfc74641",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "indent_body",
+  "completion": "    def is_simple(x, n):\n        \"\"\"Your task is to write a function that returns true if a number x is a simple power of n and false in other cases.\n        x is a simple power of n if n**int = x\n        For example:\n        is_simple_power(1, 4) => true\n        is_simple_power(2, 2) => true\n        is_simple_power(8, 2) => true\n        is_simple_power(3, 2) => false\n        is_simple_power(3, 1) => false\n        is_simple_power(5, 3) => false\n        \"\"\"\n        if n == 1:\n            return x == 1\n        power = 1\n        while power <= x:\n            if power == x:\n                return True\n            power *= n\n        return False\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 1 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 1 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

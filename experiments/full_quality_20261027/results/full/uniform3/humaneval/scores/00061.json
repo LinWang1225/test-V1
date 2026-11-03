@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/61",
+  "dataset": "humaneval",
+  "index": 61,
+  "policy": "uniform3",
+  "generation_sha256": "476e4aa7c28091f4be6d49f19428413f14532d9520a8a7e8a7fd27d62651f895",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef correct_bracketing(brackets: str):\n    stack = []\n    for bracket in brackets:\n        if bracket == '(':\n            stack.append(bracket)\n        else:\n            if not stack:\n                return False\n            stack.pop()\n    return not stack\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

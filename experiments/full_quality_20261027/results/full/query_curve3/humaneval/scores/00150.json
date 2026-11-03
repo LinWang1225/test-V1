@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/150",
+  "dataset": "humaneval",
+  "index": 150,
+  "policy": "query_curve3",
+  "generation_sha256": "5593db63d5a689d5090216df62f22598d5a3b1194bd63cd107514774d3912945",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef x_or_y(n, x, y):\n    \"\"\"A simple program which should return the value of x if n is \n    a prime number and should return the value of y otherwise.\n\n    Examples:\n    for x_or_y(7, 34, 12) == 34\n    for x_or_y(15, 8, 5) == 5\n    \"\"\"\n    return x if is_prime(n) else y\n\ndef is_prime(n):\n    \"\"\"Check if a number is prime.\"\"\"\n    if n <= 1:\n        return False\n    if n <=3:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n**0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

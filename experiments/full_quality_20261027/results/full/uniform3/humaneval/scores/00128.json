@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/128",
+  "dataset": "humaneval",
+  "index": 128,
+  "policy": "uniform3",
+  "generation_sha256": "5111b5d81f7537ad921335f14b0f81fb681fd175e64a0a643d814ffb59ca8465",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "indent_body",
+  "completion": "    def prod_signss(arr):\n        \"\"\"\n        You are given an array arr of integers and you need to return\n        sum of magnitudes of integers multiplied by product of all signs\n        of each number in the array, represented by 1, -1 or 0.\n        Note: return None for empty arr.\n\n        Example:\n        >>> prod_signs([1, 2, 2, -4]) == -9\n        >>> prod_signs([0, 1]) == 0\n        >>> prod_signs([]) == None\n        \"\"\"\n        if not arr:\n            return None\n        product_of_signs = 1\n        sum_of_magnitudes = 0\n        for num in arr:\n            product_of_signs *= 1 if num > 0 else -1 if num < 0 else 0\n            sum_of_magnitudes += abs(num)\n        return product_of_signs * sum_of_magnitudes\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

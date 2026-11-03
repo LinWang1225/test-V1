@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/8",
+  "dataset": "humaneval",
+  "index": 8,
+  "policy": "uniform3",
+  "generation_sha256": "bf8e495c68cf576f73eb670c7e3361c15b9a53191fa31daf4281c8fcd85288b2",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of the sum and product of all the integers in the list.\n    Empty sum should be 0 and empty product should be 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n    sum_total = 0\n    product_total = 1\n    for num in numbers:\n        sum_total += num\n        product_total *= num\n    return (sum_total, product_total)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

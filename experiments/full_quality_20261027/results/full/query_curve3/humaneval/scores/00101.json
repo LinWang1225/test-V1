@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/101",
+  "dataset": "humaneval",
+  "index": 101,
+  "policy": "query_curve3",
+  "generation_sha256": "c33c3b6bd8c77b7e2625970bfde95188884e38b3b41a1d50d924c33bbf5a67ae",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef words_string(s):\n    \"\"\"\n    You will be given a string of words separated by commas or spaces. Your task is\n    to split the string into words and return an array of the words.\n    \n    For example:\n    words_string(\"Hi, my name is John\") == [\"Hi\", \"my\", \"name\", \"is\", \"John\"]\n    words_string(\"One, two, three, four, five, six\") == [\"One\", \"two\", \"three\", \"four\", \"five\", \"six\"]\n    \"\"\"\n    # Split the string on commas and spaces, then filter out any empty strings\n    return [word for word in s.split(', ') if word]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

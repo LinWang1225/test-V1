@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/116",
+  "dataset": "humaneval",
+  "index": 116,
+  "policy": "query_curve3",
+  "generation_sha256": "2309d25946e14d38cee9ee13930f9d0507bd610136ada806a7c4f27b27a3bd0f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_array(arr):\n    \"\"\"\n    Sorts the array based on the number of ones in the binary representation of each element,\n    with ties broken by the decimal value.\n    \"\"\"\n    def key(x):\n        return (bin(x).count('1'), x)\n    return sorted(arr, key=key)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

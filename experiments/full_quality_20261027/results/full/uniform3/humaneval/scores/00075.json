@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/75",
+  "dataset": "humaneval",
+  "index": 75,
+  "policy": "uniform3",
+  "generation_sha256": "29e15ad122fb85dfcb4571d749743fd0b504d1a51dbd3dad31a36e76cb016708",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_multiply_prime(a):\n    \"\"\"Write a function that returns true if the given number is the multiplication of 3 prime numbers and false otherwise.\n    Knowing that (a) is less than 100.\n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 39, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89]\n    for i in range(1, len(primes)):\n        for j in range(i+1, len(primes)):\n            for k in range(j+1, len(primes)):\n                product = primes[i] * primes[j] * primes[k]\n                if product == a:\n                    return True\n    return False\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/140",
+  "dataset": "humaneval",
+  "index": 140,
+  "policy": "full4",
+  "generation_sha256": "502b0df1d515bc6aafa037c6db1f107e76aa3a830d99464d68ec734e0e4e2875",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fix_spaces(text):\n    \"\"\"\n    Given a string text, replace all spaces in it with underscores, \n    and if a string has more than 2 consecutive spaces, \n    then replace all consecutive spaces with - \n    \"\"\"\n    # Split the text into words and spaces\n    words = text.split()\n    # Replace multiple spaces with '-'\n    result = []\n    i = 0\n    while i < len(words):\n        if words[i] == '':\n            # Count consecutive spaces\n            count = 0\n            while i < len(words) and words[i] == '':\n                count += 1\n                i += 1\n            # Replace with '-'\n            result.append('-' * count)\n        else:\n            # Replace single space with '_'\n            result.append(words[i].replace(' ', '_'))\n            i += 1\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 2 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 2 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/152",
+  "dataset": "humaneval",
+  "index": 152,
+  "policy": "query_only3",
+  "generation_sha256": "c79440e94f5b0b8511d65e38994b32d2e351f1d2350e84806658ea60d276a4b8",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef compare(game, guess):\n    \"\"\"I think we all remember that feeling when the result of some long-awaited\n    event is finally known. The feelings and thoughts you have at that moment are\n    definitely worth noting down and comparing.\n    Your task is to determine if a person correctly guessed the results of a number of matches.\n    You are given two arrays of scores and guesses of equal length, where each index shows a match. \n    Return an array of the same length denoting how far off each guess was. If they have guessed correctly,\n    the value is 0, and if not, the value is the absolute difference between the guess and the score.\"\"\"\n    return [abs(game[i] - guess[i]) for i in range(len(game))]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

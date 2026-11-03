@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/137",
+  "dataset": "humaneval",
+  "index": 137,
+  "policy": "adaptive005",
+  "generation_sha256": "9b48b26d43948cb7764bec07b28d1ded3731ed24038dbf6ca11a8e7cb1d58dec",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef compare_one(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing real numbers, and returns the larger variable in its given variable type. Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be . or ,\n    \"\"\"\n    # Convert both a and b to float for comparison\n    try:\n        a_float = float(a)\n        b_float = float(b)\n    except ValueError:\n        # If conversion fails, it's a string, so compare as is\n        return a if a > b else b\n\n    # Compare the float values\n    if a_float > b_float:\n        return a\n    elif a_float < b_float:\n        return b\n    else:\n        return None\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '>' not supported between instances of 'int' and 'str'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '>' not supported between instances of 'int' and 'str'\"]\n",
+    "returncode": 0
+  }
+}

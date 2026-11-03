@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/115",
+  "dataset": "humaneval",
+  "index": 115,
+  "policy": "full4",
+  "generation_sha256": "bca6194475ddb0e6a0ee4f25f2fa24500fcba114453a4c77d3c7d04df587991e",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef max_fill(grid, capacity):\n    import math\n    \"\"\"\n    You are given a rectangular grid of wells. Each row represents a single well,\n    and each 1 in a row represents a single unit of water.\n    Each well has a corresponding bucket that can be used to extract water from it, \n    and all buckets have the same capacity.\n    Your task is to use the buckets to empty the wells.\n    Output the number of times you need to lower the buckets.\n    \"\"\"\n    total = 0\n    for well in grid:\n        water = sum(well)\n        if water == 0:\n            continue\n        # Calculate the number of buckets needed for this well\n        buckets_needed = math.ceil(water / capacity)\n        total += buckets_needed\n    return total\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

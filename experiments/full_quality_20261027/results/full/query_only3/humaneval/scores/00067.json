@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/67",
+  "dataset": "humaneval",
+  "index": 67,
+  "policy": "query_only3",
+  "generation_sha256": "906a5698b3278eb4765121001bb99dcad9b60ca22935cfeedad36f3763cf6259",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fruit_distribution(s, n):\n    \"\"\"\n    In this task, you will be given a string that represents a number of apples and oranges \n    that are distributed in a basket of fruit. This basket contains apples, oranges, and mango fruits. \n    Given the string that represents the total number of the oranges and apples and an integer that represent the total number of the fruits \n    in the basket, return the number of the mango fruits in the basket.\n    for example:\n    fruit_distribution(\"5 apples and 6 oranges\", 19) -> 19 - 5 - 6 = 8\n    fruit_distribution(\"0 apples and 1 oranges\",3) -> 3 - 0 - 1 = 2\n    fruit_distribution(\"2 apples and 3 oranges\", 100) -> 100 - 2 - 3 = 95\n    fruit_distribution(\"100 apples and 1 oranges\",120) -> 120 - 100 - 1 = 19\n    \"\"\"\n    # Extract the numbers from the string\n    numbers = [int(num) for num in s.split() if num.isdigit()]\n    # Sum the numbers and subtract from total\n    return n - sum(numbers)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

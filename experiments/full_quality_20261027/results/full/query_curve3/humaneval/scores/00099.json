@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/99",
+  "dataset": "humaneval",
+  "index": 99,
+  "policy": "query_curve3",
+  "generation_sha256": "0dcfa8c812315ae5574e6152efac3dd15d6a6665646941da5496b5d90037e808",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef closest_integer(value):\n    '''\n    Create a function that takes a value (string) representing a number\n    and returns the closest integer to it. If the number is equidistant\n    from two integers, round it away from zero.\n\n    Examples\n    >>> closest_integer(\"10\")\n    10\n    >>> closest_integer(\"15.3\")\n    15\n    '''\n    num = float(value)\n    decimal_part = num - int(num)\n    if decimal_part >= 0.5 or (decimal_part < 0.5 and num < 0):\n        return int(num + 1)\n    else:\n        return int(num)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 3']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 3']\n",
+    "returncode": 0
+  }
+}

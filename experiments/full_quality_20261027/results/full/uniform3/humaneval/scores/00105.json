@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/105",
+  "dataset": "humaneval",
+  "index": 105,
+  "policy": "uniform3",
+  "generation_sha256": "4446137fb97331d58f3175f0749a1330a835d66205e7502ff629485b47f90484",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef by_length(arr):\n    \"\"\"\n    Given an array of integers, sort the integers that are between 1 and 9 inclusive,\n    reverse the resulting array, and replace each digit by its corresponding name.\n    \"\"\"\n    # Filter numbers between 1 and 9\n    filtered = [num for num in arr if 1 <= num <= 9]\n    # Sort the filtered numbers\n    sorted_numbers = sorted(filtered)\n    # Reverse the sorted list\n    reversed_list = sorted_numbers[::-1]\n    # Map each number to its corresponding word\n    mapping = {\n        1: \"One\",\n        2: \"Two\",\n        1: \"One\",  # Note: This is a duplicate, but it's intentional\n        3: \"Three\",\n        4: \"Four\",\n        5: \"Five\",\n        6: \"Six\",\n        7: \"Seven\",\n        8: \"Eight\",\n        9: \"Nine\"\n    }\n    # Map each number in the reversed list to its corresponding word\n    result = [mapping[num] for num in reversed_list]\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

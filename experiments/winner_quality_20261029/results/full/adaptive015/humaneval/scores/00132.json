@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/132",
+  "dataset": "humaneval",
+  "index": 132,
+  "policy": "adaptive015",
+  "generation_sha256": "22cc2f1d1765b77428be7ad65b00f447464d99e633723ddad9473db3877b774c",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_nested(string(string:\n    '''\n    Create a function that takes a string as input which contains only square brackets.\n    The function should return True if and only if there is a valid subsequence of brackets \n    where at least one bracket in the subsequence is nested.\n    '''\n    if not string:\n        return False\n\n    stack = []\n    nested = False\n\n    for char in string:\n        if char == '[':\n            stack.append(char)\n        elif char == ']':\n            if stack:\n                stack.pop()\n                nested = True\n            else:\n                return False\n\n    return nested and len(stack) == 0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 17)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 17)']\n",
+    "returncode": 0
+  }
+}

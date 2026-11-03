@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/99",
+  "dataset": "humaneval",
+  "index": 99,
+  "policy": "uniform3",
+  "generation_sha256": "765ae1467383eacf44e22304153fe004b7bf7ee686f7cd12eda440931c054c2b",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef closest_integer(value):\n    import math\n\n    # Convert the string to a float\n    num = float(value)\n    \n    # Round the number using the specified rules\n    return round(num) if num.is_integer() else round(num + 1e-10)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 3']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 3']\n",
+    "returncode": 0
+  }
+}

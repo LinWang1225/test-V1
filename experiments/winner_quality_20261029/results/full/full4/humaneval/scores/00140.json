@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/140",
+  "dataset": "humaneval",
+  "index": 140,
+  "policy": "full4",
+  "generation_sha256": "5520007fa167ad8f8772362a846d3a8e9caa02873c23e510c2a00a4a238dbc3e",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fix_spaces(text):\n    result = []\n    i = 0\n    while i < len(text):\n        if text[i] == ' ':\n            count = 0\n            while i < len(text) and text[i] == ' ':\n                count += 1\n                i += 1\n            if count > 2:\n                result.append('-')\n            else:\n                result.append('_' * count)\n        else:\n            result.append(text[i])\n            i += 1\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/122",
+  "dataset": "humaneval",
+  "index": 122,
+  "policy": "uniform3",
+  "generation_sha256": "1f2828bd45a186457cf4545243fb2ab4d4f910952894e6700969b7c26ba37b9e",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef add_elements(arr, k):\n    \"\"\"\n    Given a non-empty array of integers arr and an integer k, return\n    the sum of the elements with at most two digits from the first k elements of arr.\n\n    Example:\n\n        Input: arr = [111,21,3,4000,5,6,7,8,9], k = 4\n        Output: 24 # sum of 21 + 3\n    \"\"\"\n    return sum(num for num in arr[:k] if abs(num) < 100)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

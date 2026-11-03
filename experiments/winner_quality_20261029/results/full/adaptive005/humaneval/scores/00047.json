@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/47",
+  "dataset": "humaneval",
+  "index": 47,
+  "policy": "adaptive005",
+  "generation_sha256": "3b4fe5148fa59786e3eb59532b685eaa62fe8a756a5a8b78e0a7ef0320b64360",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef median(l: list):\n    \"\"\"Return median of elements in the list l.\n    >>> median([3, 1, 2, 4, 5])\n    3\n    >>> median([-10, 4, 6, 1000, 10, 20])\n    15.0\n    \"\"\"\n    l.sort()\n    n = len(l)\n    if n % 2 == 1:\n        return l[n // 2]\n    else:\n        return (l[n // 2 - 1] + l[n // 2]) / 2.0\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

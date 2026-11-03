@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/146",
+  "dataset": "humaneval",
+  "index": 146,
+  "policy": "adaptive030",
+  "generation_sha256": "4a36a2228bc9d1e7495f45c9836dcb3df6edb7297e7c0154efc13bf61573cc52",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef specialFilter(nums):\n    count = 0\n    for num in nums:\n        if num > 10:\n            first_digit = int(str(num)[0]\n            last_digit = int(str(num)[-1]\n            if first_digit % 2 == 1 and last_digit %2 == 1:\n                count +=1\n    return count\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax. Perhaps you forgot a comma? (<string>, line 16)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax. Perhaps you forgot a comma? (<string>, line 16)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/82",
+  "dataset": "humaneval",
+  "index": 82,
+  "policy": "fp16",
+  "generation_sha256": "8a6aa53ec80c1936a4a7aa7c4cc711cf379af68bf7647a21f2a804588ed52f27",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef prime_length(string):\n    \"\"\"Write a function that takes a string and returns True if the string\n    length is a prime number or False otherwise\n    Examples\n    prime_length('Hello') == True\n    prime_length('abcdcba') == True\n    prime_length('kittens') == True\n    prime_length('orange') == False\n    \"\"\"\n    def is_prime(n):\n        if n <= 1:\n            return False\n        if n <= 3:\n            return True\n        if n % 2 == 0 or n % 3 == 0:\n            return False\n        i = 5\n        while i * i <= n:\n            if n % i == 0 or n % (i + 2) == 0:\n                return False\n            i += 6\n        return True\n\n    return is_prime(len(string))\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

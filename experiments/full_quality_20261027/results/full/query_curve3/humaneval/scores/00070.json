@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/70",
+  "dataset": "humaneval",
+  "index": 70,
+  "policy": "query_curve3",
+  "generation_sha256": "f7bc26922be769c91f994b9d343644c11f7b855e12425eb682e5ee889cca47fb",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef strange_sort_list(lst):\n    result = []\n    while lst:\n        min_val = min(lst)\n        max_val = max(lst)\n        result.append(min_val)\n        result.append(max_val)\n        lst.remove(min_val)\n        lst.remove(max_val)\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: list.remove(x): x not in list']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: list.remove(x): x not in list']\n",
+    "returncode": 0
+  }
+}

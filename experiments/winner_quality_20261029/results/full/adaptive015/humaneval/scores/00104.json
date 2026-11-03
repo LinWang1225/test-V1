@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/104",
+  "dataset": "humaneval",
+  "index": 104,
+  "policy": "adaptive015",
+  "generation_sha256": "f8df2a4d424cc582be8d33516016258865c518aeafb904d0d4b7926115ebfe1b",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef unique_digits(x):\n    \"\"\"Given a list of positive integers x. return a sorted list of all \n    elements that hasn't any even digit.\"\"\"\n    result = []\n    for num in x:\n        digits = str(num)\n        if all(d % 2 != 0 for d in digits):\n            result.append(num)\n    return sorted(result)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: not all arguments converted during string formatting']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: not all arguments converted during string formatting']\n",
+    "returncode": 0
+  }
+}

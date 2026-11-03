@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/64",
+  "dataset": "humaneval",
+  "index": 64,
+  "policy": "adaptive030",
+  "generation_sha256": "d9db0db388878a0ebb4a95d5a56c166c9aa0c471b6925aac8ddf210e2402c147",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "indent_body",
+  "completion": "    def vowels(s):\n        vowels = {'a', 'e', 'i', 'o', 'u', 'y'}\n        count = 0\n        for i, char in enumerate(s, strict=False):\n            if i == len(s) - 1 and char.lower() == 'y':\n                count += 1\n            elif char.lower() in vowels:\n                count += 1\n        return count\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: Test 1']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: Test 1']\n",
+    "returncode": 0
+  }
+}

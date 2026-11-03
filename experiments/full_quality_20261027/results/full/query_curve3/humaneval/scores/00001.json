@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/1",
+  "dataset": "humaneval",
+  "index": 1,
+  "policy": "query_curve3",
+  "generation_sha256": "cd33350f24ea721aae925bfe8de1f76bc507e1cac661049234a856e24c6a9c5a",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\"Input to this function is a string containing multiple groups of nested parentheses. Your goal is to\n    separate those groups into separate strings and return the list of those.\n    Separate groups are balanced (each open brace is properly closed) and not nested within each other.\n    Ignore any spaces in the input string.\n    >>> separate_paren_groups('( ) (( )) (( )( ))')\n    ['()', '(())', '(()())']\n    \"\"\"\n    # Remove all spaces from the input string\n    cleaned = paren_string.replace(' ', '')\n    result = []\n    start = 0\n    balance = 0\n    for i, char in enumerate(cleaned):\n        if char == '(':\n            balance += 1\n        elif char == ')':\n            balance -= 1\n        # When balance returns to 0, we have a complete group\n        if balance == 0:\n            result.append(cleaned[start:i+1])\n            start = i + 1\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

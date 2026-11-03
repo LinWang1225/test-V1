@@ -1,0 +1,2856 @@
+{
+  "runs": {
+    "fp16": "operator_profile_20261019_210036",
+    "kvarn": "operator_kvarn_firstpass_20261020_153745",
+    "turboquant": "operator_turboquant_firstpass_20261020_queue",
+    "fp8": "operator_fp8_firstpass_20261020_queue"
+  },
+  "totals": {
+    "fp16": {
+      "total": 2379.3612851810003,
+      "busy": 2379.360872296387,
+      "tokens": 688128,
+      "samples": 672,
+      "phase_min": 1.0,
+      "datasets": {
+        "gov_report": 312.427814139,
+        "hotpotqa": 413.483201196,
+        "humaneval": 307.36162400099994,
+        "lcc": 154.112842652,
+        "math500": 372.95836627600005,
+        "passage_retrieval_en": 412.9389823519999,
+        "qasper": 180.825020077,
+        "trec": 225.253434488
+      },
+      "cats": {
+        "decode / attention_read_dequant_compute_combined": 630.61035995,
+        "decode / mlp_gemm": 758.18871986,
+        "decode / attention_module_gemm": 312.94538270199996,
+        "decode / gemm_unattributed": 95.143456786,
+        "mixed / mlp_gemm": 170.91072275899998,
+        "mixed / attention_read_dequant_compute_combined": 141.12997619300006,
+        "decode / normalization_rope_activation": 71.00291697800002,
+        "mixed / attention_module_gemm": 62.24000760400002,
+        "decode / copy_scatter_gather_other": 22.453178049999995,
+        "prefill / mlp_gemm": 35.92215893000002,
+        "decode / kv_write_quant_pack_rotation_combined": 10.533665522999998,
+        "prefill / attention_module_gemm": 13.094214507999999,
+        "prefill / attention_read_dequant_compute_combined": 25.586664633,
+        "mixed / normalization_rope_activation": 15.381226026000002,
+        "decode / other_unclassified": 6.135113401999998,
+        "decode / gpu_memset": 1.8709963120000006,
+        "decode / sampling_or_unattributed_softmax": 0.567240028,
+        "mixed / kv_write_quant_pack_rotation_combined": 1.1189719649999996,
+        "prefill / normalization_rope_activation": 3.2321766159999994,
+        "decode / gpu_memcpy": 0.5283967480000001,
+        "mixed / gemm_unattributed": 0.31684278399999993,
+        "prefill / kv_write_quant_pack_rotation_combined": 0.237920229,
+        "prefill / gemm_unattributed": 0.10165306299999997,
+        "mixed / copy_scatter_gather_other": 0.026075219999999996,
+        "prefill / gpu_memset": 0.005336352000000001,
+        "mixed / gpu_memset": 0.023697771000000006,
+        "mixed / other_unclassified": 0.030272212000000014,
+        "prefill / other_unclassified": 0.010172247999999997,
+        "prefill / copy_scatter_gather_other": 0.005727459000000001,
+        "mixed / gpu_memcpy": 0.004434856,
+        "mixed / sampling_or_unattributed_softmax": 0.0017869520000000003,
+        "prefill / sampling_or_unattributed_softmax": 0.0005651169999999997,
+        "prefill / gpu_memcpy": 0.0012553450000000002
+      },
+      "calls": {
+        "decode / attention_read_dequant_compute_combined": 7526340,
+        "decode / mlp_gemm": 7595784,
+        "decode / attention_module_gemm": 7725276,
+        "decode / gemm_unattributed": 105497,
+        "mixed / mlp_gemm": 25560,
+        "mixed / attention_read_dequant_compute_combined": 12636,
+        "decode / normalization_rope_activation": 22892849,
+        "mixed / attention_module_gemm": 25380,
+        "decode / copy_scatter_gather_other": 7930132,
+        "prefill / mlp_gemm": 9216,
+        "decode / kv_write_quant_pack_rotation_combined": 3797892,
+        "prefill / attention_module_gemm": 9396,
+        "prefill / attention_read_dequant_compute_combined": 4140,
+        "mixed / normalization_rope_activation": 76167,
+        "decode / other_unclassified": 1378740,
+        "decode / gpu_memset": 3927384,
+        "decode / sampling_or_unattributed_softmax": 105497,
+        "mixed / kv_write_quant_pack_rotation_combined": 12636,
+        "prefill / normalization_rope_activation": 24955,
+        "decode / gpu_memcpy": 555162,
+        "mixed / gemm_unattributed": 351,
+        "prefill / kv_write_quant_pack_rotation_combined": 4140,
+        "prefill / gemm_unattributed": 115,
+        "mixed / copy_scatter_gather_other": 2106,
+        "prefill / gpu_memset": 3924,
+        "mixed / gpu_memset": 17244,
+        "mixed / other_unclassified": 5814,
+        "prefill / other_unclassified": 2147,
+        "prefill / copy_scatter_gather_other": 597,
+        "mixed / gpu_memcpy": 2655,
+        "mixed / sampling_or_unattributed_softmax": 351,
+        "prefill / sampling_or_unattributed_softmax": 115,
+        "prefill / gpu_memcpy": 1019
+      },
+      "wall": 8080.333384416997
+    },
+    "kvarn": {
+      "total": 2349.9030838329995,
+      "busy": 2349.8973536474614,
+      "tokens": 688128,
+      "samples": 672,
+      "phase_min": 1.0,
+      "datasets": {
+        "gov_report": 311.77902113999994,
+        "hotpotqa": 369.81450870300006,
+        "humaneval": 321.1178817240001,
+        "lcc": 170.651510338,
+        "math500": 385.43801049200016,
+        "passage_retrieval_en": 351.053955021,
+        "qasper": 203.05563720499998,
+        "trec": 236.99255920999997
+      },
+      "cats": {
+        "decode / attention_read_dequant_compute_combined": 698.0933247469998,
+        "decode / mlp_gemm": 656.5999219720002,
+        "decode / attention_module_gemm": 272.13568956500006,
+        "decode / gemm_unattributed": 82.30096170099998,
+        "decode / kv_write_quant_pack_rotation_combined": 52.65221042899999,
+        "mixed / mlp_gemm": 164.58068154400002,
+        "mixed / attention_read_dequant_compute_combined": 118.54804146600002,
+        "decode / normalization_rope_activation": 61.80812226000001,
+        "mixed / attention_module_gemm": 59.866930964000005,
+        "mixed / kv_write_quant_pack_rotation_combined": 31.370856003,
+        "prefill / mlp_gemm": 36.397331665999985,
+        "prefill / attention_module_gemm": 13.239300398000001,
+        "decode / gpu_memcpy": 5.262994886,
+        "mixed / normalization_rope_activation": 14.746389984999997,
+        "decode / copy_scatter_gather_other": 8.235071942999996,
+        "prefill / attention_read_dequant_compute_combined": 23.108809620000006,
+        "decode / other_unclassified": 16.666481020000006,
+        "decode / gpu_memset": 1.559855526,
+        "mixed / gpu_memcpy": 3.1786624320000003,
+        "mixed / copy_scatter_gather_other": 9.025976198,
+        "mixed / other_unclassified": 10.921458937,
+        "decode / sampling_or_unattributed_softmax": 0.4985581060000001,
+        "prefill / normalization_rope_activation": 3.24348018,
+        "prefill / kv_write_quant_pack_rotation_combined": 3.3013446489999985,
+        "mixed / gemm_unattributed": 0.2968807060000001,
+        "prefill / gpu_memcpy": 0.343957581,
+        "prefill / gemm_unattributed": 0.10186569699999999,
+        "prefill / gpu_memset": 0.005512745000000001,
+        "mixed / gpu_memset": 0.020821992,
+        "prefill / other_unclassified": 0.962954726,
+        "prefill / copy_scatter_gather_other": 0.826364355,
+        "mixed / sampling_or_unattributed_softmax": 0.0017031769999999997,
+        "prefill / sampling_or_unattributed_softmax": 0.0005666570000000001
+      },
+      "calls": {
+        "decode / attention_read_dequant_compute_combined": 13110768,
+        "decode / mlp_gemm": 6555384,
+        "decode / attention_module_gemm": 6557256,
+        "decode / gemm_unattributed": 91047,
+        "decode / kv_write_quant_pack_rotation_combined": 9970848,
+        "mixed / mlp_gemm": 23868,
+        "mixed / attention_read_dequant_compute_combined": 87228,
+        "decode / normalization_rope_activation": 19757199,
+        "mixed / attention_module_gemm": 23688,
+        "mixed / kv_write_quant_pack_rotation_combined": 59724,
+        "prefill / mlp_gemm": 9216,
+        "prefill / attention_module_gemm": 9396,
+        "decode / gpu_memcpy": 4388858,
+        "mixed / normalization_rope_activation": 71176,
+        "decode / copy_scatter_gather_other": 2718359,
+        "prefill / attention_read_dequant_compute_combined": 6948,
+        "decode / other_unclassified": 6007099,
+        "decode / gpu_memset": 3279564,
+        "mixed / gpu_memcpy": 154176,
+        "mixed / copy_scatter_gather_other": 454272,
+        "mixed / other_unclassified": 923536,
+        "decode / sampling_or_unattributed_softmax": 91047,
+        "prefill / normalization_rope_activation": 24955,
+        "prefill / kv_write_quant_pack_rotation_combined": 13356,
+        "mixed / gemm_unattributed": 328,
+        "prefill / gpu_memcpy": 15354,
+        "prefill / gemm_unattributed": 115,
+        "prefill / gpu_memset": 3924,
+        "mixed / gpu_memset": 14868,
+        "prefill / other_unclassified": 35843,
+        "prefill / copy_scatter_gather_other": 19317,
+        "mixed / sampling_or_unattributed_softmax": 328,
+        "prefill / sampling_or_unattributed_softmax": 115
+      },
+      "wall": 9310.188794586807
+    },
+    "turboquant": {
+      "total": 2989.429557999001,
+      "busy": 2989.4270743334955,
+      "tokens": 688128,
+      "samples": 672,
+      "phase_min": 1.0,
+      "datasets": {
+        "gov_report": 421.66901396000003,
+        "hotpotqa": 523.0758204140001,
+        "humaneval": 354.04135587099995,
+        "lcc": 210.83506054999998,
+        "math500": 425.545959975,
+        "passage_retrieval_en": 495.513159363,
+        "qasper": 255.51431204299996,
+        "trec": 303.234875823
+      },
+      "cats": {
+        "decode / attention_read_dequant_compute_combined": 1384.9925012410008,
+        "decode / mlp_gemm": 652.6605673459999,
+        "decode / attention_module_gemm": 270.43596563000006,
+        "decode / gemm_unattributed": 82.26584007099997,
+        "mixed / mlp_gemm": 163.86748661800002,
+        "decode / normalization_rope_activation": 61.291376581,
+        "mixed / attention_module_gemm": 59.645780912,
+        "decode / kv_write_quant_pack_rotation_combined": 26.304314108000007,
+        "mixed / attention_read_dequant_compute_combined": 120.778790592,
+        "prefill / mlp_gemm": 36.21445608499999,
+        "decode / copy_scatter_gather_other": 31.406538821000005,
+        "decode / other_unclassified": 25.356180614000003,
+        "prefill / attention_module_gemm": 13.186601635,
+        "decode / gpu_memcpy": 4.802831283000001,
+        "mixed / normalization_rope_activation": 14.720463954000001,
+        "prefill / attention_read_dequant_compute_combined": 23.15226489999999,
+        "decode / gpu_memset": 1.6788546919999998,
+        "mixed / gpu_memcpy": 4.105035379,
+        "mixed / kv_write_quant_pack_rotation_combined": 2.745303598,
+        "decode / sampling_or_unattributed_softmax": 0.4919285260000001,
+        "prefill / normalization_rope_activation": 3.237985362,
+        "mixed / other_unclassified": 1.673373374,
+        "mixed / copy_scatter_gather_other": 2.228986537,
+        "mixed / gemm_unattributed": 0.2965446330000001,
+        "prefill / kv_write_quant_pack_rotation_combined": 0.6136153569999998,
+        "prefill / gpu_memcpy": 0.45302829600000005,
+        "prefill / gemm_unattributed": 0.101662857,
+        "prefill / other_unclassified": 0.32139181700000014,
+        "prefill / copy_scatter_gather_other": 0.37142158300000006,
+        "prefill / gpu_memset": 0.005415694,
+        "mixed / gpu_memset": 0.020793993999999996,
+        "mixed / sampling_or_unattributed_softmax": 0.001688262999999999,
+        "prefill / sampling_or_unattributed_softmax": 0.0005676460000000001
+      },
+      "calls": {
+        "decode / attention_read_dequant_compute_combined": 9461172,
+        "decode / mlp_gemm": 6555384,
+        "decode / attention_module_gemm": 6557256,
+        "decode / gemm_unattributed": 91047,
+        "mixed / mlp_gemm": 23868,
+        "decode / normalization_rope_activation": 19757199,
+        "mixed / attention_module_gemm": 23688,
+        "decode / kv_write_quant_pack_rotation_combined": 6191196,
+        "mixed / attention_read_dequant_compute_combined": 62784,
+        "prefill / mlp_gemm": 9216,
+        "decode / copy_scatter_gather_other": 9931371,
+        "decode / other_unclassified": 9927840,
+        "prefill / attention_module_gemm": 9396,
+        "decode / gpu_memcpy": 3281565,
+        "mixed / normalization_rope_activation": 71176,
+        "prefill / attention_read_dequant_compute_combined": 6508,
+        "decode / gpu_memset": 3279564,
+        "mixed / gpu_memcpy": 53392,
+        "mixed / kv_write_quant_pack_rotation_combined": 22304,
+        "decode / sampling_or_unattributed_softmax": 91047,
+        "prefill / normalization_rope_activation": 24955,
+        "mixed / other_unclassified": 74424,
+        "mixed / copy_scatter_gather_other": 63696,
+        "mixed / gemm_unattributed": 328,
+        "prefill / kv_write_quant_pack_rotation_combined": 7820,
+        "prefill / gpu_memcpy": 7067,
+        "prefill / gemm_unattributed": 115,
+        "prefill / other_unclassified": 16387,
+        "prefill / copy_scatter_gather_other": 10453,
+        "prefill / gpu_memset": 3924,
+        "mixed / gpu_memset": 14904,
+        "mixed / sampling_or_unattributed_softmax": 328,
+        "prefill / sampling_or_unattributed_softmax": 115
+      },
+      "wall": 8363.054462436587
+    },
+    "fp8": {
+      "total": 1887.6589694409997,
+      "busy": 1887.659043587158,
+      "tokens": 688128,
+      "samples": 672,
+      "phase_min": 1.0,
+      "datasets": {
+        "gov_report": 232.23722965800002,
+        "hotpotqa": 276.782049353,
+        "humaneval": 293.109962213,
+        "lcc": 133.75243233100002,
+        "math500": 357.81968820400004,
+        "passage_retrieval_en": 262.89680833200003,
+        "qasper": 154.072134724,
+        "trec": 176.98866462599997
+      },
+      "cats": {
+        "decode / mlp_gemm": 659.0403094399999,
+        "decode / other_unclassified": 10.575595887999967,
+        "decode / attention_module_gemm": 273.829050928,
+        "decode / gemm_unattributed": 82.43068286199997,
+        "mixed / mlp_gemm": 162.36206640599997,
+        "decode / kv_write_quant_pack_rotation_combined": 34.212405862000004,
+        "mixed / other_unclassified": 1.5736626990000093,
+        "mixed / attention_module_gemm": 59.122632667999994,
+        "decode / normalization_rope_activation": 62.26464779000003,
+        "prefill / mlp_gemm": 35.96481323200001,
+        "prefill / attention_module_gemm": 13.100720419,
+        "prefill / other_unclassified": 0.3452677179999999,
+        "mixed / normalization_rope_activation": 14.714590349,
+        "decode / gpu_memset": 1.5756067020000004,
+        "mixed / kv_write_quant_pack_rotation_combined": 2.066172870000001,
+        "decode / copy_scatter_gather_other": 2.097962562,
+        "decode / sampling_or_unattributed_softmax": 0.5049305680000001,
+        "prefill / normalization_rope_activation": 3.2374364040000003,
+        "decode / gpu_memcpy": 0.6408225489999999,
+        "prefill / kv_write_quant_pack_rotation_combined": 0.46627765799999993,
+        "mixed / gemm_unattributed": 0.29720353799999993,
+        "prefill / gemm_unattributed": 0.101897296,
+        "mixed / copy_scatter_gather_other": 0.025544736000000002,
+        "prefill / gpu_memset": 0.005387228,
+        "mixed / gpu_memset": 0.021079542000000003,
+        "mixed / gpu_memcpy": 0.006049549000000001,
+        "prefill / copy_scatter_gather_other": 0.005897499,
+        "mixed / sampling_or_unattributed_softmax": 0.001693102,
+        "prefill / sampling_or_unattributed_softmax": 0.0005672029999999996,
+        "prefill / gpu_memcpy": 0.0017706490000000004,
+        "decode / attention_read_dequant_compute_combined": 312.15395887000005,
+        "mixed / attention_read_dequant_compute_combined": 128.89513650700002,
+        "prefill / attention_read_dequant_compute_combined": 26.017128147999998
+      },
+      "calls": {
+        "decode / mlp_gemm": 6555384,
+        "decode / other_unclassified": 4465011,
+        "decode / attention_module_gemm": 6557256,
+        "decode / gemm_unattributed": 91047,
+        "mixed / mlp_gemm": 23832,
+        "decode / kv_write_quant_pack_rotation_combined": 3277692,
+        "mixed / other_unclassified": 29080,
+        "mixed / attention_module_gemm": 23688,
+        "decode / normalization_rope_activation": 19757199,
+        "prefill / mlp_gemm": 9216,
+        "prefill / attention_module_gemm": 9432,
+        "prefill / other_unclassified": 6286,
+        "mixed / normalization_rope_activation": 71176,
+        "decode / gpu_memset": 3279564,
+        "mixed / kv_write_quant_pack_rotation_combined": 11808,
+        "decode / copy_scatter_gather_other": 546230,
+        "decode / sampling_or_unattributed_softmax": 91047,
+        "prefill / normalization_rope_activation": 24955,
+        "decode / gpu_memcpy": 1005173,
+        "prefill / kv_write_quant_pack_rotation_combined": 4140,
+        "mixed / gemm_unattributed": 328,
+        "prefill / gemm_unattributed": 115,
+        "mixed / copy_scatter_gather_other": 2296,
+        "prefill / gpu_memset": 3924,
+        "mixed / gpu_memset": 15012,
+        "mixed / gpu_memcpy": 6448,
+        "prefill / copy_scatter_gather_other": 713,
+        "mixed / sampling_or_unattributed_softmax": 328,
+        "prefill / sampling_or_unattributed_softmax": 115,
+        "prefill / gpu_memcpy": 1939,
+        "decode / attention_read_dequant_compute_combined": 6485940,
+        "mixed / attention_read_dequant_compute_combined": 34344,
+        "prefill / attention_read_dequant_compute_combined": 4644
+      },
+      "wall": 6988.170356741175
+    }
+  },
+  "points": [
+    {
+      "method": "fp16",
+      "point": "gov_report_b000_r1",
+      "samples": 8,
+      "gpu_s": 23.797267314,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b000_r1/attempts/20261020_010322_703397"
+    },
+    {
+      "method": "fp16",
+      "point": "gov_report_b001_r1",
+      "samples": 8,
+      "gpu_s": 29.581612693999997,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b001_r1/attempts/20261020_011019_587758"
+    },
+    {
+      "method": "fp16",
+      "point": "gov_report_b002_r1",
+      "samples": 8,
+      "gpu_s": 33.859899685,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b002_r1/attempts/20261020_011715_285236"
+    },
+    {
+      "method": "fp16",
+      "point": "gov_report_b003_r1",
+      "samples": 8,
+      "gpu_s": 47.640258675999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b003_r1/attempts/20261020_012416_845684"
+    },
+    {
+      "method": "fp16",
+      "point": "gov_report_b004_r1",
+      "samples": 8,
+      "gpu_s": 62.63047175,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b004_r1/attempts/20261020_013333_656284"
+    },
+    {
+      "method": "fp16",
+      "point": "gov_report_b005_r1",
+      "samples": 8,
+      "gpu_s": 78.469017156,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b005_r1/attempts/20261020_014652_449460"
+    },
+    {
+      "method": "fp16",
+      "point": "gov_report_b006_r1",
+      "samples": 2,
+      "gpu_s": 36.449286864,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/gov_report_b006_r1/attempts/20261020_020037_470351"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b000_r1",
+      "samples": 8,
+      "gpu_s": 29.599297119,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b000_r1/attempts/20261019_223257_551074"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b001_r1",
+      "samples": 8,
+      "gpu_s": 57.502658362000005,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b001_r1/attempts/20261019_223940_812980"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b002_r1",
+      "samples": 8,
+      "gpu_s": 69.036939245,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b002_r1/attempts/20261019_225229_818653"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b003_r1",
+      "samples": 8,
+      "gpu_s": 72.268555139,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b003_r1/attempts/20261019_230557_429781"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b004_r1",
+      "samples": 8,
+      "gpu_s": 78.736594244,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b004_r1/attempts/20261019_231934_370577"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b005_r1",
+      "samples": 8,
+      "gpu_s": 79.327397241,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b005_r1/attempts/20261019_233324_355846"
+    },
+    {
+      "method": "fp16",
+      "point": "hotpotqa_b006_r1",
+      "samples": 2,
+      "gpu_s": 27.011759846,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/hotpotqa_b006_r1/attempts/20261019_234728_623581"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b000_r1",
+      "samples": 8,
+      "gpu_s": 14.423751144,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b000_r1/attempts/20261020_092517_848784"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b001_r1",
+      "samples": 8,
+      "gpu_s": 14.484285184,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b001_r1/attempts/20261020_093210_689586"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b002_r1",
+      "samples": 8,
+      "gpu_s": 14.516223988,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b002_r1/attempts/20261020_093859_937856"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b003_r1",
+      "samples": 8,
+      "gpu_s": 14.534234974999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b003_r1/attempts/20261020_094546_717272"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b004_r1",
+      "samples": 8,
+      "gpu_s": 14.546558008,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b004_r1/attempts/20261020_095234_407173"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b005_r1",
+      "samples": 8,
+      "gpu_s": 14.572120612,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b005_r1/attempts/20261020_095921_828117"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b006_r1",
+      "samples": 8,
+      "gpu_s": 14.594743283,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b006_r1/attempts/20261020_100609_407276"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b007_r1",
+      "samples": 8,
+      "gpu_s": 14.606826788000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b007_r1/attempts/20261020_101257_717644"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b008_r1",
+      "samples": 8,
+      "gpu_s": 14.618924897000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b008_r1/attempts/20261020_101954_391240"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b009_r1",
+      "samples": 8,
+      "gpu_s": 14.627390255,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b009_r1/attempts/20261020_102651_778640"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b010_r1",
+      "samples": 8,
+      "gpu_s": 14.646580802,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b010_r1/attempts/20261020_103339_294052"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b011_r1",
+      "samples": 8,
+      "gpu_s": 14.634623551999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b011_r1/attempts/20261020_104023_377665"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b012_r1",
+      "samples": 8,
+      "gpu_s": 14.670788715,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b012_r1/attempts/20261020_104706_431909"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b013_r1",
+      "samples": 8,
+      "gpu_s": 14.668596077,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b013_r1/attempts/20261020_105351_414994"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b014_r1",
+      "samples": 8,
+      "gpu_s": 14.704512347,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b014_r1/attempts/20261020_110035_737471"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b015_r1",
+      "samples": 8,
+      "gpu_s": 14.730055445,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b015_r1/attempts/20261020_110719_808121"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b016_r1",
+      "samples": 8,
+      "gpu_s": 14.764137028,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b016_r1/attempts/20261020_111404_967809"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b017_r1",
+      "samples": 8,
+      "gpu_s": 14.856493489,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b017_r1/attempts/20261020_112050_079339"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b018_r1",
+      "samples": 8,
+      "gpu_s": 14.953894928,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b018_r1/attempts/20261020_112735_233642"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b019_r1",
+      "samples": 8,
+      "gpu_s": 15.054894447,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b019_r1/attempts/20261020_113420_075251"
+    },
+    {
+      "method": "fp16",
+      "point": "humaneval_b020_r1",
+      "samples": 4,
+      "gpu_s": 14.151988037,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/humaneval_b020_r1/attempts/20261020_114117_511207"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b000_r1",
+      "samples": 8,
+      "gpu_s": 17.828443676,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b000_r1/attempts/20261020_075120_565237"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b001_r1",
+      "samples": 8,
+      "gpu_s": 18.697308374,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b001_r1/attempts/20261020_075826_564250"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b002_r1",
+      "samples": 8,
+      "gpu_s": 19.423808164,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b002_r1/attempts/20261020_080525_761331"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b003_r1",
+      "samples": 8,
+      "gpu_s": 20.535869182,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b003_r1/attempts/20261020_081226_110058"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b004_r1",
+      "samples": 8,
+      "gpu_s": 22.49974004,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b004_r1/attempts/20261020_081927_920159"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b005_r1",
+      "samples": 8,
+      "gpu_s": 29.10494795,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b005_r1/attempts/20261020_082649_622787"
+    },
+    {
+      "method": "fp16",
+      "point": "lcc_b006_r1",
+      "samples": 2,
+      "gpu_s": 26.022725266000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/lcc_b006_r1/attempts/20261020_083521_118283"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b000_r1",
+      "samples": 8,
+      "gpu_s": 14.295607533,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b000_r1/attempts/20261020_122938_287024"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b001_r1",
+      "samples": 8,
+      "gpu_s": 14.300531769,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b001_r1/attempts/20261020_123635_901749"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b002_r1",
+      "samples": 8,
+      "gpu_s": 14.307602918999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b002_r1/attempts/20261020_124332_428305"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b003_r1",
+      "samples": 8,
+      "gpu_s": 14.314572887,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b003_r1/attempts/20261020_125028_006030"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b004_r1",
+      "samples": 8,
+      "gpu_s": 14.315656315,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b004_r1/attempts/20261020_125716_759606"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b005_r1",
+      "samples": 8,
+      "gpu_s": 14.318269618,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b005_r1/attempts/20261020_130405_552668"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b006_r1",
+      "samples": 8,
+      "gpu_s": 14.320445776,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b006_r1/attempts/20261020_131053_487811"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b007_r1",
+      "samples": 8,
+      "gpu_s": 14.324019757,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b007_r1/attempts/20261020_131738_788672"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b008_r1",
+      "samples": 8,
+      "gpu_s": 14.325226724,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b008_r1/attempts/20261020_132431_335633"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b009_r1",
+      "samples": 8,
+      "gpu_s": 14.333622401000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b009_r1/attempts/20261020_133131_692325"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b010_r1",
+      "samples": 8,
+      "gpu_s": 14.334806148,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b010_r1/attempts/20261020_133823_206463"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b011_r1",
+      "samples": 8,
+      "gpu_s": 14.349360317999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b011_r1/attempts/20261020_134511_261621"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b012_r1",
+      "samples": 8,
+      "gpu_s": 14.351150697000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b012_r1/attempts/20261020_135200_768048"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b013_r1",
+      "samples": 8,
+      "gpu_s": 14.353554792,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b013_r1/attempts/20261020_135849_761919"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b014_r1",
+      "samples": 8,
+      "gpu_s": 14.355638959,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b014_r1/attempts/20261020_140538_949734"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b015_r1",
+      "samples": 8,
+      "gpu_s": 14.357598582000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b015_r1/attempts/20261020_141230_992620"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b016_r1",
+      "samples": 8,
+      "gpu_s": 14.358176198999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b016_r1/attempts/20261020_141918_259652"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b017_r1",
+      "samples": 8,
+      "gpu_s": 14.35767589,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b017_r1/attempts/20261020_142610_397524"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b018_r1",
+      "samples": 8,
+      "gpu_s": 14.359542713000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b018_r1/attempts/20261020_143301_446316"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b019_r1",
+      "samples": 8,
+      "gpu_s": 14.357875845,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b019_r1/attempts/20261020_143951_647127"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b020_r1",
+      "samples": 8,
+      "gpu_s": 14.366288066000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b020_r1/attempts/20261020_144639_419034"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b021_r1",
+      "samples": 8,
+      "gpu_s": 14.37326578,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b021_r1/attempts/20261020_145326_887887"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b022_r1",
+      "samples": 8,
+      "gpu_s": 14.378878909,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b022_r1/attempts/20261020_150016_478991"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b023_r1",
+      "samples": 8,
+      "gpu_s": 14.380077585999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b023_r1/attempts/20261020_150708_293586"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b024_r1",
+      "samples": 8,
+      "gpu_s": 14.38264515,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b024_r1/attempts/20261020_151358_310269"
+    },
+    {
+      "method": "fp16",
+      "point": "math500_b025_r1",
+      "samples": 8,
+      "gpu_s": 14.386274942999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/math500_b025_r1/attempts/20261020_152046_389120"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b000_r1",
+      "samples": 8,
+      "gpu_s": 57.784094065999994,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b000_r1/attempts/20261020_045733_451066"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b001_r1",
+      "samples": 8,
+      "gpu_s": 63.968059724,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b001_r1/attempts/20261020_051120_204613"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b002_r1",
+      "samples": 8,
+      "gpu_s": 63.509648773,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b002_r1/attempts/20261020_052528_409118"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b003_r1",
+      "samples": 8,
+      "gpu_s": 64.877374912,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b003_r1/attempts/20261020_053939_275130"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b004_r1",
+      "samples": 8,
+      "gpu_s": 69.196419409,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b004_r1/attempts/20261020_055353_766085"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b005_r1",
+      "samples": 8,
+      "gpu_s": 68.475755868,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b005_r1/attempts/20261020_060752_426740"
+    },
+    {
+      "method": "fp16",
+      "point": "passage_retrieval_en_b006_r1",
+      "samples": 2,
+      "gpu_s": 25.1276296,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/passage_retrieval_en_b006_r1/attempts/20261020_062150_152808"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b000_r1",
+      "samples": 8,
+      "gpu_s": 20.918965552,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b000_r1/attempts/20261019_210746_526934"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b001_r1",
+      "samples": 8,
+      "gpu_s": 22.991748209,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b001_r1/attempts/20261019_211405_739395"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b002_r1",
+      "samples": 8,
+      "gpu_s": 25.065313479,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b002_r1/attempts/20261019_212034_461303"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b003_r1",
+      "samples": 8,
+      "gpu_s": 27.258974455,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b003_r1/attempts/20261019_212655_380035"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b004_r1",
+      "samples": 8,
+      "gpu_s": 29.118930809,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b004_r1/attempts/20261019_213322_166256"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b005_r1",
+      "samples": 8,
+      "gpu_s": 32.270731806,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b005_r1/attempts/20261019_213953_656760"
+    },
+    {
+      "method": "fp16",
+      "point": "qasper_b006_r1",
+      "samples": 2,
+      "gpu_s": 23.200355767,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/qasper_b006_r1/attempts/20261019_214634_997606"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b000_r1",
+      "samples": 8,
+      "gpu_s": 20.932986945,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b000_r1/attempts/20261020_030756_527409"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b001_r1",
+      "samples": 8,
+      "gpu_s": 24.791993406000003,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b001_r1/attempts/20261020_031509_507828"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b002_r1",
+      "samples": 8,
+      "gpu_s": 29.597249473,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b002_r1/attempts/20261020_032215_858399"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b003_r1",
+      "samples": 8,
+      "gpu_s": 33.721913731,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b003_r1/attempts/20261020_032929_242081"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b004_r1",
+      "samples": 8,
+      "gpu_s": 38.559128653,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b004_r1/attempts/20261020_033643_629176"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b005_r1",
+      "samples": 8,
+      "gpu_s": 56.072630103,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b005_r1/attempts/20261020_034403_146588"
+    },
+    {
+      "method": "fp16",
+      "point": "trec_b006_r1",
+      "samples": 2,
+      "gpu_s": 21.577532177,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036/points/fp16/trec_b006_r1/attempts/20261020_035628_024489"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b000_r1",
+      "samples": 8,
+      "gpu_s": 26.080632212,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b000_r1/attempts/20261020_173701_829781"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b001_r1",
+      "samples": 8,
+      "gpu_s": 33.267661477000004,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b001_r1/attempts/20261020_174602_074273"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b002_r1",
+      "samples": 8,
+      "gpu_s": 39.482981550999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b002_r1/attempts/20261020_175511_446758"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b003_r1",
+      "samples": 8,
+      "gpu_s": 47.082617872,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b003_r1/attempts/20261020_180421_426984"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b004_r1",
+      "samples": 8,
+      "gpu_s": 52.91014385199999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b004_r1/attempts/20261020_181407_272925"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b005_r1",
+      "samples": 8,
+      "gpu_s": 70.899752278,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b005_r1/attempts/20261020_182340_233429"
+    },
+    {
+      "method": "kvarn",
+      "point": "gov_report_b006_r1",
+      "samples": 2,
+      "gpu_s": 42.055231897999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/gov_report_b006_r1/attempts/20261020_183347_139755"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b000_r1",
+      "samples": 8,
+      "gpu_s": 33.169689489999996,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b000_r1/attempts/20261020_163007_960988"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b001_r1",
+      "samples": 8,
+      "gpu_s": 49.814353802999996,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b001_r1/attempts/20261020_163906_525356"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b002_r1",
+      "samples": 8,
+      "gpu_s": 56.675980682,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b002_r1/attempts/20261020_164839_486519"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b003_r1",
+      "samples": 8,
+      "gpu_s": 63.767642958,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b003_r1/attempts/20261020_165835_631376"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b004_r1",
+      "samples": 8,
+      "gpu_s": 67.599389859,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b004_r1/attempts/20261020_170834_204247"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b005_r1",
+      "samples": 8,
+      "gpu_s": 68.99295996200001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b005_r1/attempts/20261020_171837_764195"
+    },
+    {
+      "method": "kvarn",
+      "point": "hotpotqa_b006_r1",
+      "samples": 2,
+      "gpu_s": 29.794491948999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/hotpotqa_b006_r1/attempts/20261020_172844_518369"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b000_r1",
+      "samples": 8,
+      "gpu_s": 15.034533608,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b000_r1/attempts/20261020_214948_836739"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b001_r1",
+      "samples": 8,
+      "gpu_s": 15.140318147,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b001_r1/attempts/20261020_215753_932678"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b002_r1",
+      "samples": 8,
+      "gpu_s": 15.11128853,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b002_r1/attempts/20261020_220609_682727"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b003_r1",
+      "samples": 8,
+      "gpu_s": 15.038985438,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b003_r1/attempts/20261020_221420_159703"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b004_r1",
+      "samples": 8,
+      "gpu_s": 15.147415381,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b004_r1/attempts/20261020_222219_987808"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b005_r1",
+      "samples": 8,
+      "gpu_s": 15.201853756,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b005_r1/attempts/20261020_223027_612113"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b006_r1",
+      "samples": 8,
+      "gpu_s": 15.240931834000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b006_r1/attempts/20261020_223845_507620"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b007_r1",
+      "samples": 8,
+      "gpu_s": 15.171230675,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b007_r1/attempts/20261020_224702_992686"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b008_r1",
+      "samples": 8,
+      "gpu_s": 15.27111123,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b008_r1/attempts/20261020_225514_172815"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b009_r1",
+      "samples": 8,
+      "gpu_s": 15.209902409,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b009_r1/attempts/20261020_230327_706741"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b010_r1",
+      "samples": 8,
+      "gpu_s": 15.213659357000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b010_r1/attempts/20261020_231141_614775"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b011_r1",
+      "samples": 8,
+      "gpu_s": 15.371937025,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b011_r1/attempts/20261020_231952_178320"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b012_r1",
+      "samples": 8,
+      "gpu_s": 15.385692041,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b012_r1/attempts/20261020_232819_762919"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b013_r1",
+      "samples": 8,
+      "gpu_s": 15.331078801,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b013_r1/attempts/20261020_233644_142106"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b014_r1",
+      "samples": 8,
+      "gpu_s": 15.286295192,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b014_r1/attempts/20261020_234500_240209"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b015_r1",
+      "samples": 8,
+      "gpu_s": 15.511706910000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b015_r1/attempts/20261020_235316_117635"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b016_r1",
+      "samples": 8,
+      "gpu_s": 15.48304233,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b016_r1/attempts/20261021_000146_506117"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b017_r1",
+      "samples": 8,
+      "gpu_s": 15.641092606,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b017_r1/attempts/20261021_001016_555784"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b018_r1",
+      "samples": 8,
+      "gpu_s": 15.757991667,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b018_r1/attempts/20261021_001847_307099"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b019_r1",
+      "samples": 8,
+      "gpu_s": 15.944031574,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b019_r1/attempts/20261021_002719_054934"
+    },
+    {
+      "method": "kvarn",
+      "point": "humaneval_b020_r1",
+      "samples": 4,
+      "gpu_s": 14.623783213000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/humaneval_b020_r1/attempts/20261021_003557_633788"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b000_r1",
+      "samples": 8,
+      "gpu_s": 19.122478481999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b000_r1/attempts/20261020_204857_569641"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b001_r1",
+      "samples": 8,
+      "gpu_s": 20.089391407,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b001_r1/attempts/20261020_205800_966173"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b002_r1",
+      "samples": 8,
+      "gpu_s": 20.928770328,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b002_r1/attempts/20261020_210641_418198"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b003_r1",
+      "samples": 8,
+      "gpu_s": 22.243878744,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b003_r1/attempts/20261020_211514_301204"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b004_r1",
+      "samples": 8,
+      "gpu_s": 24.648875555,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b004_r1/attempts/20261020_212401_712385"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b005_r1",
+      "samples": 8,
+      "gpu_s": 32.486029977,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b005_r1/attempts/20261020_213243_651532"
+    },
+    {
+      "method": "kvarn",
+      "point": "lcc_b006_r1",
+      "samples": 2,
+      "gpu_s": 31.132085845,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/lcc_b006_r1/attempts/20261020_214141_124032"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b000_r1",
+      "samples": 8,
+      "gpu_s": 14.822323432,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b000_r1/attempts/20261021_004407_219109"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b001_r1",
+      "samples": 8,
+      "gpu_s": 14.824726637,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b001_r1/attempts/20261021_005214_742805"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b002_r1",
+      "samples": 8,
+      "gpu_s": 14.824115706,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b002_r1/attempts/20261021_010029_234645"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b003_r1",
+      "samples": 8,
+      "gpu_s": 14.772848781,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b003_r1/attempts/20261021_010835_768958"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b004_r1",
+      "samples": 8,
+      "gpu_s": 14.819842893,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b004_r1/attempts/20261021_011644_317536"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b005_r1",
+      "samples": 8,
+      "gpu_s": 14.825614521,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b005_r1/attempts/20261021_012445_897303"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b006_r1",
+      "samples": 8,
+      "gpu_s": 14.827799634,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b006_r1/attempts/20261021_013251_958749"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b007_r1",
+      "samples": 8,
+      "gpu_s": 14.827675703999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b007_r1/attempts/20261021_014055_357006"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b008_r1",
+      "samples": 8,
+      "gpu_s": 14.889192323000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b008_r1/attempts/20261021_014858_982613"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b009_r1",
+      "samples": 8,
+      "gpu_s": 14.828456629999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b009_r1/attempts/20261021_015704_458397"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b010_r1",
+      "samples": 8,
+      "gpu_s": 14.765323225,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b010_r1/attempts/20261021_020509_192721"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b011_r1",
+      "samples": 8,
+      "gpu_s": 14.830667513,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b011_r1/attempts/20261021_021406_702361"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b012_r1",
+      "samples": 8,
+      "gpu_s": 14.785122159999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b012_r1/attempts/20261021_022210_064481"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b013_r1",
+      "samples": 8,
+      "gpu_s": 14.856861556,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b013_r1/attempts/20261021_023004_006253"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b014_r1",
+      "samples": 8,
+      "gpu_s": 14.850599574,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b014_r1/attempts/20261021_023808_838513"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b015_r1",
+      "samples": 8,
+      "gpu_s": 14.845147301999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b015_r1/attempts/20261021_024606_585560"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b016_r1",
+      "samples": 8,
+      "gpu_s": 14.847632828,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b016_r1/attempts/20261021_025406_156400"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b017_r1",
+      "samples": 8,
+      "gpu_s": 14.802052345,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b017_r1/attempts/20261021_030202_773062"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b018_r1",
+      "samples": 8,
+      "gpu_s": 14.804427173,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b018_r1/attempts/20261021_031004_719950"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b019_r1",
+      "samples": 8,
+      "gpu_s": 14.80418845,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b019_r1/attempts/20261021_031801_592903"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b020_r1",
+      "samples": 8,
+      "gpu_s": 14.804714878999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b020_r1/attempts/20261021_032603_861189"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b021_r1",
+      "samples": 8,
+      "gpu_s": 14.814951127999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b021_r1/attempts/20261021_033405_577446"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b022_r1",
+      "samples": 8,
+      "gpu_s": 14.817390045,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b022_r1/attempts/20261021_034205_540371"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b023_r1",
+      "samples": 8,
+      "gpu_s": 14.858939994,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b023_r1/attempts/20261021_035002_677713"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b024_r1",
+      "samples": 8,
+      "gpu_s": 14.869073045,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b024_r1/attempts/20261021_035803_936085"
+    },
+    {
+      "method": "kvarn",
+      "point": "math500_b025_r1",
+      "samples": 8,
+      "gpu_s": 14.818323013999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/math500_b025_r1/attempts/20261021_040600_452617"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b000_r1",
+      "samples": 8,
+      "gpu_s": 48.920903151,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b000_r1/attempts/20261020_194414_881640"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b001_r1",
+      "samples": 8,
+      "gpu_s": 50.800876052,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b001_r1/attempts/20261020_195331_810714"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b002_r1",
+      "samples": 8,
+      "gpu_s": 52.795068282,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b002_r1/attempts/20261020_200256_292899"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b003_r1",
+      "samples": 8,
+      "gpu_s": 54.70183165899999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b003_r1/attempts/20261020_201216_238667"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b004_r1",
+      "samples": 8,
+      "gpu_s": 56.809260753,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b004_r1/attempts/20261020_202144_463200"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b005_r1",
+      "samples": 8,
+      "gpu_s": 59.228022296999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b005_r1/attempts/20261020_203115_326098"
+    },
+    {
+      "method": "kvarn",
+      "point": "passage_retrieval_en_b006_r1",
+      "samples": 2,
+      "gpu_s": 27.797992827,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/passage_retrieval_en_b006_r1/attempts/20261020_204054_205841"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b000_r1",
+      "samples": 8,
+      "gpu_s": 22.697565527,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848/points/kvarn/qasper_b000_r1/attempts/20261020_152918_580469"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b001_r1",
+      "samples": 8,
+      "gpu_s": 25.143500987,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/qasper_b001_r1/attempts/20261020_153819_179081"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b002_r1",
+      "samples": 8,
+      "gpu_s": 27.923061917,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/qasper_b002_r1/attempts/20261020_154636_848450"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b003_r1",
+      "samples": 8,
+      "gpu_s": 30.610564023,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/qasper_b003_r1/attempts/20261020_155517_600256"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b004_r1",
+      "samples": 8,
+      "gpu_s": 32.680371008,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/qasper_b004_r1/attempts/20261020_160415_054307"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b005_r1",
+      "samples": 8,
+      "gpu_s": 37.636877196,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/qasper_b005_r1/attempts/20261020_161258_436331"
+    },
+    {
+      "method": "kvarn",
+      "point": "qasper_b006_r1",
+      "samples": 2,
+      "gpu_s": 26.363696547,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/qasper_b006_r1/attempts/20261020_162202_181525"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b000_r1",
+      "samples": 8,
+      "gpu_s": 22.705885693,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b000_r1/attempts/20261020_184215_846239"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b001_r1",
+      "samples": 8,
+      "gpu_s": 27.623287537,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b001_r1/attempts/20261020_185057_257221"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b002_r1",
+      "samples": 8,
+      "gpu_s": 33.294560102999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b002_r1/attempts/20261020_185940_548486"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b003_r1",
+      "samples": 8,
+      "gpu_s": 37.999850926,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b003_r1/attempts/20261020_190842_361507"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b004_r1",
+      "samples": 8,
+      "gpu_s": 43.841036644,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b004_r1/attempts/20261020_191742_684205"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b005_r1",
+      "samples": 8,
+      "gpu_s": 47.870460226000006,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b005_r1/attempts/20261020_192655_930934"
+    },
+    {
+      "method": "kvarn",
+      "point": "trec_b006_r1",
+      "samples": 2,
+      "gpu_s": 23.657478081,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_kvarn_firstpass_20261020_153745/points/kvarn/trec_b006_r1/attempts/20261020_193617_957010"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b000_r1",
+      "samples": 8,
+      "gpu_s": 33.188473739,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b000_r1/attempts/20261021_060804_168570"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b001_r1",
+      "samples": 8,
+      "gpu_s": 41.70433062,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b001_r1/attempts/20261021_061600_554122"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b002_r1",
+      "samples": 8,
+      "gpu_s": 50.759039132,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b002_r1/attempts/20261021_062402_399929"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b003_r1",
+      "samples": 8,
+      "gpu_s": 61.522498033,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b003_r1/attempts/20261021_063212_145659"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b004_r1",
+      "samples": 8,
+      "gpu_s": 75.21812719,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b004_r1/attempts/20261021_064036_901808"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b005_r1",
+      "samples": 8,
+      "gpu_s": 106.635040662,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b005_r1/attempts/20261021_064917_804764"
+    },
+    {
+      "method": "turboquant",
+      "point": "gov_report_b006_r1",
+      "samples": 2,
+      "gpu_s": 52.641504584,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/gov_report_b006_r1/attempts/20261021_065811_770067"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b000_r1",
+      "samples": 8,
+      "gpu_s": 41.889267652,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b000_r1/attempts/20261021_050847_470621"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b001_r1",
+      "samples": 8,
+      "gpu_s": 65.980739199,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b001_r1/attempts/20261021_051644_593646"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b002_r1",
+      "samples": 8,
+      "gpu_s": 81.240985191,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b002_r1/attempts/20261021_052504_144375"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b003_r1",
+      "samples": 8,
+      "gpu_s": 93.466071436,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b003_r1/attempts/20261021_053340_188872"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b004_r1",
+      "samples": 8,
+      "gpu_s": 100.59461478099999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b004_r1/attempts/20261021_054221_815532"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b005_r1",
+      "samples": 8,
+      "gpu_s": 103.27569924800001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b005_r1/attempts/20261021_055112_509040"
+    },
+    {
+      "method": "turboquant",
+      "point": "hotpotqa_b006_r1",
+      "samples": 2,
+      "gpu_s": 36.628442907,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/hotpotqa_b006_r1/attempts/20261021_060003_806441"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b000_r1",
+      "samples": 8,
+      "gpu_s": 16.502828757,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b000_r1/attempts/20261021_095443_130543"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b001_r1",
+      "samples": 8,
+      "gpu_s": 16.58988348,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b001_r1/attempts/20261021_100218_514243"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b002_r1",
+      "samples": 8,
+      "gpu_s": 16.652772003,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b002_r1/attempts/20261021_100954_143213"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b003_r1",
+      "samples": 8,
+      "gpu_s": 16.671076963,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b003_r1/attempts/20261021_101730_418069"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b004_r1",
+      "samples": 8,
+      "gpu_s": 16.695116492,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b004_r1/attempts/20261021_102508_810486"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b005_r1",
+      "samples": 8,
+      "gpu_s": 16.740175358000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b005_r1/attempts/20261021_103247_971151"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b006_r1",
+      "samples": 8,
+      "gpu_s": 16.760357456,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b006_r1/attempts/20261021_104041_173530"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b007_r1",
+      "samples": 8,
+      "gpu_s": 16.789950284,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b007_r1/attempts/20261021_104829_757925"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b008_r1",
+      "samples": 8,
+      "gpu_s": 16.825574915,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b008_r1/attempts/20261021_105615_360359"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b009_r1",
+      "samples": 8,
+      "gpu_s": 16.842420924000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b009_r1/attempts/20261021_110358_828826"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b010_r1",
+      "samples": 8,
+      "gpu_s": 16.864456957999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b010_r1/attempts/20261021_111137_469522"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b011_r1",
+      "samples": 8,
+      "gpu_s": 16.891709212000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b011_r1/attempts/20261021_111915_940447"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b012_r1",
+      "samples": 8,
+      "gpu_s": 16.928355077,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b012_r1/attempts/20261021_112707_144084"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b013_r1",
+      "samples": 8,
+      "gpu_s": 16.968460533,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b013_r1/attempts/20261021_113459_880983"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b014_r1",
+      "samples": 8,
+      "gpu_s": 17.006202527000003,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b014_r1/attempts/20261021_114253_289031"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b015_r1",
+      "samples": 8,
+      "gpu_s": 17.052171598,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b015_r1/attempts/20261021_115033_697676"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b016_r1",
+      "samples": 8,
+      "gpu_s": 17.104781261,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b016_r1/attempts/20261021_115813_463846"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b017_r1",
+      "samples": 8,
+      "gpu_s": 17.269116937,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b017_r1/attempts/20261021_120553_473003"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b018_r1",
+      "samples": 8,
+      "gpu_s": 17.421743159,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b018_r1/attempts/20261021_121333_691511"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b019_r1",
+      "samples": 8,
+      "gpu_s": 17.628200104,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b019_r1/attempts/20261021_122114_836652"
+    },
+    {
+      "method": "turboquant",
+      "point": "humaneval_b020_r1",
+      "samples": 4,
+      "gpu_s": 15.836001872999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/humaneval_b020_r1/attempts/20261021_122856_838977"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b000_r1",
+      "samples": 8,
+      "gpu_s": 22.657043641,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b000_r1/attempts/20261021_090017_992910"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b001_r1",
+      "samples": 8,
+      "gpu_s": 24.221134795,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b001_r1/attempts/20261021_090759_580017"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b002_r1",
+      "samples": 8,
+      "gpu_s": 25.655427048,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b002_r1/attempts/20261021_091539_864412"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b003_r1",
+      "samples": 8,
+      "gpu_s": 27.669988124,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b003_r1/attempts/20261021_092343_054654"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b004_r1",
+      "samples": 8,
+      "gpu_s": 31.212081247999997,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b004_r1/attempts/20261021_093125_589226"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b005_r1",
+      "samples": 8,
+      "gpu_s": 40.805997986,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b005_r1/attempts/20261021_093907_129762"
+    },
+    {
+      "method": "turboquant",
+      "point": "lcc_b006_r1",
+      "samples": 2,
+      "gpu_s": 38.613387708,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/lcc_b006_r1/attempts/20261021_094656_338605"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b000_r1",
+      "samples": 8,
+      "gpu_s": 16.284852378,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b000_r1/attempts/20261021_123640_668831"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b001_r1",
+      "samples": 8,
+      "gpu_s": 16.303953166,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b001_r1/attempts/20261021_124422_548179"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b002_r1",
+      "samples": 8,
+      "gpu_s": 16.313856105,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b002_r1/attempts/20261021_125206_196386"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b003_r1",
+      "samples": 8,
+      "gpu_s": 16.321563166,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b003_r1/attempts/20261021_125949_741792"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b004_r1",
+      "samples": 8,
+      "gpu_s": 16.329420381,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b004_r1/attempts/20261021_130736_330258"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b005_r1",
+      "samples": 8,
+      "gpu_s": 16.329428294,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b005_r1/attempts/20261021_131524_234098"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b006_r1",
+      "samples": 8,
+      "gpu_s": 16.326154909,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b006_r1/attempts/20261021_132312_108884"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b007_r1",
+      "samples": 8,
+      "gpu_s": 16.337804861000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b007_r1/attempts/20261021_133100_484975"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b008_r1",
+      "samples": 8,
+      "gpu_s": 16.343723603,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b008_r1/attempts/20261021_133848_903918"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b009_r1",
+      "samples": 8,
+      "gpu_s": 16.342253296,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b009_r1/attempts/20261021_134635_816845"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b010_r1",
+      "samples": 8,
+      "gpu_s": 16.353546648000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b010_r1/attempts/20261021_135424_878681"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b011_r1",
+      "samples": 8,
+      "gpu_s": 16.362510161,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b011_r1/attempts/20261021_140212_518372"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b012_r1",
+      "samples": 8,
+      "gpu_s": 16.370971163,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b012_r1/attempts/20261021_141000_109794"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b013_r1",
+      "samples": 8,
+      "gpu_s": 16.38263735,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b013_r1/attempts/20261021_141846_743947"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b014_r1",
+      "samples": 8,
+      "gpu_s": 16.385899416,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b014_r1/attempts/20261021_142636_060692"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b015_r1",
+      "samples": 8,
+      "gpu_s": 16.372799231000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b015_r1/attempts/20261021_143422_933922"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b016_r1",
+      "samples": 8,
+      "gpu_s": 16.379139115,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b016_r1/attempts/20261021_144211_241646"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b017_r1",
+      "samples": 8,
+      "gpu_s": 16.396308278,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b017_r1/attempts/20261021_145000_409735"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b018_r1",
+      "samples": 8,
+      "gpu_s": 16.388899063,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b018_r1/attempts/20261021_145751_172953"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b019_r1",
+      "samples": 8,
+      "gpu_s": 16.401559613,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b019_r1/attempts/20261021_150539_001464"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b020_r1",
+      "samples": 8,
+      "gpu_s": 16.405500407999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b020_r1/attempts/20261021_151326_765683"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b021_r1",
+      "samples": 8,
+      "gpu_s": 16.415074816,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b021_r1/attempts/20261021_152115_051129"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b022_r1",
+      "samples": 8,
+      "gpu_s": 16.424713337,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b022_r1/attempts/20261021_152903_792194"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b023_r1",
+      "samples": 8,
+      "gpu_s": 16.423641119,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b023_r1/attempts/20261021_153652_860464"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b024_r1",
+      "samples": 8,
+      "gpu_s": 16.424881385999996,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b024_r1/attempts/20261021_154442_759477"
+    },
+    {
+      "method": "turboquant",
+      "point": "math500_b025_r1",
+      "samples": 8,
+      "gpu_s": 16.424868712,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/math500_b025_r1/attempts/20261021_155231_561323"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b000_r1",
+      "samples": 8,
+      "gpu_s": 67.092370782,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b000_r1/attempts/20261021_080214_575231"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b001_r1",
+      "samples": 8,
+      "gpu_s": 71.634074113,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b001_r1/attempts/20261021_081029_893560"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b002_r1",
+      "samples": 8,
+      "gpu_s": 75.096093275,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b002_r1/attempts/20261021_081848_367573"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b003_r1",
+      "samples": 8,
+      "gpu_s": 77.771269496,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b003_r1/attempts/20261021_082708_745029"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b004_r1",
+      "samples": 8,
+      "gpu_s": 82.260514264,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b004_r1/attempts/20261021_083530_653541"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b005_r1",
+      "samples": 8,
+      "gpu_s": 86.611597564,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b005_r1/attempts/20261021_084357_829149"
+    },
+    {
+      "method": "turboquant",
+      "point": "passage_retrieval_en_b006_r1",
+      "samples": 2,
+      "gpu_s": 35.047239868999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/passage_retrieval_en_b006_r1/attempts/20261021_085228_791246"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b000_r1",
+      "samples": 8,
+      "gpu_s": 28.30753574,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b000_r1/attempts/20261021_041452_387735"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b001_r1",
+      "samples": 8,
+      "gpu_s": 32.226344468,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b001_r1/attempts/20261021_042213_044615"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b002_r1",
+      "samples": 8,
+      "gpu_s": 34.882537622,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b002_r1/attempts/20261021_042944_649742"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b003_r1",
+      "samples": 8,
+      "gpu_s": 37.679987964,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b003_r1/attempts/20261021_043722_584433"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b004_r1",
+      "samples": 8,
+      "gpu_s": 40.877199565,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b004_r1/attempts/20261021_044506_999916"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b005_r1",
+      "samples": 8,
+      "gpu_s": 48.194809889999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b005_r1/attempts/20261021_045258_985968"
+    },
+    {
+      "method": "turboquant",
+      "point": "qasper_b006_r1",
+      "samples": 2,
+      "gpu_s": 33.345896794,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/qasper_b006_r1/attempts/20261021_050057_579384"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b000_r1",
+      "samples": 8,
+      "gpu_s": 28.428808093,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b000_r1/attempts/20261021_070626_348395"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b001_r1",
+      "samples": 8,
+      "gpu_s": 34.127337665,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b001_r1/attempts/20261021_071415_576438"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b002_r1",
+      "samples": 8,
+      "gpu_s": 41.661639619,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b002_r1/attempts/20261021_072207_295470"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b003_r1",
+      "samples": 8,
+      "gpu_s": 48.721544324,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b003_r1/attempts/20261021_073003_618343"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b004_r1",
+      "samples": 8,
+      "gpu_s": 56.813076,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b004_r1/attempts/20261021_073805_368874"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b005_r1",
+      "samples": 8,
+      "gpu_s": 63.909321778000006,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b005_r1/attempts/20261021_074614_293991"
+    },
+    {
+      "method": "turboquant",
+      "point": "trec_b006_r1",
+      "samples": 2,
+      "gpu_s": 29.573148344,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_turboquant_firstpass_20261020_queue/points/turboquant/trec_b006_r1/attempts/20261021_075428_175076"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b000_r1",
+      "samples": 8,
+      "gpu_s": 20.213875640999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b000_r1/attempts/20261021_173029_432439"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b001_r1",
+      "samples": 8,
+      "gpu_s": 24.728513563,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b001_r1/attempts/20261021_173655_382272"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b002_r1",
+      "samples": 8,
+      "gpu_s": 28.667276663999996,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b002_r1/attempts/20261021_174321_825641"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b003_r1",
+      "samples": 8,
+      "gpu_s": 33.676943283,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b003_r1/attempts/20261021_174955_435724"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b004_r1",
+      "samples": 8,
+      "gpu_s": 39.880836384000006,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b004_r1/attempts/20261021_175638_845875"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b005_r1",
+      "samples": 8,
+      "gpu_s": 53.475705438999995,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b005_r1/attempts/20261021_180333_777646"
+    },
+    {
+      "method": "fp8",
+      "point": "gov_report_b006_r1",
+      "samples": 2,
+      "gpu_s": 31.594078684,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/gov_report_b006_r1/attempts/20261021_181050_488604"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b000_r1",
+      "samples": 8,
+      "gpu_s": 24.478730297,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b000_r1/attempts/20261021_164300_764192"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b001_r1",
+      "samples": 8,
+      "gpu_s": 35.72603912900001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b001_r1/attempts/20261021_164921_209630"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b002_r1",
+      "samples": 8,
+      "gpu_s": 42.68389383,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b002_r1/attempts/20261021_165559_770958"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b003_r1",
+      "samples": 8,
+      "gpu_s": 47.961773678,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b003_r1/attempts/20261021_170249_839942"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b004_r1",
+      "samples": 8,
+      "gpu_s": 50.797833987,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b004_r1/attempts/20261021_170949_896035"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b005_r1",
+      "samples": 8,
+      "gpu_s": 51.989547857000005,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b005_r1/attempts/20261021_171656_575071"
+    },
+    {
+      "method": "fp8",
+      "point": "hotpotqa_b006_r1",
+      "samples": 2,
+      "gpu_s": 23.144230575,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/hotpotqa_b006_r1/attempts/20261021_172405_948318"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b000_r1",
+      "samples": 8,
+      "gpu_s": 13.812131853999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b000_r1/attempts/20261021_203347_126140"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b001_r1",
+      "samples": 8,
+      "gpu_s": 13.845951728,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b001_r1/attempts/20261021_203952_908253"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b002_r1",
+      "samples": 8,
+      "gpu_s": 13.866661517,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b002_r1/attempts/20261021_204558_259448"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b003_r1",
+      "samples": 8,
+      "gpu_s": 13.873775735999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b003_r1/attempts/20261021_205204_234843"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b004_r1",
+      "samples": 8,
+      "gpu_s": 13.880370694,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b004_r1/attempts/20261021_205810_319751"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b005_r1",
+      "samples": 8,
+      "gpu_s": 13.900640835,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b005_r1/attempts/20261021_210417_543698"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b006_r1",
+      "samples": 8,
+      "gpu_s": 13.918957503,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b006_r1/attempts/20261021_211024_705282"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b007_r1",
+      "samples": 8,
+      "gpu_s": 13.930084734,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b007_r1/attempts/20261021_211631_822026"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b008_r1",
+      "samples": 8,
+      "gpu_s": 13.945541929000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b008_r1/attempts/20261021_212240_538289"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b009_r1",
+      "samples": 8,
+      "gpu_s": 13.954149463,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b009_r1/attempts/20261021_212852_218783"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b010_r1",
+      "samples": 8,
+      "gpu_s": 13.95800102,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b010_r1/attempts/20261021_213513_537527"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b011_r1",
+      "samples": 8,
+      "gpu_s": 13.965706906,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b011_r1/attempts/20261021_214136_253814"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b012_r1",
+      "samples": 8,
+      "gpu_s": 13.980734069,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b012_r1/attempts/20261021_214746_619018"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b013_r1",
+      "samples": 8,
+      "gpu_s": 13.991763570000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b013_r1/attempts/20261021_215355_028395"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b014_r1",
+      "samples": 8,
+      "gpu_s": 14.011655553999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b014_r1/attempts/20261021_220004_637823"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b015_r1",
+      "samples": 8,
+      "gpu_s": 14.027465505,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b015_r1/attempts/20261021_220619_782663"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b016_r1",
+      "samples": 8,
+      "gpu_s": 14.038126518,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b016_r1/attempts/20261021_221242_521312"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b017_r1",
+      "samples": 8,
+      "gpu_s": 14.10931005,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b017_r1/attempts/20261021_221936_373855"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b018_r1",
+      "samples": 8,
+      "gpu_s": 14.164131313,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b018_r1/attempts/20261021_222559_729760"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b019_r1",
+      "samples": 8,
+      "gpu_s": 14.227183460000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b019_r1/attempts/20261021_223223_743022"
+    },
+    {
+      "method": "fp8",
+      "point": "humaneval_b020_r1",
+      "samples": 4,
+      "gpu_s": 13.707618255,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/humaneval_b020_r1/attempts/20261021_223847_627062"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b000_r1",
+      "samples": 8,
+      "gpu_s": 16.069081732,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b001_r1",
+      "samples": 8,
+      "gpu_s": 16.644320551,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b001_r1/attempts/20261021_195612_274285"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b002_r1",
+      "samples": 8,
+      "gpu_s": 17.208926846,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b002_r1/attempts/20261021_200218_911228"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b003_r1",
+      "samples": 8,
+      "gpu_s": 17.952856202,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b003_r1/attempts/20261021_200826_458378"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b004_r1",
+      "samples": 8,
+      "gpu_s": 19.319974682,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b004_r1/attempts/20261021_201448_263575"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b005_r1",
+      "samples": 8,
+      "gpu_s": 23.976339352,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b005_r1/attempts/20261021_202112_875366"
+    },
+    {
+      "method": "fp8",
+      "point": "lcc_b006_r1",
+      "samples": 2,
+      "gpu_s": 22.580932966,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b006_r1/attempts/20261021_202731_189860"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b000_r1",
+      "samples": 8,
+      "gpu_s": 13.723561438,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b000_r1/attempts/20261021_224508_025992"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b001_r1",
+      "samples": 8,
+      "gpu_s": 13.745384742,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b001_r1/attempts/20261021_225124_123105"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b002_r1",
+      "samples": 8,
+      "gpu_s": 13.737177538,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b002_r1/attempts/20261021_225742_403260"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b003_r1",
+      "samples": 8,
+      "gpu_s": 13.748131877,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b003_r1/attempts/20261021_230349_765743"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b004_r1",
+      "samples": 8,
+      "gpu_s": 13.751759131,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b004_r1/attempts/20261021_230954_651451"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b005_r1",
+      "samples": 8,
+      "gpu_s": 13.748541197,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b005_r1/attempts/20261021_231559_636329"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b006_r1",
+      "samples": 8,
+      "gpu_s": 13.753755533,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b006_r1/attempts/20261021_232202_789453"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b007_r1",
+      "samples": 8,
+      "gpu_s": 13.748229800999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b007_r1/attempts/20261021_232820_093527"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b008_r1",
+      "samples": 8,
+      "gpu_s": 13.753552083,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b008_r1/attempts/20261021_233435_284063"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b009_r1",
+      "samples": 8,
+      "gpu_s": 13.750207965,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b009_r1/attempts/20261021_234036_725515"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b010_r1",
+      "samples": 8,
+      "gpu_s": 13.752611346,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b010_r1/attempts/20261021_234636_844778"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b011_r1",
+      "samples": 8,
+      "gpu_s": 13.767861199,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b011_r1/attempts/20261021_235239_275404"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b012_r1",
+      "samples": 8,
+      "gpu_s": 13.759869678000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b012_r1/attempts/20261021_235839_955173"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b013_r1",
+      "samples": 8,
+      "gpu_s": 13.764283317,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b013_r1/attempts/20261022_000442_987633"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b014_r1",
+      "samples": 8,
+      "gpu_s": 13.763460036,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b014_r1/attempts/20261022_001044_584115"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b015_r1",
+      "samples": 8,
+      "gpu_s": 13.765596778,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b015_r1/attempts/20261022_001646_994526"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b016_r1",
+      "samples": 8,
+      "gpu_s": 13.767874787,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b016_r1/attempts/20261022_002251_344938"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b017_r1",
+      "samples": 8,
+      "gpu_s": 13.765358371,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b017_r1/attempts/20261022_002853_512426"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b018_r1",
+      "samples": 8,
+      "gpu_s": 13.773142661,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b018_r1/attempts/20261022_003458_025997"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b019_r1",
+      "samples": 8,
+      "gpu_s": 13.77548155,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b019_r1/attempts/20261022_004113_243506"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b020_r1",
+      "samples": 8,
+      "gpu_s": 13.767724699,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b020_r1/attempts/20261022_004730_216169"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b021_r1",
+      "samples": 8,
+      "gpu_s": 13.785754584000001,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b021_r1/attempts/20261022_005333_329001"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b022_r1",
+      "samples": 8,
+      "gpu_s": 13.785405269,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b022_r1/attempts/20261022_005936_724351"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b023_r1",
+      "samples": 8,
+      "gpu_s": 13.788753149,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b023_r1/attempts/20261022_010538_075296"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b024_r1",
+      "samples": 8,
+      "gpu_s": 13.792790952999999,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b024_r1/attempts/20261022_011142_517491"
+    },
+    {
+      "method": "fp8",
+      "point": "math500_b025_r1",
+      "samples": 8,
+      "gpu_s": 13.783418522,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/math500_b025_r1/attempts/20261022_011747_116501"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b000_r1",
+      "samples": 8,
+      "gpu_s": 36.1212159,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b000_r1/attempts/20261021_190303_619150"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b001_r1",
+      "samples": 8,
+      "gpu_s": 38.405744928,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b001_r1/attempts/20261021_191002_472280"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b002_r1",
+      "samples": 8,
+      "gpu_s": 39.617000587,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b002_r1/attempts/20261021_191651_466770"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b003_r1",
+      "samples": 8,
+      "gpu_s": 40.473571871,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b003_r1/attempts/20261021_192335_821585"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b004_r1",
+      "samples": 8,
+      "gpu_s": 42.368936302,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b004_r1/attempts/20261021_193016_971019"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b005_r1",
+      "samples": 8,
+      "gpu_s": 44.234448124000004,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b005_r1/attempts/20261021_193702_544436"
+    },
+    {
+      "method": "fp8",
+      "point": "passage_retrieval_en_b006_r1",
+      "samples": 2,
+      "gpu_s": 21.675890619999997,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/passage_retrieval_en_b006_r1/attempts/20261021_194351_739871"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b000_r1",
+      "samples": 8,
+      "gpu_s": 18.200311329,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b000_r1/attempts/20261021_160104_664923"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b001_r1",
+      "samples": 8,
+      "gpu_s": 19.706700775,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b001_r1/attempts/20261021_160644_566081"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b002_r1",
+      "samples": 8,
+      "gpu_s": 21.251624562,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b002_r1/attempts/20261021_161233_518462"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b003_r1",
+      "samples": 8,
+      "gpu_s": 22.940352966,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b003_r1/attempts/20261021_161826_901305"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b004_r1",
+      "samples": 8,
+      "gpu_s": 24.302222089,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b004_r1/attempts/20261021_162426_587120"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b005_r1",
+      "samples": 8,
+      "gpu_s": 27.437984727,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b005_r1/attempts/20261021_163029_792939"
+    },
+    {
+      "method": "fp8",
+      "point": "qasper_b006_r1",
+      "samples": 2,
+      "gpu_s": 20.232938276000002,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/qasper_b006_r1/attempts/20261021_163652_250720"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b000_r1",
+      "samples": 8,
+      "gpu_s": 18.203763145,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b000_r1/attempts/20261021_181732_953777"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b001_r1",
+      "samples": 8,
+      "gpu_s": 21.120616369,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b001_r1/attempts/20261021_182347_424359"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b002_r1",
+      "samples": 8,
+      "gpu_s": 24.712442389,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b002_r1/attempts/20261021_183009_539462"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b003_r1",
+      "samples": 8,
+      "gpu_s": 27.718839732,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b003_r1/attempts/20261021_183641_306383"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b004_r1",
+      "samples": 8,
+      "gpu_s": 31.557082686999998,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b004_r1/attempts/20261021_184316_648305"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b005_r1",
+      "samples": 8,
+      "gpu_s": 34.730723082000004,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b005_r1/attempts/20261021_184958_495503"
+    },
+    {
+      "method": "fp8",
+      "point": "trec_b006_r1",
+      "samples": 2,
+      "gpu_s": 18.945197221999997,
+      "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/trec_b006_r1/attempts/20261021_185643_816240"
+    }
+  ]
+}

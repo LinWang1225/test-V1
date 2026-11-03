@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/149",
+  "dataset": "humaneval",
+  "index": 149,
+  "policy": "adaptive030",
+  "generation_sha256": "01b84037b3af4d485982b9478309e8c6b770ac9053aa1abcb3e0b79f7d621e3a",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "indent_body",
+  "completion": "    def sorted_list(sorted_list):\n        \"\"\"Filter out strings with odd lengths and sort the remaining strings by length then alphabetically.\"\"\"\n        filtered = [s for s in sorted_list if len(s) % 2 == 0]\n        return sorted(filtered, key=lambda x: (len(x), x))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

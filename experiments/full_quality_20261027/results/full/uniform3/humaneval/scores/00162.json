@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/162",
+  "dataset": "humaneval",
+  "index": 162,
+  "policy": "uniform3",
+  "generation_sha256": "24d5ad365439d76e890569e72d9f0b096e8a1155c1a50de7c3ff7224f7b375bf",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n    \"\"\"\n    import hashlib\n    if not text:\n        return None\n    return hashlib.md5(text.encode('utf-8')).hexdigest('hex')\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: HASH.hexdigest() takes no arguments (1 given)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: HASH.hexdigest() takes no arguments (1 given)']\n",
+    "returncode": 0
+  }
+}

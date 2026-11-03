@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/110",
+  "dataset": "humaneval",
+  "index": 110,
+  "policy": "fp16",
+  "generation_sha256": "94b84b5001dafc0e5afff6b1c00a726103a69499b473457e4b596af5e23ffaf9",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef exchange(lst1, lst2):\n    \"\"\"In this problem, you will implement a function that takes two lists of numbers,\n    and determines whether it is possible to perform an exchange of elements\n    between them to make lst1 a list of only even numbers.\n    There is no limit on the number of exchanged elements between lst1 and lst2.\n    If it is possible to exchange elements between the lst1 and lst2 to make\n    all the elements of lst1 to be even, return \"YES\".\n    Otherwise, return \"NO\".\n    For example:\n    exchange([1, 2, 3, 4], [1, 2, 3, 4]) => \"YES\"\n    exchange([1, 2, 3, 4], [1, 5, 3, 4]) => \"NO\"\n    It is assumed that the input lists will be non-empty.\n    \"\"\"\n    even_in_lst1 = sum(1 for x in lst1 if x % 2 == 0)\n    odd_in_lst2 = sum(1 for x in lst2 if x % 2 == 1)\n    \n    # To make all elements in lst1 even, we need to exchange all odd elements in lst1\n    # with even elements in lst2. The number of such exchanges needed is:\n    needed = len(lst1) - even_in_lst1\n    \n    # If there are enough even numbers in lst2 to exchange with the odd numbers in lst1\n    return \"YES\" if odd_in_lst2 >= needed else \"NO\"\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

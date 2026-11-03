@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/105",
+  "dataset": "humaneval",
+  "index": 105,
+  "policy": "full4",
+  "generation_sha256": "51b1af928a3bbd4aa6bfb57834ef30577f1dd9b7d00f1cd7afa136650ee88578",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef by_length(arr):\n    \"\"\"\n    Given an array of integers, sort the integers that are between 1 and 9 inclusive,\n    reverse the resulting array, and then replace each digit by its corresponding name from\n    \"One\", \"Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\".\n    \"\"\"\n    # Filter numbers between 1 and 9 inclusive\n    filtered = [num for num in arr if 1 <= num <= 9]\n    # Sort the filtered numbers\n    sorted_nums = sorted(filtered)\n    # Reverse the sorted list\n    reversed_nums = sorted_nums[::-1]\n    # Map each number to its corresponding name\n    name_map = {\n        1: \"One\",\n        2: \"Two\",\n        3: \"Three\",\n        4: \"Four\",\n        5: \"Five\",\n        6: \"Six\",\n        7: \"Seven\",\n        8: \"Eight\",\n        9: \"Nine\"\n    }\n    # Replace each number with its name\n    result = [name_map[num] for num in reversed_nums]\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

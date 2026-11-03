@@ -1,0 +1,22 @@
+method,family,implementation,main_progressive
+U_MinMax,均匀范围,原 A。校准标准化样本的极值确定 lo/hi；round-to-nearest 编成 16 个等间距点，再对截断前缀取细码点区间中点。,True
+U_Clipped,均匀范围,同 A 的编码规则；上下尾各从 6 个分位数选择，共搜索 36 个范围，最小化同一码字 2/3/4-bit 平均校准重建损失。,True
+Gaussian_Tree,非均匀树,原 B，参考 ReadKV 的 Gaussian 递归 Lloyd 树；262144 个标准正态分位点作求积，每个父区间内二簇更新直到 4-bit，不用经验 KV 重新拟合分区。,True
+Data_Tree,非均匀树,原 C，参考 Any-Precision 的增量聚类；真实 KV 先训练 4 个种子簇，再逐父簇二分至 8 和 16 簇；旧父级分区和重建表保留，目标为标准化 MSE。,True
+Jacobian_Tree,非均匀树,原 D，沿用 C 的逐级二分；K 用 output-Jacobian 权重，V 用 attention 平方权重。controller 本轮固定的就是这一组合。,True
+JacK_MSEV,非均匀树组合,K 直接复用原 D-K，V 直接复用原 C-V；重新计算联合 attention 输出，不将两个单侧误差相加。,True
+ScoreK_MSEV,非均匀树组合,K 以 Query 通道系数平方和训练同结构树，V 用 C 的普通 MSE 树；检查只关注 score 对角误差是否足够。,True
+ScoreK_AttnV,非均匀树组合,K 用 Score-aware 树，V 用原 D-V attention-aware 树。,True
+ScoreK_MixV,非均匀树组合,K 用 Score-aware 树，V 用普通权重与均值归一化 attention 权重各 50% 的混合目标树。,True
+JacK_MixV,非均匀树组合,K 复用 D-K，V 用相同 50%/50% 混合目标树；这是全部主候选中平均输出相对 L2 最低的组合。,True
+Uniform_ScoreK_MSEV,均匀目标交叉,保留均匀前缀格式，用 Score 权重选择 K 的 36 组截断范围；V 用普通 MSE 选择范围。,True
+Uniform_ScoreK_AttnV,均匀目标交叉,同上，但 V 用 attention 权重选择范围；与 ScoreK_AttnV 形成目标类型对应的家族对照。,True
+Uniform_ScoreK_MixV,均匀目标交叉,同上，但 V 用普通/attention 各半权重选择范围；与 ScoreK_MixV 对应。,True
+Leaf4_Only,非均匀树优化,先拟合 16 个有序叶簇；相邻 4 个叶合成 2-bit 父组、相邻 2 个合成 3-bit 父组，粗级重建用组内加权均值。优先优化 4-bit，再构造粗前缀。,True
+Joint_234,非均匀树优化,从 C 初始化，交替调整有序叶分界和各深度重建值，最小化 (D2+D3+D4)/3；最多 60 轮，相对损失阈值 1e-6。,True
+TCN_MinMax,新增等宽嵌套,借鉴 BitLadder TCNQuant；校准极值范围分成 16 个等宽区间，floor 编码、前缀截断、区间中心重建。没有采用论文每 token/head 的局部在线范围或其 controller。,True
+TCN_Clipped,新增等宽嵌套,与 TCN_MinMax 相同；改为校准搜索 36 组截断范围，最小化 2/3/4-bit 平均 MSE。,True
+Residual211,新增残差,借鉴 QuantSpec 的粗量化后量化误差；unsigned 2-bit RTN 基础码，再追加两个 symmetric 1-bit 残差符号。每级共享幅度用裁剪后校准残差的加权 E|e| 拟合。,True
+LogResidual211,新增对数残差,借鉴 Lynx 对数压扩思想；按对称半径归一化，经 signed alpha-law 映射后做同样的 2＋1＋1 残差编码，各深度逆变换重建。alpha 在校准上从 1/4/16/64 选择。,True
+Independent_Uniform,独立精度参考,2/3/4-bit 各自搜索截断范围、各自独立量化为 4/8/16 个等间距点，编码之间不要求前缀一致。,False
+Independent_MSE,独立精度参考,2/3/4-bit 分别拟合 4/8/16 个非均匀 Lloyd 簇，分别编码；不要求共享父分区或前缀。,False

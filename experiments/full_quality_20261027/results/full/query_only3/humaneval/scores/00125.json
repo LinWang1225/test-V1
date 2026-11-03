@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/125",
+  "dataset": "humaneval",
+  "index": 125,
+  "policy": "query_only3",
+  "generation_sha256": "8be8ad7c267a21441ed05c0417b3342a249cab0cf402da11c001d62888fbe9ac",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef split_words(txt):\n    '''\n    Given a string of words, return a list of words split on whitespace, if no whitespaces exists in the text you\n    should split on commas ',' if no commas exists you should return the number of lower-case letters with odd order in the\n    alphabet, ord('a') = 0, ord('b') = 1, ... ord('z') = 25\n    Examples\n    split_words(\"Hello world!\") ➞ [\"Hello\", \"world!\"]\n    split_words(\"Hello,world!\") ➞ [\"Hello\", \"world!\"]\n    split_words(\"abcdef\") == 3 \n    '''\n    if ' ' in txt:\n        return txt.split()\n    elif ',' in txt:\n        return txt.split(',')\n    else:\n        count = 0\n        for char in txt:\n            if char.islower() and char.isalpha():\n                if (ord(char) - ord('a')) % 2 == 1:\n                    count += 1\n        return count\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

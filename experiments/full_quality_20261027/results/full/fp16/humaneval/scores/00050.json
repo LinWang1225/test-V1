@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/50",
+  "dataset": "humaneval",
+  "index": 50,
+  "policy": "fp16",
+  "generation_sha256": "93db573069de98a2cd4f8b2dbd782433ff57e322a6b174effc98299e94d12d6f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef decode_shift(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shift function. Returns decoded string.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

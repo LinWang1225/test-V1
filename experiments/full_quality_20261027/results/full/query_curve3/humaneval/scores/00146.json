@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/146",
+  "dataset": "humaneval",
+  "index": 146,
+  "policy": "query_curve3",
+  "generation_sha256": "1b1be3f194c49e8250d8a14787272ef8dbcd1e9672749fe0d1f350ffb3042772",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef specialFilter(nums):\n    \"\"\"Write a function that takes an array of numbers as input and returns \n    the number of elements in the array that are greater than 10 and both \n    first and last digits of a number are odd (1, 3, 5, 7, 9).\n    For example:\n    specialFilter([15, -73, 14, -15]) => 1 \n    specialFilter([33, -2, -3, 45, 21, 109]) => 2\n    \"\"\"\n    count = 0\n    for num in nums:\n        if num > 10:\n            s = str(num)\n            first_digit = int(s[0])\n            last_digit = int(s[-1])\n            if first_digit % 2 == 1 and last_digit % 2 == 1:\n                count += 1\n    return count\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

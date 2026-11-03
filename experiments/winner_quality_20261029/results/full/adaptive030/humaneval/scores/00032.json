@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/32",
+  "dataset": "humaneval",
+  "index": 32,
+  "policy": "adaptive030",
+  "generation_sha256": "ba1f53c0e699acf39cb27cc567ca34467059c78ee16301610ec3ffca07024be2",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef find_zero(xs: list):\n    \"\"\" xs are coefficients of a polynomial.\n    find_zero find x such that poly(x) = 0.\n    find_zero returns only only zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    >>> round(find_zero([1, 2]), 2) # f(x) = 1 + 2x\n    -0.5\n    >>> round(find_zero([-6, 11, -6, 1]), 2) # (x - 1) * (x - 2) * (x - 3) = -6 + 11x - 6x^2 + x^3\n    1.0\n    \"\"\"\n    # Find the index of the largest non-zero coefficient\n    max_coeff_index = 0\n    for i, coeff in enumerate(xs):\n        if coeff != 0 and (i == 0 or abs(coeff) > abs(xs[max_coeff_index])):\n            max_coeff_index = i\n    \n    # Use the largest non-zero coefficient to find the root\n    # Assume the polynomial is of the form a_n x^n + ... + a_0 = 0\n    # We use the Newton-Raphson method to find the root\n    a_n = xs[max_coeff_index]\n    n = max_coeff_index\n    x = -a_n / a_n  # Initial guess for Newton-Raphson\n    for _ in range(100):  # Perform 100 iterations of Newton-Raphson\n        f = poly(xs, x)\n        f_prime = sum([coeff * math.pow(x, i) for i, coeff in enumerate(xs)])\n        x = x - f / f_prime\n    return round(x, 2)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: float division by zero']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: float division by zero']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/9",
+  "dataset": "humaneval",
+  "index": 9,
+  "policy": "query_only3",
+  "generation_sha256": "ca28fab8eb5bdc6126c3216fcb13e99336ec5b63aeaa3ae923d3cf2e8b65e2ed",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    result = []\n    current_max = float('-inf')\n    for num in numbers:\n        current_max = max(current_max, num)\n        result.append(current_max)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

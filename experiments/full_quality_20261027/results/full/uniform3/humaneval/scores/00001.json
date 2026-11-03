@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/1",
+  "dataset": "humaneval",
+  "index": 1,
+  "policy": "uniform3",
+  "generation_sha256": "07721d721ed5a633d263ba317191a222d6d17fd185d3acbc2eab1bb6f498a67d",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\"Input to this function is a string containing multiple groups of nested parentheses. The goal is to separate these groups into separate strings and return them as a list. Groups are balanced and not nested within each other. Ignore any spaces in the input string.\"\"\"\n    result = []\n    current_group = []\n    stack = []\n    for char in paren_string.replace(' ', ''):\n        if char == '(':\n            stack.append(char)\n            current_group.append(char)\n        elif char == ')':\n            stack.pop()\n            if not stack:\n                result.append(''.join(current_group)\n                current_group = []\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 28)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 28)\"]\n",
+    "returncode": 0
+  }
+}

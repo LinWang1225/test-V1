@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/162",
+  "dataset": "humaneval",
+  "index": 162,
+  "policy": "adaptive015",
+  "generation_sha256": "70976f89c658a4c4960a8c666bd1e3e12a290851c550ae17bf33a3ef3d275800",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string, return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n    \"\"\"\n    if not text:\n        return None\n    return hashlib.md5(text.encode('utf-8')).hexdigest_hex('decode('hex')\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: unterminated string literal (detected at line 18) (<string>, line 18)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: unterminated string literal (detected at line 18) (<string>, line 18)']\n",
+    "returncode": 0
+  }
+}

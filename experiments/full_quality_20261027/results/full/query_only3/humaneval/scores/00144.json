@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/144",
+  "dataset": "humaneval",
+  "index": 144,
+  "policy": "query_only3",
+  "generation_sha256": "9f78a9cf59895d9971075fc8c52386f0adda6fc8ee6e52f93ca065fe4042e03a",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef simplify(x, n):\n    \"\"\"Your task is to implement a function that will simplify the expression\n    x * n. The function returns True if x * n evaluates to a whole number and False\n    otherwise. Both x and n, are string representation of a fraction, and have the following format,\n    <numerator>/<denominator> where both numerator and denominator are positive whole numbers.\n    \"\"\"\n    # Parse x and n into numerator and denominator\n    x_num, x_den = map(int, x.split('/'))\n    n_num, n_den = map(int, n.split('/'))\n    \n    # Compute the product of the fractions\n    total_num = x_num * n_num\n    total_den = x_den * n_den\n    \n    # Check if the total numerator is divisible by the total denominator\n    return total_num % total_den == 0\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

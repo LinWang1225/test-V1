@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/153",
+  "dataset": "humaneval",
+  "index": 153,
+  "policy": "full4",
+  "generation_sha256": "ac510b36aa2b3a456b4fdad7227a7bea7d7ac193f8b3aa7231bfb7a86da05784",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef Strongest_Extension(class_name, extensions):\n    max_strength = -float('inf')\n    strongest_extension = \"\"\n    for ext in extensions:\n        cap = sum(1 for c in ext if c.isupper())\n        sm = sum(1 for c in ext if c.islower())\n        strength = cap - sm\n        if strength > max_strength or (strength == max_strength and ext < strongest_extension):\n            max_strength = strength\n            strongest_extension = ext\n    return f\"{class_name}.{strongest_extension}\"\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

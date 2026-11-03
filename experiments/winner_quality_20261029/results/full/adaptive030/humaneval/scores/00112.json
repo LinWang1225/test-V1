@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/112",
+  "dataset": "humaneval",
+  "index": 112,
+  "policy": "adaptive030",
+  "generation_sha256": "2b9592136ddc8a261df81464d4eba8cbfb74bc948e55cbb8f5229b4e6818a919",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef reverse_delete(s, c):\n    \"\"\"Task\n    We are given two strings s and c, you have to delete all the characters in s that are any character in c\n    then check if the result string is palindrome.\n    A string is called palindrome if it reads the same backward as forward.\n    You should return a tuple containing the result string and True/False for the check.\n    Example\n    For s = \"abcde\", c = \"ae\", the result should be ('bcd',False)\n    For s = \"abcdef\", c = \"b\"  the result should be ('acdef',False)\n    For s = \"abcdedcba\", c = \"ab\", the result should be ('cdedc',True)\n    \"\"\"\n    # Delete characters in s that are present in c\n    result = ''.join(char for char in s if char not in c)\n    # Check if the result is a palindrome\n    is_palindrome = result == result[::-1]\n    return (result, is_pal, is_palindrome)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: name 'is_pal' is not defined\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: name 'is_pal' is not defined\"]\n",
+    "returncode": 0
+  }
+}

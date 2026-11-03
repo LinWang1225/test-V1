@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/95",
+  "dataset": "humaneval",
+  "index": 95,
+  "policy": "full4",
+  "generation_sha256": "4d5432e609f166dea4e1097a75b458602b31b5079734c8ce286f86b837de0365",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef check_dict_case(dict):\n    \"\"\"\n    Given a dictionary, return True if all keys are strings in lower \n    case or all keys are strings in upper case, else return False.\n    The function should return False if the given dictionary is empty.\n    \"\"\"\n    if not dict:\n        return False\n    keys = dict.keys()\n    lower_keys = all(k.islower() for k in keys)\n    upper_keys = all(k.isupper() for k in keys)\n    return lower_keys or upper_keys\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: 'int' object has no attribute 'islower'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: 'int' object has no attribute 'islower'\"]\n",
+    "returncode": 0
+  }
+}

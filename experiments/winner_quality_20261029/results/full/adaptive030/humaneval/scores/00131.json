@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/131",
+  "dataset": "humaneval",
+  "index": 131,
+  "policy": "adaptive030",
+  "generation_sha256": "b8ea39db232da9ea5cc4871d694aabedc8ce4c41e269cf62c04cfc63176d918c",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef digits(n):\n    product = 1\n    for digit in str(n):\n        d = int(digit)\n        if d % 2 == 1:\n            product *= d\n    return product if product != 0 else 0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

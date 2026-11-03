@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/162",
+  "dataset": "humaneval",
+  "index": 162,
+  "policy": "adaptive030",
+  "generation_sha256": "085be7688a62f1edd212b68fe555e189b29cbd334c7c907beace18d5faaa9a23",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n\n    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'\n    \"\"\"\n    if not text:\n        return None\n    return hashlib.md5(text.encode('utf-8')).hexdigest()\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: name 'hashlib' is not defined\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: name 'hashlib' is not defined\"]\n",
+    "returncode": 0
+  }
+}

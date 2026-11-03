@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/161",
+  "dataset": "humaneval",
+  "index": 161,
+  "policy": "adaptive015",
+  "generation_sha256": "79c2ada5f61b05f181a36269345fb77297b102f7151214fe3edfa07fb6c2be65",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef solve(s):\n    \"\"\"You are given a string s.\n    if s[i] is a letter, reverse its case from lower to upper or vise versa, \n    otherwise keep it as it is.\n    If the string contains no letters, reverse the string.\n    The function should return the resulted string.\n    Examples\n    solve(\"1234\") = \"4321\"\n    solve(\"ab\") = \"AB\"\n    solve(\"#a@C\") = \"#A@c\"\n    \"\"\"\n    has_letter = any(c.isalpha() for c in s)\n    result = []\n    for c in s:\n        if c.isalpha():\n            result.append(c.swapcase())\n        else:\n            result.append(c)\n    if not has_letter:\n        result = result[::-1]\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

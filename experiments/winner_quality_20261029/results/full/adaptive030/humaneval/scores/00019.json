@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/19",
+  "dataset": "humaneval",
+  "index": 19,
+  "policy": "adaptive030",
+  "generation_sha256": "fbef560004e4bc5ae5c3674a350582ab83c0bbfef4564a82cea04cd091fdf85b",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_numbers(numbers:):\n    \"\"\" Input is a space-delimited string of numberals from 'zero' to 'nine'.\n    Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' and 'nine'.\n    Return the string with numbers sorted from smallest to largest\n    >>> sort_numbers('three one five')\n    'one three five'\n    \"\"\"\n    # Map word to number\n    word_to_num = {\n        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,\n        'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9\n    }\n    \n    # Split the input string into words\n    words = numbers.split()\n    \n    # Convert words to numbers\n    nums = [word_to_num[word] for word in words]\n    \n    # Sort the numbers\n    sorted_nums = sorted(nums)\n    \n    # Map sorted numbers back to words\n    sorted_words = [str(word_to_num[num]) for num in sorted_nums]\n    \n    # Join the sorted words into a string\n    return ' '.join(sorted_words)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 13)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 13)']\n",
+    "returncode": 0
+  }
+}

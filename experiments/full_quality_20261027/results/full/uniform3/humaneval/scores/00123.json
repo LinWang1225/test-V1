@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/123",
+  "dataset": "humaneval",
+  "index": 123,
+  "policy": "uniform3",
+  "generation_sha256": "31e351a55c6d0105ff1f3715ee7be8b4a43432308cb5148c196ffb5f5086e239",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef get_odd_collatz(n):\n    \"\"\"\n    Given a positive integer n, return a sorted list of odd numbers in the Collatz sequence.\n    \"\"\"\n    sequence = []\n    while n != 1:\n        if n % 2 == 1:\n            sequence.append(n)\n        n = n // 2\n    sequence.append(1)\n    return sorted(sequence)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

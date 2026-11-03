@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/130",
+  "dataset": "humaneval",
+  "index": 130,
+  "policy": "query_only3",
+  "generation_sha256": "6632feef5ee42f3e0154f711f054ffe3d7079a5cf018997caf9e99c6452c4195",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef tri(n):\n    \"\"\"Everyone knows Fibonacci sequence, it was studied deeply by mathematicians in\n    the last couple centuries. However, what people don't know is Tribonacci sequence.\n    Tribonacci sequence is defined by the recurrence:\n    tri(1) = 3\n    tri(n) = 1 + n / 2, if n is even.\n    tri(n) =  tri(n - 1) + tri(n - 2) + tri(n + 1), if n is odd.\n    For example:\n    tri(2) = 1 + (2 / 2) = 2\n    tri(4) = 3\n    tri(3) = tri(2) + tri(1) + tri(4)\n           = 2 + 3 + 3 = 8\n    You are given a non-negative integer number n, you have to return a list of the\n    first n + 1 numbers of the Tribonacci sequence.\n    Examples:\n    tri(3) = [1, 3, 2, 8]\n    \"\"\"\n    if n == 0:\n        return [1]\n    result = [0] * (n + 1)\n    result[0] = 1\n    result[1] = 3\n    for i in range(2, n + 1):\n        if i % 2 == 0:\n            result[i] = 1 + i // 2\n        else:\n            result[i] = result[i - 1] + result[i - 2] + result[i + 1]\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: list index out of range']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: list index out of range']\n",
+    "returncode": 0
+  }
+}

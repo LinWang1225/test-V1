@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/125",
+  "dataset": "humaneval",
+  "index": 125,
+  "policy": "uniform3",
+  "generation_sha256": "1614cead67336e3837fc007b978e1d9cddfb6ded124bd608e7f5f3e3a5ce8a56",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef split_words(txt):\n    # Split on whitespace\n    words = txt.split()\n    if len(words) > 1:\n        return words\n    # If no whitespace, check for commas\n    words = txt.split(',')\n    if len(words) > 1:\n        return words\n    # If no commas, count odd-order lowercase letters\n    count = 0\n    for char in txt:\n        if char.islower() and (ord(char) % 2 == 1):\n            count += 1\n    return count\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

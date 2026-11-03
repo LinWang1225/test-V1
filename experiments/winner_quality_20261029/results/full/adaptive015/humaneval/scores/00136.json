@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/136",
+  "dataset": "humaneval",
+  "index": 136,
+  "policy": "adaptive015",
+  "generation_sha256": "4b8019894f3791edcdc15267473ade6cd7a9270e6fa152239775dc134b582be4",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_smallest_integers(lst(lst):\n    '''\n    Create a function that returns a tuple (a, b), where 'a' is\n    the largest of negative integers, and 'b' is the smallest\n    of positive integers in a list.\n    If there is no negative or positive integers, return them as None.\n\n    Examples:\n    largest_smallest_integers([2, 4, 1, 3, 5, 7]) == (None, 1)\n    largest_smallest_integers([]) == (None, None)\n    largest_smallest_integers([0]) == (None, None)\n    '''\n    neg = [x for x in lst if x < 0]\n    pos = [x for x in lst if x > 0]\n    a = max(neg) if neg else None\n    b = min(pos) if pos else None\n    return (a, b)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 16)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 16)']\n",
+    "returncode": 0
+  }
+}

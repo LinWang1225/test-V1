@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/24",
+  "dataset": "humaneval",
+  "index": 24,
+  "policy": "full4",
+  "generation_sha256": "06cd23aead3523ec906d0442202849c0aa24b29920e655e0f4937b37f19e6550",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_divisor(n: int) ->:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    for i in range(n // 2, 0, -1):\n        if n % i == 0:\n            return i\n    return 1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: expected ':' (<string>, line 10)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: expected ':' (<string>, line 10)\"]\n",
+    "returncode": 0
+  }
+}

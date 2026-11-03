@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/151",
+  "dataset": "humaneval",
+  "index": 151,
+  "policy": "query_curve3",
+  "generation_sha256": "6e4009463fc760cb3e0a270cb6911c4305320f097cc08fa9bca69efa25895aa2",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef double_the_difference(lst):\n    '''\n    Given a list of numbers, return the sum of squares of the numbers\n    in the list that are odd. Ignore numbers that are negative or not integers.\n    '''\n    total = 0\n    for num in lst:\n        if isinstance(num, int) and num >= 0:\n            total += num ** 2\n    return total\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 2 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 2 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

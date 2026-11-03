@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/112",
+  "dataset": "humaneval",
+  "index": 112,
+  "policy": "fp16",
+  "generation_sha256": "d4615bc4c183f0380e3b37ec550d5e7c6d7f0645aacb06bec5418333505d152f",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef reverse_delete(s, c):\n    \"\"\"Task\n    We are given two strings s and c, you have to deleted all the characters in s that are equal to any character in c\n    then check if the result string is palindrome.\n    A string is called palindrome if it reads the same backward as forward.\n    You should return a tuple containing the result string and True/False for the check.\n    Example\n    For s = \"abcde\", c = \"ae\", the result should be ('bcd',False)\n    For s = \"abcdef\", c = \"b\"  the result should be ('acdef',False)\n    For s = \"abcdedcba\", c = \"ab\", the result should be ('cdedc',True)\n    \"\"\"\n    # Remove characters in s that are present in c\n    filtered = ''.join([char for char in s if char not in c])\n    # Check if the filtered string is a palindrome\n    is_palindrome = filtered == filtered[::-1]\n    return (filtered, is_palindrome)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

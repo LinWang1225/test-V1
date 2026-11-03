@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/11",
+  "dataset": "humaneval",
+  "index": 11,
+  "policy": "uniform3",
+  "generation_sha256": "6c4c429743e54fe94fb082dcb57e37140d252d4dccb825ced2f8033285437ffa",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\"Perform binary XOR on two binary strings and return the result as a string.\"\"\"\n    # Convert the input strings to integers\n    num_a = int(a, 2)\n    num_b = int(b, 2)\n    \n    # Perform XOR operation\n    result_num = num_a ^ num_b\n    \n    # Convert the result back to a binary string\n    return bin(result_num)[2:]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

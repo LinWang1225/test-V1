@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/118",
+  "dataset": "humaneval",
+  "index": 118,
+  "policy": "query_only3",
+  "generation_sha256": "49062d5f85591cdc361168c5b03d4b276376774ce06c2dcfc2da1af475a2ac53",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef get_closest_vowel(word):\n    vowels = \"AEIOUaeiou\"\n    for i in range(len(word)-2, -1, -1):\n        if word[i] in vowels:\n            return word[i]\n    return \"\"\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

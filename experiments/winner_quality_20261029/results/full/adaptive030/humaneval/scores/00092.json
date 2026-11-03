@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/92",
+  "dataset": "humaneval",
+  "index": 92,
+  "policy": "adaptive030",
+  "generation_sha256": "d32d4afa87c683994d0a61b5772a48bf9523a77557bf9b2de206a8eb12a9fb67",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef any_int(x, y, z):\n    '''\n    Create a function that takes 3 numbers.\n    Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.\n    Returns false in any other cases.\n    '''\n    if not (isinstance(x, int) and isinstance(y, int) and isinstance(z, int)):\n        return False\n    return (x == y + z) or (y == x + z) or (z == x + y)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

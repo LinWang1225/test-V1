@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/102",
+  "dataset": "humaneval",
+  "index": 102,
+  "policy": "query_only3",
+  "generation_sha256": "9e32b19a23458f9ba2d1cf2063cc1b4178bf7155bb77e11b116d792a1d4df950",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef choose_num(x, y):\n    \"\"\"This function takes two positive numbers x and y and returns the\n    biggest even integer number that is in the range [x, y] inclusive. If \n    there's no such number, then the function should return -1.\n\n    For example:\n    choose_num(12, 15) = 14\n    choose_num(13, 12) = -1\n    \"\"\"\n    for num in range(y, x - 1, -1):\n        if num % 2 == 0:\n            return num\n    return -1\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

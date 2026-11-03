@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/117",
+  "dataset": "humaneval",
+  "index": 117,
+  "policy": "query_only3",
+  "generation_sha256": "77f5a181ea9803ad12f47db204dc3c2b60f90c3bfd2ddb395f81d6fda64a0d6b",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef select_words(s, n):\n    \"\"\"Given a string s and a natural number n, returns a list of all words from string s that contain exactly n consonants, in order these words appear in the string s.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    result = []\n    words = s.split()\n    for word in words:\n        consonant_count = 0\n        for char in word:\n            if char.isalpha() and char not in vowels:\n                consonant_count += 1\n        if consonant_count == n:\n            result.append(word)\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

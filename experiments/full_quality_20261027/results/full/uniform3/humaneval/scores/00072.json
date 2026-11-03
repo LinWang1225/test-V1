@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/72",
+  "dataset": "humaneval",
+  "index": 72,
+  "policy": "uniform3",
+  "generation_sha256": "2dc98ee407e588a9c95510c1b03668f9f26db3e85296158ddeb670fa94941710",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef will_it_fly(q, w):\n    '''\n    Write a function that returns True if the object q will fly, and False otherwise.\n    The object q will fly if it is balanced (it is a palindromic list) and the sum of its elements is less than or equal to the maximum possible weight w.\n    '''\n    # Check if the list is a palindrome\n    is_balanced = q == q[::-1]\n    # Check if the sum of elements is less than or equal to w\n    total_weight = sum(q)\n    return is_balanced and (total_weight <= w)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

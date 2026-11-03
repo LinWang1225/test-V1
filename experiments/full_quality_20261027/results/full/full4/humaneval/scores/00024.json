@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/24",
+  "dataset": "humaneval",
+  "index": 24,
+  "policy": "full4",
+  "generation_sha256": "2e0f598cad08055c50bf5466d8427775395ff886f11966fe864235b976acc542",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    for i in range(n-1, 0, -1):\n        if n % i == 0:\n            return i\n    return 0\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

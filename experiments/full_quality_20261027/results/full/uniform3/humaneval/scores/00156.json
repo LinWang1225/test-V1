@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/156",
+  "dataset": "humaneval",
+  "index": 156,
+  "policy": "uniform3",
+  "generation_sha256": "10e1d9adb8ac320521464eb13470a3ef4b4ae81fd5e83e5e49b2a0ac878d9be1",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef int_to_mini_roman(number):\n    roman_numerals = [\n        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),\n        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),\n        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')\n    ]\n    result = ''\n    for value, symbol in roman_numerals:\n        while number >= value:\n            result += symbol\n            number -= value\n        if number == 0:\n            break\n    return result.lower()\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

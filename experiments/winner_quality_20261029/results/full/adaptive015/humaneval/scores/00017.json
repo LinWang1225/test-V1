@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/17",
+  "dataset": "humaneval",
+  "index": 17,
+  "policy": "adaptive015",
+  "generation_sha256": "bebadc8b0196612540c647598f0e5cd3ba2d23b5e5546a9a88fd1d16e9793ee9",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    Your task is to parse this string and return a list of integers corresponding to how many beats each note lasts.\n\n    Here is a legend:\n    'o' - whole note, lasts four beats\n    'o|' - half note, lasts two beats\n    '.|' - quarter note, lasts one beat\n    \"\"\"\n    result = []\n    i = 0\n    while i < len(music_string):\n        if music_string[i] == 'o':\n            result.append(4)\n            i += 1\n        elif music_string[i] == '.' and i + 1 < len(music_string) and music_string[i+1] == '|':\n            result.append(1)\n            i += 2\n        elif music_string[i] == 'o' and i + 1 < len(music_string) and music_string[i+1] == '|':\n            result.append(2)\n            i += 2\n        else:\n            i += 1\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

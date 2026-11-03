@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/17",
+  "dataset": "humaneval",
+  "index": 17,
+  "policy": "uniform3",
+  "generation_sha256": "7cbb0fa797bfd7c90f53b9dda72cf445abc1920341f5ec40115dcd4022495a40",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    The function parses the string and returns a list of integers representing the duration of each note.\n    \n    Legend:\n    'o' - whole note (four beats)\n    'o|' - half note (two beats)\n    '.|' - quarter note (one beat)\n    \"\"\"\n    beats = []\n    tokens = music_string.split()\n    for token in tokens:\n        if token == 'o':\n            beats.append(4)\n        elif token == 'o|':\n            beats.append(2)\n        elif token == '.|':\n            beats.append(1)\n    return beats\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

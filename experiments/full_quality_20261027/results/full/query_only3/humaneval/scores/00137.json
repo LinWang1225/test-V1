@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/137",
+  "dataset": "humaneval",
+  "index": 137,
+  "policy": "query_only3",
+  "generation_sha256": "41f10ea56e24c64f631ba9a22f1c48f67597c4c58f3981a7db66dcdacff619dc",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef compare_one(a, b):\n    def to_float(x):\n        if isinstance(x, str):\n            return float(x.replace(',', '.'))  # Replace commas with dots for European decimal separator\n        return float(x)\n    \n    a_float = to_float(a)\n    b_float = to_float(b)\n    \n    if a_float > b_float:\n        return a\n    elif a_float < b_float:\n        return b\n    else:\n        return None\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/162",
+  "dataset": "humaneval",
+  "index": 162,
+  "policy": "full4",
+  "generation_sha256": "a3844bc8bfb25bdb48e20c9ef106fabab5cf62a04dfa1c5ba94f264fff9c52ab",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n    \"\"\"\n    if not text:\n        return None\n    import hashlib\n    return hashlib(hashlib.md5(text.encode('utf-8')).hexdigest_hexdigest())\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '_hashlib.HASH' object has no attribute 'hexdigest_hexdigest'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '_hashlib.HASH' object has no attribute 'hexdigest_hexdigest'\"]\n",
+    "returncode": 0
+  }
+}

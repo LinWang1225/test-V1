@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/5",
+  "dataset": "humaneval",
+  "index": 5,
+  "policy": "query_only3",
+  "generation_sha256": "7d0676dc1885f03eb88c3d84b3147023d5fb3e23464af098b92432aa6bc8abbd",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\nfrom typing import List\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers`\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    result = []\n    for i in range(len(numbers) - 1):\n        result.append(numbers[i])\n        result.append(delimeter)\n    if numbers:\n        result.append(numbers[-1])\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

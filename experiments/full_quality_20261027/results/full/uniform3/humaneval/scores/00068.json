@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/68",
+  "dataset": "humaneval",
+  "index": 68,
+  "policy": "uniform3",
+  "generation_sha256": "b5e881a522c58b1fb9af41bf213cb2219eb7f82af17cfa1d3ddb1bcda6d43822",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef pluck(arr):\n    min_even = None\n    min_index = -1\n    for i, num in enumerate(arr):\n        if num % 2 == 0:\n            if min_even is None or num < min_even:\n                min_even = num\n                min_index = i\n    return [min_even, min_index] if min_even is not None else []\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

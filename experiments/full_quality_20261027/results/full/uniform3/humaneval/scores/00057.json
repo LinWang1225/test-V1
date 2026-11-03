@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/57",
+  "dataset": "humaneval",
+  "index": 57,
+  "policy": "uniform3",
+  "generation_sha256": "9c9203f8d8def2b9857cdcdedbf334a7a63c78c3ff6559c766a6bf5fc5793e63",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\"\"\"\n    return all(l[i] <= l[i+1] for i in range(len(l)-1) or all(l[i] >= l[i+1] for i in range(len(l)-1))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 16)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 16)\"]\n",
+    "returncode": 0
+  }
+}

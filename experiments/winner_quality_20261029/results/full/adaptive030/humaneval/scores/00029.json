@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/29",
+  "dataset": "humaneval",
+  "index": 29,
+  "policy": "adaptive030",
+  "generation_sha256": "fe3c2b1415e5b28cbebcdb5189c3d867095621f0da0324ac7f225f2df95de860",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef filter_by_prefix(strings(strings: List[str], prefix: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that start with a given prefix.\n    >>> filter_by_prefix([], 'a')\n    []\n    >>> filter_by_prefix(['abc', 'bcd', 'c', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [s for s in strings if s.startswith(prefix)]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 13)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 13)']\n",
+    "returncode": 0
+  }
+}

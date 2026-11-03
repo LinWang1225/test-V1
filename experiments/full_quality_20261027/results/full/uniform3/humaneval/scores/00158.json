@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/158",
+  "dataset": "humaneval",
+  "index": 158,
+  "policy": "uniform3",
+  "generation_sha256": "5a6934c80638bdfe0f73dedb82949361045ad7e088c4295936e49cc9f38fd0a6",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef find_max(words):\n    max_unique = -1\n    result = \"\"\n    for word in words:\n        unique = len(set(word))\n        if unique > max_unique:\n            max_unique = unique\n            result = word\n        elif unique == max_unique:\n            if word < result:\n                result = word\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

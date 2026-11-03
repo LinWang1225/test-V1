@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/139",
+  "dataset": "humaneval",
+  "index": 139,
+  "policy": "adaptive030",
+  "generation_sha256": "ff51664b91b26ec3b6ed02f4b163f70486e36361515d2a48ae2cebd6f18344ee",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef special_factorial(n):\n    \"\"\"The Brazilian factorial is defined as:\n    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!\n    where n > 0\n\n    For example:\n    >>> special_factorial(4)\n    288\n\n    The function will receive an integer as input and should return the special\n    factorial of this integer.\n    \"\"\"\n    result = 1\n    for i in range(1, n+1):\n        result *= factorial(i)\n    return result\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: name 'factorial' is not defined\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: name 'factorial' is not defined\"]\n",
+    "returncode": 0
+  }
+}

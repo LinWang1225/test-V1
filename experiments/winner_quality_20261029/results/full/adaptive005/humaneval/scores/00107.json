@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/107",
+  "dataset": "humaneval",
+  "index": 107,
+  "policy": "adaptive005",
+  "generation_sha256": "53449a9eedcf186e6d0f65138a07f61899da4235750c3446adc226aa791cbfef",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef even_odd_palindrome(n):\n    \"\"\"\n    Given a positive integer n, return a tuple that has the number of even and odd\n    integer palindromes that fall within the range(1, n), inclusive.\n    \"\"\"\n    count_even = 0\n    count_odd = 0\n    for i in range(1, n + 1):\n        s = str(i)\n        if s == s[::-1]:\n            if int(s) % 2 == 0:\n                count_even += 1\n            else:\n                count_odd += 1\n    return (count_even, count_odd)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

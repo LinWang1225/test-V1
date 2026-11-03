@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/134",
+  "dataset": "humaneval",
+  "index": 134,
+  "policy": "adaptive015",
+  "generation_sha256": "7a2d8497b34e8cdd32ad88e8a23b1663256e42dc9c17257ecc31027aabd391f5",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef check_if_last_char_is_a_letter(txt):\n    '''\n    Create a function that returns True if the last character\n\n    of a given string is an alphabetical character and is not\n    part of a word, and False otherwise.\n    Note: \"word\" is a group of characters separated by space.\n\n    Examples:\n    check_if_last_char_is_a_letter(\"apple pie\") ➞ False\n    check_if_last_char_is_a_letter(\"apple pi e\") ➞ True\n    check_if_last_char_is_a_letter(\"apple pi e \") ➞ False\n    check_if_last_char_is_a_letter(\"\") ➞ False \n    '''\n    if not txt:\n        return False\n    last_char = txt[-1]\n    if not last_char.isalpha():\n        return False\n    # Check if the last character is not part of a word (i.e., it's after a space)\n    if txt[-1].isalpha() and (len(txt) == 1 or txt[-2] == ' '):\n        return True\n    return False\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

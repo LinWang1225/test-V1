@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/141",
+  "dataset": "humaneval",
+  "index": 141,
+  "policy": "adaptive030",
+  "generation_sha256": "d5eac89d0cbc423fadfdef80dff427f6797fba2f8ebbf073e53e2d9856ca2729",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef file_name_check(file_name):\n    \"\"\"Create a function which takes a string representing a file's name, and returns\n    'Yes' if the the file's name is valid, and returns 'No' otherwise.\n    A file's name is considered to be valid if and only if all the following conditions\n    are met:\n    - There should not be more than three digits ('0'-'9') in the file's name.\n    - The file's name contains exactly one dot '.'.\n    - The substring before the dot should not be empty, and it starts with a letter from\n    the latin alphabet ('a'-'z' and 'A'-'Z').\n    - The substring after the dot should be one of these: ['txt', 'exe', 'dll']\n    Examples:\n    file_name_check(\"example.txt\") # => 'Yes'\n    file_name_check(\"1example.dll\") # => 'No' (the name should start with a latin alphapet letter)\n    \"\"\"\n    # Split the file name into parts\n    parts = file_name.split('.')\n    if len(parts) != 2:\n        return 'No'\n    \n    # Check if the extension is valid\n    extension = parts[1]\n    if extension not in ['txt', 'exe', 'dll']:\n        return 'No'\n    \n    # Check if the filename part is valid\n    filename_part = parts[0]\n    if not filename_part:\n        return 'No'\n    \n    # Check if the filename part starts with a letter\n    if not filename_part[0].isalpha():\n        return 'No'\n    \n    # Count digits in the filename part\n    digit_count = sum(1 for c in filename_part if c.isdigit())\n    if digit_count > 3:\n        return 'No'\n    \n    return 'Yes'\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

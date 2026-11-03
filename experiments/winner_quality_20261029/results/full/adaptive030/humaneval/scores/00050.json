@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/50",
+  "dataset": "humaneval",
+  "index": 50,
+  "policy": "adaptive030",
+  "generation_sha256": "617f1d3d14d9a9e19f5ed82ec27a5cc1895c9b2f8451db599c87a194e9c0e497",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef decode_shift(s::\n    \"\"\"\n    takes as input string encoded with encode_shift\n    returns decoded string\n    \"\"\"\n    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26 + ord(\"a\") for ch in s]))\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: closing parenthesis ']' does not match opening parenthesis '(' (<string>, line 21)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: closing parenthesis ']' does not match opening parenthesis '(' (<string>, line 21)\"]\n",
+    "returncode": 0
+  }
+}

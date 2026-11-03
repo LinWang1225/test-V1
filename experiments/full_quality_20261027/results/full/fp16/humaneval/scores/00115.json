@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/115",
+  "dataset": "humaneval",
+  "index": 115,
+  "policy": "fp16",
+  "generation_sha256": "3c61cb8ba226e1477ecf279dd487f84fd83115839f3c552257b73a5036a587e1",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef max_fill(grid, capacity):\n    \"\"\"\n    You are given a rectangular grid of wells. Each row represents a single well,\n    and each 1 in a row represents a single unit of water.\n    Each well has a corresponding bucket that can be used to extract water from it, \n    and all buckets have the same capacity.\n    Your task is to use the buckets to empty the wells.\n    Output the number of times you need to lower the buckets.\n    \"\"\"\n    total = 0\n    for well in grid:\n        water = sum(well)\n        if water > 0:\n            total += math.ceil(water / capacity)\n    return total\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: name 'math' is not defined\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: name 'math' is not defined\"]\n",
+    "returncode": 0
+  }
+}

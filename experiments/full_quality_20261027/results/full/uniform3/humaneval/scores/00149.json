@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/149",
+  "dataset": "humaneval",
+  "index": 149,
+  "policy": "uniform3",
+  "generation_sha256": "f4d595736a75c1da4b8a49610064f1df216695113b9da09512f2b8107f46fcd3",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sorted_list_sum(lst):\n    \"\"\"Write a function that accepts a list of strings as a parameter,\n    deletes the strings that have odd lengths from it,\n    and returns the resulted list with a sorted order,\n    The list is always a list of strings and never an array of numbers,\n    and it may contain duplicates.\n    The order of the list should be ascending by length of each word, and you\n    should return the list sorted by that rule.\n    If two words have the same length, sort the list alphabetically.\n    The function should return a list of strings in sorted order.\"\"\"\n    # Filter out strings with odd lengths\n    filtered = [s for s in lst if len(s) % 2 == 0]\n    # Sort by length, then alphabetically\n    filtered.sort(key=lambda x: (len(x), x))\n    return filtered\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

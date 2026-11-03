@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/140",
+  "dataset": "humaneval",
+  "index": 140,
+  "policy": "query_only3",
+  "generation_sha256": "c4cef36978a561b766453294969a624c8c70eb8fca7a0e23ed0bf0abb3a06acc",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fix_spaces(text):\n    \"\"\"\n    Given a string text, replace all spaces in it with underscores, \n    and if a string has more than 2 consecutive spaces, \n    then replace all consecutive spaces with - \n    \"\"\"\n    # Replace multiple spaces with a placeholder\n    text = re.sub(r' {2,}', '#####', text)\n    # Replace single spaces with underscores\n    text = text.replace(' ', '_')\n    # Replace the placeholder with '-'\n    text = re.sub(r'#####', '-', text)\n    return text\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: name 're' is not defined\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: name 're' is not defined\"]\n",
+    "returncode": 0
+  }
+}

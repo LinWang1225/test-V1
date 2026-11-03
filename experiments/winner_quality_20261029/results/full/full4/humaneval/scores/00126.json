@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/126",
+  "dataset": "humaneval",
+  "index": 126,
+  "policy": "full4",
+  "generation_sha256": "207397a6639e2694607613dcaab97d98c9249f3eeb3d0dc58689ee1bd1eb9314",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_sorted(lst):\n    '''\n    Given a list of numbers, return whether or not they are sorted\n    in ascending order. If list has more than 1 duplicate of the same\n    number, return False. Assume no negative numbers and only integers.\n    '''\n    for i in range(1, len(lst)):\n        if lst[i] < lst[i-1]:\n            return False\n        if lst[i] == lst[i-1]:\n            return False\n    return True\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: This prints if this assert fails 7 (good for debugging!)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: This prints if this assert fails 7 (good for debugging!)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/148",
+  "dataset": "humaneval",
+  "index": 148,
+  "policy": "query_only3",
+  "generation_sha256": "0a09915c19165b456d6828e220fe5dadeca3e8319a545c6901e676f1992e9951",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef bf(planet1, planet2):\n    planets = [\"Mercury\", \"Venus\", \"Earth\", \"Mars\", \"Jupiter\", \"Saturn\", \"Uranus\", \"Neptune\"]\n    try:\n        idx1 = planets.index(planet1)\n        idx2 = planets.index(planet2)\n    except ValueError:\n        return ()\n    \n    if idx1 > idx2:\n        idx1, idx2 = idx2, idx1\n    \n    return tuple(planets[idx1+1:idx2])\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

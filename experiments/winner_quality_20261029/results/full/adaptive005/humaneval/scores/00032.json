@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/32",
+  "dataset": "humaneval",
+  "index": 32,
+  "policy": "adaptive005",
+  "generation_sha256": "28795d5a0761e2f1d9ab6c214ecd52b50661fb490de8386d1145ed33710bc5c0",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef find_zero(xs: list):\n    \"\"\" xs are coefficients of a polynomial.\n    find_zero find x such that poly(x) = 0.\n    find_zero returns only only zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    >>> round(find_zero([1, 2]), 2) # f(x) = 1 + 2x\n    -0.5\n    >>> round(find_zero([-6, 11, -6, 1]), 2) # (x - 1) * (x - 2) * (x - 3) = -6 + 11x - 6x^2 + x^3\n    1.0\n    \"\"\"\n    # Find the index of the largest non-zero coefficient\n    max_coeff = max(coeff for coeff in xs if coeff != 0)\n    max_index = xs.index(max_coeff)\n    \n    # If the largest coefficient is at an even index (0-based), return -max_coeff / next coefficient\n    if max_index % 2 == 0:\n        return -max_coeff / xs[max_index + 1] if max_index + 1 < len(xs) else 0.0\n    else:\n        return 0.0  # No solution guaranteed by the problem statement, return 0 as a fallback\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

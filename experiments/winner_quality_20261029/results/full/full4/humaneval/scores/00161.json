@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/161",
+  "dataset": "humaneval",
+  "index": 161,
+  "policy": "full4",
+  "generation_sha256": "1ccae6b76c935b20b461be254eb35e33543a27527576347970415ab063c4bccf",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef solve(s):\n    has_letter = any(c.isalpha() for c in s)\n    if not has_letter:\n        return s[::-1]\n    result = []\n    for c in s:\n        if c.isalpha():\n            result.append(c.swapcase())\n        else:\n            result.append(c)\n    return ''.join(result)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

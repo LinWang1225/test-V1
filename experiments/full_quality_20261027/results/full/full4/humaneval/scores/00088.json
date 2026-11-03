@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/88",
+  "dataset": "humaneval",
+  "index": 88,
+  "policy": "full4",
+  "generation_sha256": "62cdcbe7afd5bedfd73c7fab88bdac9cbb2c3867589e8f3ad2ee7aa0a2ee92b8",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_array(array):\n    \"\"\"\n    Given an array of non-negative integers, return a copy of the given array after sorting,\n    you will sort the given array in ascending order if the sum( first index value, last index value) is odd,\n    or sort it in descending order if the sum( first index value, last index value) is even.\n\n    Note:\n    * don't change the given array.\n\n    Examples:\n    * sort_array([]) => []\n    * sort_array([5]) => [5]\n    * sort_array([2, 4, 3, 0, 1, 5]) => [0, 1, 2, 3, 4, 5]\n    * sort_array([2, 4, 3, 0, 1, 5, 6]) => [6, 5, 4, 3, 2, 1, 0]\n    \"\"\"\n    # Create a copy of the array to avoid modifying the original\n    arr = list(array)\n    \n    # Handle empty array\n    if not arr:\n        return []\n    \n    # Calculate the sum of first and last elements\n    first = arr[0]\n    last = arr[-1]\n    sum_val = first + last\n    \n    # Sort the array based on the sum's parity\n    if sum_val % 2 == 1:\n        arr.sort()\n    else:\n        arr.sort(reverse=True)\n    \n    return arr\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/151",
+  "dataset": "humaneval",
+  "index": 151,
+  "policy": "adaptive005",
+  "generation_sha256": "0b7d7a5d0a80c75e3e9f8fb0c2caddc9eb441bae858969a260be75926332dd6f",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef double_the_difference(lst(lstview_str-10148:\n    def double_the_difference(lst):\n        '''\n        Given a list of numbers, return the sum of squares of the numbers\n        in the list that are odd. Ignore numbers that are negative or not integers.\n        \n        double_the_difference([1, 3, 2, 0]) == 1 + 9 + 0 + 0 = 10\n        double_the_difference([-1, -2, 0]) == 0\n        double_the_difference([9, -2]) == 81\n        double_the_difference([0]) == 0  \n        \n        If the input list is empty, return 0.\n        '''\n        total = 0\n        for num in lst:\n            if isinstance(num, int) and num >= 0 and num % 2 == 1:\n                total += num ** 2\n        return total\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: invalid syntax (<string>, line 16)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: invalid syntax (<string>, line 16)']\n",
+    "returncode": 0
+  }
+}

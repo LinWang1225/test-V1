@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/102",
+  "dataset": "humaneval",
+  "index": 102,
+  "policy": "adaptive030",
+  "generation_sha256": "0593cc144502c09d0ed0b11787672d1bc903e5b9abb0034de003119a2b3829ae",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef choose_num(x, y):\n    \"\"\"This function takes two positive numbers x and y and returns the\n    biggest even integer number that is in the range [x, y] inclusive. If there's no such number,\n    then the function should return -1.\n\n    For example:\n    choose_num(12, 15) = 14\n    choose_num(13, 12) = -1\n    \"\"\"\n    if x > y:\n        return -1\n    for i in range(x, y + 1):\n        if i % 2 == 0:\n            return i\n    return -1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

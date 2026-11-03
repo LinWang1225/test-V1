@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/95",
+  "dataset": "humaneval",
+  "index": 95,
+  "policy": "uniform3",
+  "generation_sha256": "9eadf0d42cfd32110c3c5609beb3d20ee268a35b76e9745575126c3a8468e6b2",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "indent_body",
+  "completion": "    def check_dict(dict):\n        \"\"\"\n        Given a dictionary, return True if all keys are strings in lower case or all keys are strings in upper case, else return False.\n        The function should return False if the given dictionary is empty.\n        \"\"\"\n        if not dict:\n            return False\n        keys = list(dict.keys())\n        first = keys[0].lower()\n        rest = keys[1:]\n        if all(key.lower() == first.lower() for key in rest):\n            return True\n        return False\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: First test error: None']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: First test error: None']\n",
+    "returncode": 0
+  }
+}

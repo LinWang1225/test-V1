@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/89",
+  "dataset": "humaneval",
+  "index": 89,
+  "policy": "adaptive030",
+  "generation_sha256": "d7ef22d0891bebb0ff46860b75fc50f0c91e9f2a08be9c30d8fb636c248d3025",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef encrypt(s):\n    \"\"\"Create a function encrypt that takes a string as an argument and\n    returns a string encrypted with the alphabet being rotated. \n    The alphabet should be rotated in a manner such that that the letters \n    shift down by two multiplied to two places.\n    For example:\n    encrypt('hi') returns 'lm'\n    encrypt('asdfghjkl') returns 'ewhjklnop'\n    encrypt('gf') returns 'kj'\n    encrypt('et') returns 'ix'\n    \"\"\"\n    # Define the alphabet\n    alphabet = 'abcdefghijklmnopqrstuvwxyz'\n    # Create a shifted alphabet by shifting each letter down by 2 positions\n    shifted_alphabet = alphabet[2:] + alphabet[:2]\n    # Create a translation table for encryption\n    translation_table = str.m.m.m\n    for i in range(len(alphabet)):\n        translation_table[str(i)] = shifted_alphabet[i]\n    # Encrypt the input string\n    return ''.join(translation_table[c] for c in s)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: type object 'str' has no attribute 'm'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: type object 'str' has no attribute 'm'\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/71",
+  "dataset": "humaneval",
+  "index": 71,
+  "policy": "adaptive015",
+  "generation_sha256": "52dd1334fdf43d77a994d4ee4ea9e8e4de1b0cfed05f643d744fda6f631cbd15",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef triangle_area(a, b, c):\n    '''\n    Given the lengths of the three sides of a triangle. Return the area of\n    the triangle rounded to 2 decimal points if the three sides form a valid triangle. \n    Otherwise return -1\n    Three sides make a valid triangle when the sum of any two sides is greater \n    than the third side.\n    Example:\n    triangle_area(3, 4, 5) == 6.00\n    triangle_area(1, 2, 10) == -1\n    '''\n    # Check if the sides form a valid triangle\n    if (a + b > c) and (a + c > b) and (b + c > a):\n        # Calculate the area using Heron's formula\n        s = (a + b + c) / 2\n        area = (s * (s - a) * (s - b) * (s - c)) ** 0.5\n        return round(area, 2)\n    else:\n        return -1\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

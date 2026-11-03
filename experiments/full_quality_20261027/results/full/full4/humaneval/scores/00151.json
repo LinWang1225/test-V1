@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/151",
+  "dataset": "humaneval",
+  "index": 151,
+  "policy": "full4",
+  "generation_sha256": "f835bee364eae0ab14dcbb963cb95eb36eef9f29f0efdff6ba700ee50b0c5484",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef double_the_difference(lst):\n    return sum(x**2 for x in lst if x >= 0 and x.is_integer() and x % 2 != 0)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: 'int' object has no attribute 'is_integer'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: 'int' object has no attribute 'is_integer'\"]\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/118",
+  "dataset": "humaneval",
+  "index": 118,
+  "policy": "full4",
+  "generation_sha256": "c2a317a3b369431c7a17e79c8e54dd3c7d02cf489fffbb0bdcf1899851466151",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef get_closest_vowel(word):\n    vowels = \"AEIOUaeiou\"\n    n = len(word)\n    for i in range(n-2, -1, -1):\n        if word[i] in vowels:\n            # Check if the next character is a consonant\n            if i + 1 < n and word[i+1] not in vowels:\n                # Check if the previous character is a consonant\n                if i - 1 >= 0 and word[i-1] not in vowels:\n                    return word[i]\n    return \"\"\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

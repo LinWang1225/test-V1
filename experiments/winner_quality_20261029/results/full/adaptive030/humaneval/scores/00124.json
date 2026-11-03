@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/124",
+  "dataset": "humaneval",
+  "index": 124,
+  "policy": "adaptive030",
+  "generation_sha256": "d72b4adf726361759025ac82978bb6c8ed190474ab2a4a411bcfc31711e96415",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef valid_date(date):\n    \"\"\"You have to write a function which validates a given date string and\n    returns True if the date is valid otherwise False.\n    The date is valid if all of the following rules are satisfied:\n    1. The date string is not empty.\n    2. The number of days is not less than 1 or higher than 31 days for months 1,3,5,7,8,10,12. And the number of days is not less than 1 or higher than 30 days for months 4,6,9,11. And, the number of days is not less than 1 or higher than 29 for the month 2.\n    3. The months should not be less than 1 or higher than 12.\n    4. The date should be in the format: mm-dd-yyyy\n    \"\"\"\n    if not date:\n        return False\n    if len(date) != 10:\n        return False\n    if date[2] != '-' or date[5] != '-':\n        return False\n    month_str = date[0:2]\n    day_str = date[3:5]\n    year_str = date[6:]\n    if not month_str.isdigit() or not day_str.isdigit() or not year_str.isdigit():\n        return False\n    month = int(month_str)\n    day = int(day_str)\n    year = int(year_str)\n    if month < 1 or month > 12:\n        return False\n    if day < 1:\n        return False\n    if month in [4, 6, 9, 11]:\n        if day > 30:\n            return False\n    elif month == 2:\n        if day > 29:\n            return False\n    else:\n        if day > 31:\n            return False\n    return True\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/4",
+  "dataset": "humaneval",
+  "index": 4,
+  "policy": "full4",
+  "generation_sha256": "ad55232f17705ec046c73add66019b7389211f098bfc26108dc5ab496f69e6d7",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    if not numbers:\n        return 0.0\n    mean = sum(numbers) / len(numbers\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: '(' was never closed (<string>, line 18)\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: '(' was never closed (<string>, line 18)\"]\n",
+    "returncode": 0
+  }
+}

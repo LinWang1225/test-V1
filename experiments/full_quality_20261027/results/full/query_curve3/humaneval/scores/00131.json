@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/131",
+  "dataset": "humaneval",
+  "index": 131,
+  "policy": "query_curve3",
+  "generation_sha256": "04e0a4d34f9d73db625610764e2ec2a2cc2a86476bedc926386447a271242eb8",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef digits(n):\n    \"\"\"Given a positive integer n, return the product of the odd digits.\n    Return 0 if all digits are even.\n    For example:\n    digits(1)  == 1\n    digits(4)  ==0\n    digits(235) ==15\n    \"\"\"\n    product = 1\n    for digit in str(n):\n        d = int(digit)\n        if d % 2 == 1:\n            product *= d\n    return product\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

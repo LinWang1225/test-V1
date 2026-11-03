@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/137",
+  "dataset": "humaneval",
+  "index": 137,
+  "policy": "adaptive015",
+  "generation_sha256": "2286f8d4745d7eb299da0b6f564eee39c833a22681141595558997f418cd484b",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef compare_one(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing real numbers, and returns the larger variable in its given type. Returns None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be . or ,\n    \"\"\"\n    # Convert both a and b to float for comparison\n    try:\n        a_float = float(a.replace(',', '.').replace('.', ''))\n        b_float = float(b.replace(',', '.').replace('.', ''))\n    except ValueError:\n        return None  # If conversion fails, values are equal\n    \n    if a_float > b_float:\n        return a\n    elif a_float < b_float:\n        return b\n    else:\n        return None\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: 'int' object has no attribute 'replace'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: 'int' object has no attribute 'replace'\"]\n",
+    "returncode": 0
+  }
+}

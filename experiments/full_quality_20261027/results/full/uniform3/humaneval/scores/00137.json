@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/137",
+  "dataset": "humaneval",
+  "index": 137,
+  "policy": "uniform3",
+  "generation_sha256": "4aeffd9e70affa717c428aecb13f5b7a8811e70963c1a7b9b6eab3a859a315ca",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef compare_one(a, b):\n    # Convert both inputs to floats for for comparison\n    a_float = float(a.replace(',', '.'))\n    bfloat = float(b.replace(',', '.'))\n    # Compare the floats\n    if afloat > bfloat:\n        return a\n    elif afloat < bfloat:\n        return b\n    else:\n        return None\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "[\"failed: 'int' object has no attribute 'replace'\"]",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: [\"failed: 'int' object has no attribute 'replace'\"]\n",
+    "returncode": 0
+  }
+}

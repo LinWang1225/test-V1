@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/147",
+  "dataset": "humaneval",
+  "index": 147,
+  "policy": "fp16",
+  "generation_sha256": "29ac10829404da8e1b693c909da763d4ea03cce85bc39376f9913233ad47cc39",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef get_max_triples(n):\n    \"\"\"\n    You are given a positive integer n. You have to create an integer array a of length n.\n        For each i (1 ≤ i ≤ n), the value of a[i] = i * i - i + 1.\n        Return the number of triples (a[i], a[j], a[k]) of a where i < j < k, \n    and a[i] + a[j] + a[k] is a multiple of 3.\n    \"\"\"\n    a = [i * i - i + 1 for i in range(1, n + 1)]\n    mod_counts = [0, 0, 0]\n    for num in a:\n        mod_counts[num % 3] += 1\n\n    count = 0\n    # Triples that sum to 0 mod 3\n    count += mod_counts[0] * (mod_counts[0] - 1) * (mod_counts[0] - 2) // 6\n    count += mod_counts[1] * mod_counts[2]\n    count += mod_counts[1] * (mod_counts[1] - 1) * (mod_counts[1] - 2) // 6\n    count += mod_counts[2] * (mod_counts[2] - 1) * (mod_counts[2] - 2) // 6\n\n    return count\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

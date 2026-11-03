@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/55",
+  "dataset": "humaneval",
+  "index": 55,
+  "policy": "adaptive030",
+  "generation_sha256": "4f6826c806117d54b9b3d2e339d85e2e4521cc9aab8a9f5de796c801affe2400",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fib(n: int):\n    \"\"\"Return n-th Fibonacci number.\n    >>> fib(10)\n    55\n    >>> fib(1)\n    1\n    >>> fib(8)\n    21\n    \"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1 or n == 2:\n        return 1\n    a, b = 1, 1\n    for _ in range(3, n+1):\n        a, b = b, a + b\n    return b\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

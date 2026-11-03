@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/128",
+  "dataset": "humaneval",
+  "index": 128,
+  "policy": "adaptive030",
+  "generation_sha256": "e7cfa628d3674365e9dc80ad02d2d03d08538e59ebc443c7208821837ef84216",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef prod_signs(arr):\n    \"\"\"\n    You are given an array arr of integers and you need to return\n    sum of magnitudes of integers multiplied by product of all signs\n    of each number in the array, represented by 1, -1 or 0.\n    Note: return None for empty arr.\n\n    Example:\n    >>> prod_signs([1, 2,2,-4]) == -9\n    >>> prod_signs([0,1]) == 0\n    >>> prod_signs([]) == None\n    \"\"\"\n    if not arr:\n        return None\n    product = 1\n    sum_magnitudes = 0\n    for num in arr:\n        if num > 0:\n            product *= 1\n        elif num < 0:\n            product *= -1\n        else:\n            product *= 0\n        sum_magnitudes += abs(num)\n    return sum_magnitudes * product\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

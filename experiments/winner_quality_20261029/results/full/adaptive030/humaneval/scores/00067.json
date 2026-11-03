@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/67",
+  "dataset": "humaneval",
+  "index": 67,
+  "policy": "adaptive030",
+  "generation_sha256": "3791d2a6c127c69ba065642c92a34604826f3935814d4bed3683471c6df80451",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef fruit_distribution(s):\n    \"\"\"\n    In this task, you will be given a string that represents a number of apples and oranges that are distributed in a basket of fruit. This basket contains apples, oranges, and mango fruits. Given the string that represents the total number of the oranges and apples and an integer that represent the total number of the fruits in the basket, return the number of the mango fruits in the basket.\n    for example:\n    fruit_distribution(\"5 apples and 6 oranges\", 19) -> 19 - 5 - 6 = 8\n    fruit_distribution(\"0 apples and 1 oranges\",3) -> 3 - 0 -1 = 2\n    fruit_distribution(\"2 apples and 3 oranges\", 100) -> 100 -2 -3 = 95\n    fruit_distribution(\"100 apples and 1 oranges\",120) -> 120 -100 -1 = 19\n    \"\"\"\n    # Extract the numbers from the string\n    import re\n    apples, oranges = map(int, re.findall(r'\\d+', s))\n    # Calculate mangoes\n    return n - apples - oranges\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: fruit_distribution() takes 1 positional argument but 2 were given']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: fruit_distribution() takes 1 positional argument but 2 were given']\n",
+    "returncode": 0
+  }
+}

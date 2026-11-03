@@ -1,0 +1,12 @@
+GPU policy matches prerequisite heap 420
+loading_quality_model {'policy': 'query_curve3'}
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:01<00:02,  1.19s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:02<00:01,  1.31s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:02<00:00,  1.15it/s]
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_20261027/src/check.py", line 98, in <module>
+    if a.model:model_checks()
+               ^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_20261027/src/check.py", line 59, in model_checks
+    assert torch.equal(code.to(torch.uint8),m.codes[layer][side,:,:257]),'incremental encoding differs'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: incremental encoding differs

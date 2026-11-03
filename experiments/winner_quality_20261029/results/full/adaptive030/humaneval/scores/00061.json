@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/61",
+  "dataset": "humaneval",
+  "index": 61,
+  "policy": "adaptive030",
+  "generation_sha256": "c36e7a3ba6c14d821e5af4c8114d7d2d58620b0d97c865845dc77ab3897bbf55",
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef correct_bracketing(brackets: str):\n    \"\"\" brackets is a string of \"(\" and \")\".\n    return True if every opening bracket has a corresponding closing bracket.\n    \"\"\"\n    balance = 0\n    for char in brackets:\n        if char == '(':\n            balance += 1\n        elif char == ')':\n            balance -= 1\n        if balance < 0:\n            return \"False\n    return balance == 0\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: unterminated string literal (detected at line 29) (<string>, line 29)']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: unterminated string literal (detected at line 29) (<string>, line 29)']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/154",
+  "dataset": "humaneval",
+  "index": 154,
+  "policy": "full4",
+  "generation_sha256": "1881c603d2ea8ffa5a1a14597fa6717f167543b6534efa766d782a2ddb9d6a48",
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef cycpattern_check(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\"\"\"\n    rotations = [b[i:] + b[:i] for i in range(len(b))]\n    return any(rot in a for rot in rotations)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}
