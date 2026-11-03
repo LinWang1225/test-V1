@@ -1,0 +1,134 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+
+import os
+import shutil
+from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+import tqdm
+from compressed_tensors.entrypoints.convert.convert_file import (
+    convert_file,
+    validate_file,
+    write_checkpoint_quantization_config,
+)
+from compressed_tensors.entrypoints.convert.converters import (
+    Converter,
+    build_inverse_weight_maps,
+)
+from compressed_tensors.utils.safetensors_load import (
+    get_checkpoint_files,
+    get_weight_map,
+    is_weights_file,
+    update_safetensors_index,
+)
+from loguru import logger
+
+
+__all__ = ["convert_checkpoint", "exec_jobs"]
+
+
+def convert_checkpoint(
+    model_stub: str | os.PathLike,
+    save_directory: str | os.PathLike,
+    converter: Converter,
+    max_workers: int = 1,
+):
+    """
+    Convert a model checkpoint to either:
+    - its equivalent quantized format in compressed-tensors
+    - the unquantized format
+    without loading it up in memory, instead operating directly on the model
+    safetensors files. This entrypoint operates on a model stub or folder containing
+    weights saved in safetensors files, and updates the corresponding
+    quantization_config field in the config.json. All additional files will be
+    copied to new checkpoint.
+
+    :param model_stub: huggingface model hub or path to local weights files
+    :param save_directory: new checkpoint will be saved in this directory.
+    :param max_workers: number of worker threads to process files with
+    :param device: gpu device to accelerate quantization with
+    :param converters: converter we wish to apply to the checkpoint,
+        e.g. conversion of some layers from some format to compressed-tensors
+    """
+    # get all model_files for checkpoint
+    model_files = get_checkpoint_files(model_stub)
+
+    weight_map = get_weight_map(model_files)
+
+    # Build inverse_weight_maps, so that each job knows how to load up every necessary
+    # weight and its dependencies
+    inverse_weight_maps = build_inverse_weight_maps(
+        weight_map=weight_map,
+        model_files=model_files,
+        converters=[converter],
+    )
+
+    # Build validation/conversion jobs, copy over any other file
+    validate_jobs = []
+    convert_jobs = []
+    for shard_name, resolved_path in model_files.items():
+        save_path = Path(save_directory) / shard_name
+
+        if shard_name.endswith("safetensors"):
+            if shard_name not in inverse_weight_maps:
+                raise ValueError(
+                    f"Could not find inverse_weight_map for shard {shard_name}"
+                )
+            validate_jobs.append(
+                (validate_file, inverse_weight_maps[shard_name], converter)
+            )
+            convert_jobs.append(
+                (convert_file, inverse_weight_maps[shard_name], save_path, converter)
+            )
+
+        else:
+            if is_weights_file(shard_name):
+                logger.warning(f"Skip processing for weights file {shard_name}")
+            if str(resolved_path) != str(save_path):
+                save_path.parent.mkdir(parents=True, exist_ok=True)
+                logger.info(f"Copying {shard_name} {save_path}")
+                shutil.copyfile(resolved_path, save_path)
+
+    # Validate before long-running procssing job
+    exec_jobs(validate_jobs, max_workers, desc="Validating")
+
+    # Process weights, accumulating total bytes used and the new weight_map
+    total_size = 0
+    weight_map = dict()
+    convert_results = exec_jobs(convert_jobs, max_workers, desc="Converting")
+    for _total_size, _weight_map in convert_results:
+        total_size += _total_size
+        weight_map.update(_weight_map)
+
+    # Update config and safetensors index
+    write_checkpoint_quantization_config(save_directory, converter)
+    update_safetensors_index(save_directory, total_size, weight_map)
+
+
+def exec_jobs(
+    jobs: list[tuple[Callable, ...]], max_workers: int = 1, desc: str = "Executing Jobs"
+) -> list:
+    """
+    Execute jobs in parallel, using ThreadPoolExecutor
+
+    :param jobs: list of tuples, the first entry of which is the callable,
+        and the remaining elements are the inputs args to the callable
+    :param max_workers: number of workers to use
+    :param desc: tqdm description
+    """
+    results = []
+
+    # For easier debugging, don't run single-threaded jobs via ThreadPoolExecutor
+    if max_workers == 1:
+        for job in tqdm.tqdm(jobs, desc=desc):
+            results.append(job[0](*job[1:]))
+        return results
+
+    with ThreadPoolExecutor(max_workers) as executor:
+        futures = [executor.submit(*job) for job in jobs]
+        for future in tqdm.tqdm(as_completed(futures), total=len(futures), desc=desc):
+            results.append(future.result())
+
+    return results

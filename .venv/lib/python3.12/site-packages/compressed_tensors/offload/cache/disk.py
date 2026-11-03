@@ -1,0 +1,219 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+
+import os
+from pathlib import Path
+from typing import TYPE_CHECKING, Literal, Optional
+
+import torch
+import torch.distributed as dist
+from compressed_tensors.distributed import is_source_process
+from compressed_tensors.offload.cache import OffloadCache
+from compressed_tensors.offload.utils import send_tensors, to_tensor
+from compressed_tensors.utils import is_accelerator_type
+from safetensors import safe_open
+from safetensors.torch import save_file
+
+
+if TYPE_CHECKING:
+    from torch._prims_common import DeviceLikeType
+
+
+class DiskCache(OffloadCache):
+    """
+    Handles offloading and onloading tensors from/to disk.
+
+    Tensors usually start as a key in safetensors file, converted by (TODO NAME).
+    New or updated tensors are written to new safetensors files in `offload_dir`.
+
+    Tensors are stored in memory as meta tensors. The mapping between offloaded meta
+    tensors and their locations on disk is defined by `index`.
+    """
+
+    offload_device = "disk"
+
+    # offloaded tensors -> weight info
+    index: dict[torch.Tensor, dict[str, str]] = dict()
+
+    # directory where new tensors are written to
+    offload_dir: str
+    _ct_file_prefix = "ct_disk_cache"
+
+    def __init__(
+        self,
+        onload_device: torch.device,
+        offload_device: Optional["DeviceLikeType | Literal['disk']"] = None,
+        offload_dir: Optional[str] = None,
+    ):
+        super().__init__(onload_device, offload_device=offload_device)
+        if offload_device is not None:
+            assert str(offload_device) == str(self.offload_device)
+
+        if offload_dir is None:
+            raise ValueError(
+                "Must provide an `offload_dir` to perform disk offloading "
+                "(add `offload_folder` argument to `from_pretrained`)"
+            )
+        # Resolve relative paths to absolute paths for symlink creation
+        self.offload_dir = Path(offload_dir).resolve()
+
+    def onload(self, offloaded: torch.Tensor | None) -> torch.Tensor | None:
+        """
+        Onload a tensor from disk/meta to device
+
+        :param offloaded: meta tensor to onload
+        :return: device tensor, read from disk
+        """
+        if offloaded is None:
+            return None
+
+        weight_info = self.index[offloaded]
+        device = _get_safe_open_device(self.onload_device)
+
+        with safe_open(
+            weight_info["safetensors_file"], framework="pt", device=device
+        ) as file:
+            onloaded = file.get_tensor(weight_info["weight_name"])
+            onloaded = to_tensor(onloaded, offloaded)
+            onloaded = onloaded.to(getattr(torch, weight_info["dtype"]))
+            return onloaded
+
+    def offload(
+        self, tensor: torch.Tensor | None, offloaded: Optional[torch.Tensor] = None
+    ) -> torch.Tensor | None:
+        """
+        Offload a tensor to disk by writing a new safetensors file
+
+        :param tensor: tensor on any device
+        :param offloaded: optional meta tensor used to look up an existing file
+        :return: meta tensor representing the offloaded tensor
+        """
+        if tensor is None:
+            return None
+
+        if tensor.device.type == "meta":
+            assert tensor in self.index
+            return tensor
+
+        if offloaded is None:
+            offloaded = send_tensors(tensor, device="meta")
+
+        file_path = self._get_ct_file_path(self.offload_dir, offloaded)
+        self.index[offloaded] = {
+            "safetensors_file": file_path,
+            "weight_name": "weight",
+            "dtype": str(tensor.dtype).removeprefix("torch."),
+        }
+
+        assert self._is_ct_file_path(file_path), f"Attempted to write to {file_path}"
+        save_file({"weight": tensor}, file_path)
+        return offloaded
+
+    def __delitem__(self, key: str):
+        """
+        Remove the offload associated with `key`. If a new file was created to store
+        updated tensor data, that new tensor data file is deleted.
+
+        Any references to onloaded tensors held by this class are invalidated.
+
+        :param key: name of tensor to invalidate
+        """
+        offloaded = self.offloaded_values[key]
+        file_path = self.index[offloaded]["safetensors_file"]
+        if self._is_ct_file_path(file_path):
+            os.remove(file_path)
+        del self.index[offloaded]
+        super().__delitem__(key)
+
+    def update_offload(self, offloaded: torch.Tensor, data: torch.Tensor | None):
+        """
+        Write new param data to file that already exists.
+
+        :param offloaded: meta tensors representating parameter to update
+        :param data: new data
+        """
+        # get weight info from index
+        assert offloaded in self.index, "Cannot find offload to update"
+        weight_info = self.index[offloaded]
+        file_path = weight_info["safetensors_file"]
+        weight_name = weight_info["weight_name"]
+        dtype = getattr(torch, weight_info["dtype"])
+
+        # create new file if old file was a symlink to a checkpoint file
+        if os.path.islink(file_path):
+            assert self._is_ct_file_path(file_path), f"Attempted to remove {file_path}"
+            os.unlink(file_path)
+
+        # save with data using original weight_name
+        assert self._is_ct_file_path(file_path), f"Attempted to write to {file_path}"
+        save_file({weight_name: data.reshape_as(offloaded).to(dtype=dtype)}, file_path)
+
+    @classmethod
+    def create_checkpoint_symlink(
+        cls,
+        offloaded: torch.Tensor,
+        weight_info: dict,
+        offload_dir: str | os.PathLike | None,
+    ) -> None:
+        assert (
+            is_source_process()
+        ), "Must call on rank 0 to avoid id collisions between ranks"
+        if offload_dir is None:
+            raise ValueError(
+                "Must provide an `offload_dir` to perform disk offloading "
+                "(add `offload_folder` argument to `from_pretrained`)"
+            )
+
+        # Resolve relative paths to absolute paths for symlink creation
+        source_path = Path(weight_info["safetensors_file"]).resolve()
+        file_path = cls._get_ct_file_path(offload_dir, offloaded)
+
+        os.symlink(source_path, file_path)
+        cls.index[offloaded] = {
+            "safetensors_file": file_path,
+            "weight_name": weight_info["weight_name"],
+            "dtype": weight_info["dtype"],
+        }
+
+    @classmethod
+    def _is_ct_file_path(cls, file_path: str) -> bool:
+        """Only write and delete files that DiskCache has created"""
+        return os.path.basename(file_path).startswith(cls._ct_file_prefix)
+
+    @classmethod
+    def _get_ct_file_path(cls, offload_dir: str, offloaded: torch.Tensor) -> str:
+        """Create file path with a prefix marking it as modifiable"""
+        file_name = f"{cls._ct_file_prefix}_{_get_rank()}_{id(offloaded)}.safetensors"
+        return os.path.join(offload_dir, file_name)
+
+
+def _get_safe_open_device(device: "DeviceLikeType") -> str:
+    """
+    `safetensors.safe_open` does not accept `torch.device` as argument, so
+    we must convert from torch.device to a string, while considering accelerator
+    device index resolution.
+
+    :param device: torch device to convert
+    :return: device string for `safetensors.safe_open`
+    """
+    device = torch.device(device)
+    if is_accelerator_type(device.type):
+        # TODO: check if this case can be applied for all non-index accelerators
+        if device.type == "mps":
+            return f"{device.type}"
+
+        if device.index is None:
+            index = torch.accelerator.current_device_index()
+        else:
+            index = device.index
+        return f"{device.type}:{index}"
+    else:
+        return device.type
+
+
+def _get_rank() -> int:
+    """Get rank, value is zero if not distributed"""
+    if dist.is_initialized():
+        return dist.get_rank()
+    else:
+        return 0
