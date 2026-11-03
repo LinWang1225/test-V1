@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/.venv-eval/lib/python3.12/site-packages/evalscope/cli/start_perf.py", line 27, in execute
+    from evalscope.perf.main import PerfBenchmarkInterrupted, run_perf_benchmark
+  File "/home/wanglin/kvarn-profile-20261019/.venv-eval/lib/python3.12/site-packages/evalscope/perf/main.py", line 28, in <module>
+    from .utils.local_server import start_app
+  File "/home/wanglin/kvarn-profile-20261019/.venv-eval/lib/python3.12/site-packages/evalscope/perf/utils/local_server.py", line 5, in <module>
+    import uvicorn
+ModuleNotFoundError: No module named 'uvicorn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/.venv-eval/bin/evalscope", line 10, in <module>
+    sys.exit(run_cmd())
+             ^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv-eval/lib/python3.12/site-packages/evalscope/cli/cli.py", line 31, in run_cmd
+    cmd.execute()
+  File "/home/wanglin/kvarn-profile-20261019/.venv-eval/lib/python3.12/site-packages/evalscope/cli/start_perf.py", line 29, in execute
+    raise ImportError(
+ImportError: Failed to import run_perf_benchmark from evalscope.perf.main, due to No module named 'uvicorn'. Please run `pip install 'evalscope[perf]'`.

@@ -1,0 +1,16 @@
+GPU 算子分析报告
+
+覆盖情况: {"fp16": {"completed_points": 131, "expected_points": 174}, "fp8": {"completed_points": 0, "expected_points": 174}, "turboquant": {"completed_points": 0, "expected_points": 174}, "kvarn": {"completed_points": 0, "expected_points": 174}}
+
+优化排查优先级（按相同数据集完整首轮的 GPU 累计时间增量排序；不是端到端可节省时间）:
+
+
+解释边界:
+Eager profiler measurements; not production throughput or critical-path savings.
+FP8 uses FLASHINFER on SM86; E4M3 Triton store is unsupported. Backend differences are part of the result.
+Fused KV read/dequant/attention timings cannot be separated with this instrumentation.
+Family comparisons combine standalone and fused implementations; raw kernels retained.
+Per-phase request mixtures and active sequence counts can differ; inspect scheduler_scopes.jsonl.
+KVarN K4V2 and TurboQuant K4V4 use different storage precision; not an equal-byte comparison.
+Hardware DRAM counters unavailable with current driver permissions.
+Kernel accumulated duration is non-additive with concurrent kernels; busy-time unions reported separately.

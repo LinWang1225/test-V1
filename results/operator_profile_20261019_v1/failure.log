@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 360, in main
+    ctrl.point(method, point, pilot_rows, traces, 32)
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 207, in point
+    self.evalscope(rows, attempt / 'warmup', min(128, tokens))
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 175, in evalscope
+    raise RuntimeError(f'EvalScope exited {result.returncode}; inspect {folder}/evalscope.log')
+RuntimeError: EvalScope exited 1; inspect /home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1/points/fp16/preflight_fp16/attempts/20261019_205019_981805/warmup/evalscope.log
