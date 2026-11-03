@@ -1,0 +1,40 @@
+training {'layer': 0, 'smoke': True}
+training {'layer': 17, 'smoke': True}
+training {'layer': 35, 'smoke': True}
+training_complete {'active_methods': ['U_MinMax', 'U_Clipped', 'Gaussian_Tree', 'Data_Tree', 'Jacobian_Tree', 'JacK_MSEV', 'ScoreK_MSEV', 'ScoreK_AttnV', 'ScoreK_MixV', 'JacK_MixV', 'Uniform_ScoreK_MSEV', 'Uniform_ScoreK_AttnV', 'Uniform_ScoreK_MixV', 'Independent_MSE', 'Leaf4_Only', 'Joint_234', 'Independent_Uniform'], 'regularizer_triggered_heads': 0}
+loading_model {'smoke': True}
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:01<00:02,  1.10s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:02<00:01,  1.19s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:02<00:00,  1.26it/s]
+failed {'error': "OutOfMemoryError('CUDA out of memory. Tried to allocate 48.00 MiB. GPU 0 has a total capacity of 23.59 GiB of which 18.69 MiB is free. Process 2306718 has 16.66 GiB memory in use. Including non-PyTorch memory, this process has 6.90 GiB memory in use. Of the allocated memory 6.65 GiB is allocated by PyTorch, and 1.60 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)')", 'traceback': 'Traceback (most recent call last):\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/supplementary_experiments/src/suite.py", line 291, in main\n    else:Suite(a.stage,a.smoke).execute()\n         ^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/supplementary_experiments/src/suite.py", line 160, in __init__\n    super().__init__(smoke)\n  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/src/run.py", line 69, in __init__\n    self.model=AutoModelForCausalLM.from_pretrained(MODEL,local_files_only=True,torch_dtype=torch.float16,attn_implementation=\'sdpa\').eval().to(\'cuda\')\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4343, in to\n    return super().to(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1384, in to\n    return self._apply(convert)\n           ^^^^^^^^^^^^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 934, in _apply\n    module._apply(fn)\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 934, in _apply\n    module._apply(fn)\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 934, in _apply\n    module._apply(fn)\n  [Previous line repeated 2 more times]\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 965, in _apply\n    param_applied = fn(param)\n                    ^^^^^^^^^\n  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1370, in convert\n    return t.to(\n           ^^^^^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 48.00 MiB. GPU 0 has a total capacity of 23.59 GiB of which 18.69 MiB is free. Process 2306718 has 16.66 GiB memory in use. Including non-PyTorch memory, this process has 6.90 GiB memory in use. Of the allocated memory 6.65 GiB is allocated by PyTorch, and 1.60 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n'}
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/supplementary_experiments/src/suite.py", line 293, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/supplementary_experiments/src/suite.py", line 291, in main
+    else:Suite(a.stage,a.smoke).execute()
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/supplementary_experiments/src/suite.py", line 160, in __init__
+    super().__init__(smoke)
+  File "/home/wanglin/kvarn-profile-20261019/experiments/encoding_ablation_20261024/src/run.py", line 69, in __init__
+    self.model=AutoModelForCausalLM.from_pretrained(MODEL,local_files_only=True,torch_dtype=torch.float16,attn_implementation='sdpa').eval().to('cuda')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4343, in to
+    return super().to(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1384, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 934, in _apply
+    module._apply(fn)
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 934, in _apply
+    module._apply(fn)
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 934, in _apply
+    module._apply(fn)
+  [Previous line repeated 2 more times]
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 965, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1370, in convert
+    return t.to(
+           ^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 48.00 MiB. GPU 0 has a total capacity of 23.59 GiB of which 18.69 MiB is free. Process 2306718 has 16.66 GiB memory in use. Including non-PyTorch memory, this process has 6.90 GiB memory in use. Of the allocated memory 6.65 GiB is allocated by PyTorch, and 1.60 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
