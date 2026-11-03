@@ -1,0 +1,46 @@
+GPU 算子分析报告
+
+覆盖情况: {"fp16": {"completed_points": 89, "expected_points": 89}, "fp8": {"completed_points": 89, "expected_points": 89}}
+
+优化排查优先级（按相同数据集完整首轮的 GPU 累计时间增量排序；不是端到端可节省时间）:
+
+1. fp8 / hotpotqa / decode / other_unclassified: 65316.776 ms vs FP16 662.786 ms, delta=64653.990 ms, 占该方法该数据集累计GPU时间 23.60%
+2. fp8 / passage_retrieval_en / decode / other_unclassified: 62925.497 ms vs FP16 724.408 ms, delta=62201.089 ms, 占该方法该数据集累计GPU时间 23.94%
+3. fp8 / gov_report / decode / other_unclassified: 52268.288 ms vs FP16 527.119 ms, delta=51741.169 ms, 占该方法该数据集累计GPU时间 22.51%
+4. fp8 / hotpotqa / mixed / other_unclassified: 42253.752 ms vs FP16 6.933 ms, delta=42246.819 ms, 占该方法该数据集累计GPU时间 15.27%
+5. fp8 / trec / decode / other_unclassified: 37099.209 ms vs FP16 469.073 ms, delta=36630.136 ms, 占该方法该数据集累计GPU时间 20.96%
+6. fp8 / passage_retrieval_en / mixed / other_unclassified: 36427.746 ms vs FP16 6.613 ms, delta=36421.133 ms, 占该方法该数据集累计GPU时间 13.86%
+7. fp8 / qasper / decode / other_unclassified: 29502.564 ms vs FP16 420.567 ms, delta=29081.997 ms, 占该方法该数据集累计GPU时间 19.15%
+8. fp8 / gov_report / mixed / other_unclassified: 28297.736 ms vs FP16 4.975 ms, delta=28292.760 ms, 占该方法该数据集累计GPU时间 12.18%
+9. fp8 / math500 / decode / other_unclassified: 28720.051 ms vs FP16 1607.907 ms, delta=27112.143 ms, 占该方法该数据集累计GPU时间 8.03%
+10. fp8 / humaneval / decode / other_unclassified: 25097.417 ms vs FP16 1296.562 ms, delta=23800.855 ms, 占该方法该数据集累计GPU时间 8.56%
+11. fp8 / lcc / decode / other_unclassified: 21799.753 ms vs FP16 426.691 ms, delta=21373.062 ms, 占该方法该数据集累计GPU时间 16.30%
+12. fp8 / trec / mixed / other_unclassified: 11620.823 ms vs FP16 3.461 ms, delta=11617.362 ms, 占该方法该数据集累计GPU时间 6.57%
+13. fp8 / hotpotqa / prefill / other_unclassified: 7568.236 ms vs FP16 1.447 ms, delta=7566.789 ms, 占该方法该数据集累计GPU时间 2.73%
+14. fp8 / math500 / decode / kv_write_quant_pack_rotation_combined: 10045.174 ms vs FP16 2714.577 ms, delta=7330.596 ms, 占该方法该数据集累计GPU时间 2.81%
+15. fp8 / gov_report / prefill / other_unclassified: 7057.388 ms vs FP16 1.258 ms, delta=7056.131 ms, 占该方法该数据集累计GPU时间 3.04%
+16. fp8 / qasper / mixed / other_unclassified: 7012.495 ms vs FP16 2.671 ms, delta=7009.824 ms, 占该方法该数据集累计GPU时间 4.55%
+17. fp8 / passage_retrieval_en / prefill / other_unclassified: 6544.232 ms vs FP16 1.367 ms, delta=6542.865 ms, 占该方法该数据集累计GPU时间 2.49%
+18. fp8 / humaneval / decode / kv_write_quant_pack_rotation_combined: 8096.848 ms vs FP16 2189.164 ms, delta=5907.685 ms, 占该方法该数据集累计GPU时间 2.76%
+19. fp8 / lcc / mixed / other_unclassified: 4722.440 ms vs FP16 1.649 ms, delta=4720.791 ms, 占该方法该数据集累计GPU时间 3.53%
+20. fp8 / trec / prefill / other_unclassified: 2728.645 ms vs FP16 0.948 ms, delta=2727.697 ms, 占该方法该数据集累计GPU时间 1.54%
+21. fp8 / qasper / decode / kv_write_quant_pack_rotation_combined: 2691.685 ms vs FP16 715.690 ms, delta=1975.995 ms, 占该方法该数据集累计GPU时间 1.75%
+22. fp8 / lcc / decode / kv_write_quant_pack_rotation_combined: 2698.432 ms vs FP16 726.511 ms, delta=1971.921 ms, 占该方法该数据集累计GPU时间 2.02%
+23. fp8 / trec / decode / kv_write_quant_pack_rotation_combined: 2696.986 ms vs FP16 807.896 ms, delta=1889.091 ms, 占该方法该数据集累计GPU时间 1.52%
+24. fp8 / gov_report / decode / kv_write_quant_pack_rotation_combined: 2693.646 ms vs FP16 905.864 ms, delta=1787.782 ms, 占该方法该数据集累计GPU时间 1.16%
+25. fp8 / hotpotqa / decode / kv_write_quant_pack_rotation_combined: 2692.766 ms vs FP16 1172.167 ms, delta=1520.598 ms, 占该方法该数据集累计GPU时间 0.97%
+26. fp8 / qasper / prefill / other_unclassified: 1445.014 ms vs FP16 0.727 ms, delta=1444.286 ms, 占该方法该数据集累计GPU时间 0.94%
+27. fp8 / passage_retrieval_en / decode / kv_write_quant_pack_rotation_combined: 2596.869 ms vs FP16 1301.797 ms, delta=1295.073 ms, 占该方法该数据集累计GPU时间 0.99%
+28. fp8 / lcc / prefill / other_unclassified: 960.411 ms vs FP16 0.709 ms, delta=959.701 ms, 占该方法该数据集累计GPU时间 0.72%
+29. fp8 / qasper / decode / mlp_gemm: 51855.614 ms vs FP16 51544.455 ms, delta=311.158 ms, 占该方法该数据集累计GPU时间 33.66%
+30. fp8 / hotpotqa / mixed / kv_write_quant_pack_rotation_combined: 525.762 ms vs FP16 297.502 ms, delta=228.260 ms, 占该方法该数据集累计GPU时间 0.19%
+
+解释边界:
+Eager profiler measurements; not production throughput or critical-path savings.
+FP8 uses FLASHINFER on SM86; E4M3 Triton store is unsupported. Backend differences are part of the result.
+Fused KV read/dequant/attention timings cannot be separated with this instrumentation.
+Family comparisons combine standalone and fused implementations; raw kernels retained.
+Per-phase request mixtures and active sequence counts can differ; inspect scheduler_scopes.jsonl.
+KVarN K4V2 and TurboQuant K4V4 use different storage precision; not an equal-byte comparison.
+Hardware DRAM counters unavailable with current driver permissions.
+Kernel accumulated duration is non-additive with concurrent kernels; busy-time unions reported separately.

@@ -1,0 +1,27 @@
+算子分析阶段结果
+
+以下为累计 GPU 时间的排查候选，不能直接视为可节省的端到端时间。
+融合读 KV / 反量化 / attention 不拆成虚构的独立时间；不同后端与存储位宽均是解释变量。
+
+代表批次 r2/r3 保存在 point_categories.csv，可检查稳定性；首轮完整数据用于下面的增量排序。
+
+1. fp8 / hotpotqa / decode / other_unclassified: delta=64653.990 GPU-ms
+2. fp8 / passage_retrieval_en / decode / other_unclassified: delta=62201.089 GPU-ms
+3. fp8 / gov_report / decode / other_unclassified: delta=51741.169 GPU-ms
+4. fp8 / hotpotqa / mixed / other_unclassified: delta=42246.819 GPU-ms
+5. fp8 / trec / decode / other_unclassified: delta=36630.136 GPU-ms
+6. fp8 / passage_retrieval_en / mixed / other_unclassified: delta=36421.133 GPU-ms
+7. fp8 / qasper / decode / other_unclassified: delta=29081.997 GPU-ms
+8. fp8 / gov_report / mixed / other_unclassified: delta=28292.760 GPU-ms
+9. fp8 / math500 / decode / other_unclassified: delta=27112.143 GPU-ms
+10. fp8 / humaneval / decode / other_unclassified: delta=23800.855 GPU-ms
+11. fp8 / lcc / decode / other_unclassified: delta=21373.062 GPU-ms
+12. fp8 / trec / mixed / other_unclassified: delta=11617.362 GPU-ms
+13. fp8 / hotpotqa / prefill / other_unclassified: delta=7566.789 GPU-ms
+14. fp8 / math500 / decode / kv_store_quant_pack_fused: delta=7330.596 GPU-ms
+15. fp8 / gov_report / prefill / other_unclassified: delta=7056.131 GPU-ms
+16. fp8 / qasper / mixed / other_unclassified: delta=7009.824 GPU-ms
+17. fp8 / passage_retrieval_en / prefill / other_unclassified: delta=6542.865 GPU-ms
+18. fp8 / humaneval / decode / kv_store_quant_pack_fused: delta=5907.685 GPU-ms
+19. fp8 / lcc / mixed / other_unclassified: delta=4720.791 GPU-ms
+20. fp8 / trec / prefill / other_unclassified: delta=2727.697 GPU-ms
