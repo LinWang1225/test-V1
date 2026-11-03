@@ -1,12 +1,12 @@
 # 断电与断点恢复
 
-服务器恢复后，在项目根目录执行：
+2026-11-03已启用用户级systemd服务和`Linger=yes`，服务器开机后会自动观察或恢复当前第一阶段队列，无需SSH登录。配置与管理命令见`configs/systemd/README.md`。如需手动恢复，在项目根目录执行：
 
 ```sh
 .venv/bin/python scripts/resume_staged_experiment.py
 ```
 
-该命令不依赖旧PID。内核文件锁避免重复队列，断电后锁自动释放。后台运行日志追加到`logs/stage1_queue.log`，阶段状态和当前请求状态分别保存在`stage_status.json`、`worker_status.json`。当前是手动重启入口，不宣称已安装开机自启服务。
+该命令不依赖旧PID。内核文件锁避免重复队列，断电后锁自动释放。后台运行日志追加到`logs/stage1_queue.log`，阶段状态和当前请求状态分别保存在`stage_status.json`、`worker_status.json`。自启守护检测到已有队列时不会重复启动。
 
 已完整保存的题目校验样本和运行指纹后跳过；评分也校验生成文件哈希并跳过已有有效评分。队列从第一个未完成方案继续，而不是从头重跑全部实验。源码、码本、样本或配置不匹配时停止，不能静默混用不同版本。
 
