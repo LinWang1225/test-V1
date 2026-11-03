@@ -1,0 +1,211 @@
+{
+  "experiment": "progressive_int4_20261023",
+  "working_directory": "/home/wanglin/kvarn-profile-20261019",
+  "execution": "current-project CPU float64 same-input replay; no new model generation",
+  "dataset": "Frozen LongBench data from existing native KVarN capture",
+  "unique_requests": 6,
+  "calibration_requests": 3,
+  "heldout_requests": 3,
+  "snapshots": 72,
+  "calibration_snapshots": 36,
+  "heldout_snapshots": 36,
+  "kv_groups_per_snapshot": 8,
+  "heldout_attention_groups": 288,
+  "query_heads_per_group": 4,
+  "statistical_unit": "request; snapshots/heads are correlated repeated measurements",
+  "samples": [
+    {
+      "dataset": "qasper",
+      "case_id": "qasper/b96a5e2e8d4b32aff5401e97c66942bf33f6c3c62a43609d",
+      "split": "calibration",
+      "input_tokens": 3907,
+      "prompt_sha256": "30b13b20375c61d91c167334e38a0aac28b51adbbdee37ca87799a38367dcccb",
+      "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522",
+      "snapshots": 12,
+      "contexts": [
+        3908,
+        3923,
+        3971
+      ]
+    },
+    {
+      "dataset": "qasper",
+      "case_id": "qasper/db4afd55783aaf6d069c5228152492cf0804e9cf310cb238",
+      "split": "heldout",
+      "input_tokens": 5645,
+      "prompt_sha256": "24c947ddc212b3bd4dfe2bf2111a03dc6c47d8a8fe0b6cce52eb33407912cfcf",
+      "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522",
+      "snapshots": 12,
+      "contexts": [
+        5646,
+        5661,
+        5709
+      ]
+    },
+    {
+      "dataset": "hotpotqa",
+      "case_id": "hotpotqa/60ec93a22fbcb65eeadd9f1d2b3c8e4ed44d3a2c4285b168",
+      "split": "calibration",
+      "input_tokens": 12433,
+      "prompt_sha256": "f4d9a3d26d4b190182897376e6d86e37d2fd2747214ce466e27c19e7ce13f61a",
+      "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522",
+      "snapshots": 12,
+      "contexts": [
+        12434,
+        12449,
+        12497
+      ]
+    },
+    {
+      "dataset": "hotpotqa",
+      "case_id": "hotpotqa/7bb5645d62fc946b46910757e007f59e87f52bbf8535da58",
+      "split": "heldout",
+      "input_tokens": 16322,
+      "prompt_sha256": "3189a7331ddfa00ea7fba54d644965154ca1566a31f3b5536ea713e5168ad255",
+      "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522",
+      "snapshots": 12,
+      "contexts": [
+        16323,
+        16338,
+        16386
+      ]
+    },
+    {
+      "dataset": "passage_retrieval_en",
+      "case_id": "passage_retrieval_en/ae0aae9a66f6bbe58796720b3ad135dc4de3a0f63f51fc0c",
+      "split": "calibration",
+      "input_tokens": 12356,
+      "prompt_sha256": "45a168782ac1566bfa40682f1c72427730883221566894b6e6bcd4d093074793",
+      "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522",
+      "snapshots": 12,
+      "contexts": [
+        12357,
+        12372,
+        12420
+      ]
+    },
+    {
+      "dataset": "passage_retrieval_en",
+      "case_id": "passage_retrieval_en/2024cb6239c0be12fae84bbbbcca6bb976a704c0bddb305b",
+      "split": "heldout",
+      "input_tokens": 13473,
+      "prompt_sha256": "9187786a674ea5b86823b52bb24ef27ed705fa2a70c1b39db8eda9868ce791b3",
+      "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522",
+      "snapshots": 12,
+      "contexts": [
+        13474,
+        13489,
+        13537
+      ]
+    }
+  ],
+  "model": "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c",
+  "architecture": {
+    "model_type": "qwen3",
+    "heads": 32,
+    "kv_heads": 8,
+    "head_dim": 128,
+    "num_hidden_layers": 36,
+    "config_sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a"
+  },
+  "capture": {
+    "gpu": "RTX 3090",
+    "kv_dtype": "native INT4 K4V4",
+    "group": 128,
+    "batch": 1,
+    "eager": true,
+    "prefix_caching": false,
+    "decode_calls": [
+      0,
+      15,
+      63
+    ],
+    "cache_ordinals": [
+      0,
+      12,
+      24,
+      35
+    ],
+    "generation_cap": 96,
+    "max_model_len": 32768,
+    "thinking": true,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "request_seed": 20261009,
+    "server_seed": 20260917,
+    "note": "Historical capture settings; this run does not launch server",
+    "packages": {
+      "vllm": "0.1.dev227+g7586257f1.cu126",
+      "torch": "2.11.0+cu126",
+      "triton": "3.6.0",
+      "numpy": "2.3.5",
+      "transformers": "4.57.6"
+    },
+    "dtype": "float16",
+    "max_num_batched_tokens": 1024,
+    "gpu_memory_utilization": 0.85
+  },
+  "replay": {
+    "dtype": "numpy float64",
+    "blas_threads": 4,
+    "encoding": "High2+Low2; native scales/zero-points/normalization unchanged",
+    "anchor_methods": [
+      "zero-fill=4*high2",
+      "midpoint=4*high2+1.5",
+      "conditional mean E[code|high2], separate K/V, calibration requests only"
+    ],
+    "fixed_grid": [
+      "K2V2",
+      "K2V4",
+      "K4V2",
+      "K4V4"
+    ],
+    "chunk_tokens": 32,
+    "shared_GQA_mask": true,
+    "residual_budget_fractions": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "V_candidates": [
+      "random",
+      "fixed chronological",
+      "global attention mass",
+      "global attention mass times scale-derived V error bound"
+    ],
+    "K_candidates": [
+      "random",
+      "fixed chronological",
+      "Query times native Scale error bound"
+    ],
+    "KV_candidates": [
+      "random shared mask",
+      "fixed shared mask",
+      "attention-risk shared mask"
+    ],
+    "random_seed": 20261023,
+    "random_order_seed": "20261023 + kv_head",
+    "repeats": 1,
+    "reference": "float64 full-native-INT4 attention; captured native GPU output also compared",
+    "metadata": "existing metadata and FP16 pools retained; reported code_bits excludes metadata/padding/pools",
+    "limitations": [
+      "No HumanEval or MATH500 in this pilot",
+      "No task generation score",
+      "No final-layer token-logit metric; attention score/logit RMSE only",
+      "Global attention is offline reference, not single-pass online controller",
+      "No deployment-quality equivalence tolerance frozen",
+      "No HBM measurement, TPOT, throughput or fused GPU implementation",
+      "No independent random-seed repeats; no confidence/equivalence claim",
+      "Stages 4--6 candidates only; stages 7--11 not executed"
+    ],
+    "packages": {
+      "python": "3.12.13 | packaged by conda-forge | (main, Aug 11 2026, 10:27:28) [GCC 14.4.0]",
+      "numpy": "2.3.5"
+    }
+  },
+  "provenance": "protocol.json contains per-input SHA256; source_capture_plan.json preserves original collection plan"
+}

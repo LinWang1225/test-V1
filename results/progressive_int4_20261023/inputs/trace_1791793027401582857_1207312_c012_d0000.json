@@ -1,0 +1,54 @@
+{
+  "schema": "kvbench.residual.real_trace.v1",
+  "source_kind": "real_vllm_decode",
+  "arrays_file": "trace_1791793027401582857_1207312_c012_d0000.npz",
+  "arrays_sha256": "ce89dcd2e8006b7fd6f4d4495c476f407dc8ef508d7c43113ff86c962d15a0b9",
+  "uncompressed_bytes": 15115664,
+  "layout": {
+    "group": 128,
+    "value_bits": 4,
+    "head_dim": 128,
+    "key_bits": 4
+  },
+  "hq": 32,
+  "hk": 8,
+  "scale": 0.08838834764831845,
+  "window": 0,
+  "mode": "split",
+  "block_n": 16,
+  "splits": 32,
+  "num_warps": 2,
+  "num_stages": 1,
+  "maxnreg": null,
+  "autotune_config": "BLOCK_N: 16, num_warps: 2, num_ctas: 1, num_stages: 1, maxnreg: None",
+  "request": {
+    "epoch": "c4b5cc2438a54887b52011036065bb9f",
+    "dataset": "hotpotqa",
+    "case_id": "hotpotqa/60ec93a22fbcb65eeadd9f1d2b3c8e4ed44d3a2c4285b168",
+    "prompt_sha256": "f4d9a3d26d4b190182897376e6d86e37d2fd2747214ce466e27c19e7ce13f61a",
+    "input_tokens": 12433,
+    "sample_index": 2,
+    "protocol": "diagnostic_C1_eager_parent",
+    "source_manifest_sha256": "609a9bcf70f1bf7156f0e9370b09d1ae32309023e38f883f8d9f2713d1e2c522"
+  },
+  "cache_ordinal": 12,
+  "decode_call_index": 0,
+  "context_tokens": 12434,
+  "kernel_source": "/home/wanglin/kvbench-3090-cu126/results/residual_diag/run_20261012_161428_3993496/runtime_parent_capture/vllm/v1/attention/ops/triton_kvarn_decode.py",
+  "kernel_sha256": "62ec8cb5a8598cd87212c43bcb65443255d8ee42f4b58d800684d8a66ec3d1fe",
+  "original_cache_shape": [
+    2456,
+    8,
+    17920
+  ],
+  "active_pages": 98,
+  "active_pool_pages": 2,
+  "original_query_shape": [
+    32,
+    128
+  ],
+  "eager": true,
+  "batch": 1,
+  "capture_pid": 1207312,
+  "scope": "Parent trajectory; real rotated GPU Q/KV/output. No runtime speed or DRAM claim. Cache ordinal is acquisition order, not a verified model layer name."
+}

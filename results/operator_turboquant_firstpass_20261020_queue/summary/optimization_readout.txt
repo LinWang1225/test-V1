@@ -1,0 +1,27 @@
+算子分析阶段结果
+
+以下为累计 GPU 时间的排查候选，不能直接视为可节省的端到端时间。
+融合读 KV / 反量化 / attention 不拆成虚构的独立时间；不同后端与存储位宽均是解释变量。
+
+代表批次 r2/r3 保存在 point_categories.csv，可检查稳定性；首轮完整数据用于下面的增量排序。
+
+1. turboquant / hotpotqa / decode / kv_read_dequant_attention_fused: delta=290773.585 GPU-ms
+2. turboquant / passage_retrieval_en / decode / kv_read_dequant_attention_fused: delta=274338.612 GPU-ms
+3. turboquant / gov_report / decode / kv_read_dequant_attention_fused: delta=225686.406 GPU-ms
+4. turboquant / trec / decode / kv_read_dequant_attention_fused: delta=150303.335 GPU-ms
+5. turboquant / qasper / decode / kv_read_dequant_attention_fused: delta=118818.427 GPU-ms
+6. turboquant / lcc / decode / kv_read_dequant_attention_fused: delta=87252.603 GPU-ms
+7. turboquant / math500 / decode / kv_read_dequant_attention_fused: delta=60492.597 GPU-ms
+8. turboquant / humaneval / decode / kv_read_dequant_attention_fused: delta=56143.760 GPU-ms
+9. turboquant / math500 / decode / other_unclassified: delta=6004.837 GPU-ms
+10. turboquant / math500 / decode / kv_cache_update_gemm: delta=5172.843 GPU-ms
+11. turboquant / humaneval / decode / other_unclassified: delta=4848.711 GPU-ms
+12. turboquant / math500 / decode / attention_backend_gemm: delta=4808.267 GPU-ms
+13. turboquant / humaneval / decode / kv_cache_update_gemm: delta=4177.016 GPU-ms
+14. turboquant / humaneval / decode / attention_backend_gemm: delta=3883.965 GPU-ms
+15. turboquant / math500 / decode / copy_scatter_gather_other: delta=3364.770 GPU-ms
+16. turboquant / humaneval / decode / copy_scatter_gather_other: delta=2795.520 GPU-ms
+17. turboquant / hotpotqa / mixed / kv_read_dequant_attention_fused: delta=2394.104 GPU-ms
+18. turboquant / passage_retrieval_en / mixed / kv_read_dequant_attention_fused: delta=1702.642 GPU-ms
+19. turboquant / lcc / decode / other_unclassified: delta=1559.123 GPU-ms
+20. turboquant / qasper / decode / other_unclassified: delta=1510.145 GPU-ms
