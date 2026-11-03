@@ -1,0 +1,15 @@
+2026-10-19T20:49:46 {"status": "preflight", "total_points": 696, "run_dir": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1"}
+2026-10-19T20:49:46 {"status": "server_starting", "method": "fp16", "server_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1/servers/fp16_preflight.log"}
+2026-10-19T20:50:19 {"status": "server_ready", "method": "fp16"}
+2026-10-19T20:50:19 {"status": "warming_up", "method": "fp16", "point": "preflight_fp16", "dataset": "preflight", "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1/points/fp16/preflight_fp16/attempts/20261019_205019_981805", "point_samples": 8}
+2026-10-19T20:50:24 {"status": "failed", "error": "EvalScope exited 1; inspect /home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1/points/fp16/preflight_fp16/attempts/20261019_205019_981805/warmup/evalscope.log", "failure_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1/failure.log"}
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 394, in <module>
+    main()
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 360, in main
+    ctrl.point(method, point, pilot_rows, traces, 32)
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 207, in point
+    self.evalscope(rows, attempt / 'warmup', min(128, tokens))
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 175, in evalscope
+    raise RuntimeError(f'EvalScope exited {result.returncode}; inspect {folder}/evalscope.log')
+RuntimeError: EvalScope exited 1; inspect /home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v1/points/fp16/preflight_fp16/attempts/20261019_205019_981805/warmup/evalscope.log

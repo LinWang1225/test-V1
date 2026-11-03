@@ -1,0 +1,19 @@
+2026-10-19T20:51:21 {"status": "preflight", "total_points": 696, "run_dir": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v2"}
+2026-10-19T20:51:21 {"status": "server_starting", "method": "fp16", "server_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v2/servers/fp16_preflight.log"}
+2026-10-19T20:51:51 {"status": "server_ready", "method": "fp16"}
+2026-10-19T20:51:51 {"status": "warming_up", "method": "fp16", "point": "preflight_fp16", "dataset": "preflight", "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v2/points/fp16/preflight_fp16/attempts/20261019_205151_078109", "point_samples": 8}
+2026-10-19T20:52:02 {"status": "capturing", "method": "fp16", "point": "preflight_fp16", "capture_started_unix": 1792414322.244899}
+2026-10-19T20:52:12 {"status": "exporting_trace", "method": "fp16", "point": "preflight_fp16"}
+2026-10-19T20:52:18 {"status": "summarizing_trace", "method": "fp16", "point": "preflight_fp16"}
+2026-10-19T20:52:21 {"status": "point_complete", "method": "fp16", "point": "preflight_fp16", "completed_points": 1, "last_point": {"status": "complete", "point": {"id": "preflight_fp16", "dataset": "preflight", "repeat": 0, "case_ids": ["math500/test/algebra/1255.json", "math500/test/prealgebra/1302.json", "math500/test/number_theory/686.json", "math500/test/algebra/1098.json", "math500/test/counting_and_probability/116.json", "math500/test/number_theory/342.json", "math500/test/prealgebra/1834.json", "math500/test/prealgebra/572.json"]}, "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v2/points/fp16/preflight_fp16/attempts/20261019_205151_078109", "finished": 1792414341.4563968, "capture_export_summary_s": 19.242897536605597, "export_s": 5.482374407351017, "summary_s": 3.3870775531977415, "gpu_event_count": 19675, "phase_matched_fraction": 1.0, "generated_tokens": 256, "trace_compressed_bytes": 3829736}}
+2026-10-19T20:52:21 {"status": "server_starting", "method": "fp8", "server_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v2/servers/fp8_preflight.log"}
+2026-10-19T20:52:55 {"status": "failed", "error": "Server exited 1; inspect fp8_preflight.log", "failure_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_v2/failure.log"}
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 394, in <module>
+    main()
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 357, in main
+    traces = ctrl.start(method, 'preflight')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 142, in start
+    raise RuntimeError(f'Server exited {self.server.returncode}; inspect {method}_{label}.log')
+RuntimeError: Server exited 1; inspect fp8_preflight.log

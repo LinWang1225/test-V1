@@ -1,0 +1,12 @@
+2026-10-19T20:49:16 {"status": "preflight", "total_points": 696, "run_dir": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019"}
+2026-10-19T20:49:16 {"status": "server_starting", "method": "fp16", "server_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019/servers/fp16_preflight.log"}
+2026-10-19T20:49:28 {"status": "failed", "error": "Server exited 2; inspect fp16_preflight.log", "failure_log": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019/failure.log"}
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 394, in <module>
+    main()
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 357, in main
+    traces = ctrl.start(method, 'preflight')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 142, in start
+    raise RuntimeError(f'Server exited {self.server.returncode}; inspect {method}_{label}.log')
+RuntimeError: Server exited 2; inspect fp16_preflight.log
