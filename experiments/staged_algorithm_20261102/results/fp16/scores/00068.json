@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/68",
+  "index": 68,
+  "dataset": "humaneval",
+  "generation_sha256": "0ca271ce884e6578d57cb5addeab48bda035849e227327f944c5f12cf317c81a",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef pluck(arr):\n    \"\"\"\n    Given an array representing a branch of a tree that has non-negative integer nodes\n    your task is to pluck one of the nodes and return it.\n    The plucked node should be the node with the smallest even value.\n    If multiple nodes with the same smallest even value are found return the node that has smallest index.\n\n    The plucked node should be returned in a list, [ smallest_value, its index ],\n    If there are no even values or the given array is empty, return [].\n    \"\"\"\n    min_even = None\n    min_index = -1\n    for i, val in enumerate(arr):\n        if val % 2 == 0:\n            if min_even is None or val < min_even or (val == min_even and i < min_index):\n                min_even = val\n                min_index = i\n    return [min_even, min_index] if min_even is not None else []\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

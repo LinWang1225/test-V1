@@ -203,6 +203,7 @@ class Model:
                 status('replaying_saved_prefix',run=self.identity,case=row['case_id'],tokens=len(replay))
         maximum = self.manifest['native_context_length']-len(ids)
         assert maximum>0
+        assert len(replay)<=maximum, 'Saved prefix exceeds native context boundary'
         begin=time.perf_counter()
         torch.cuda.reset_peak_memory_stats()
         tensor=torch.tensor([ids],device='cuda')

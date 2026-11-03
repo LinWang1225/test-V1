@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/90",
+  "index": 90,
+  "dataset": "humaneval",
+  "generation_sha256": "3b45a66d8caec2811115351d47290c92aa5db90aabf16e25c3d118a779eb86f6",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef next_smallest(lst):\n    \"\"\"\n    You are given a list of integers.\n    Write a function next_smallest() that returns the 2nd smallest element of the list.\n    Return None if there is no such element.\n    \"\"\"\n    if len(lst) < 2:\n        return None\n    unique_sorted = sorted(set(lst))\n    if len(unique_sorted) < 2:\n        return None\n    return unique_sorted[1]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

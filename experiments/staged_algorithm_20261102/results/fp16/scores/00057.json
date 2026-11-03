@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/57",
+  "index": 57,
+  "dataset": "humaneval",
+  "generation_sha256": "e8eb1a6d0ffcfadce6db23c82f4d24f7724aecc185b1598e8a29ac165fa3fa29",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return all(l[i] <= l[i+1] for i in range(len(l)-1)) or all(l[i] >= l[i+1] for i in range(len(l)-1))\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

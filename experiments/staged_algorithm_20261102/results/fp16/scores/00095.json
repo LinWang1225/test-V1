@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/95",
+  "index": 95,
+  "dataset": "humaneval",
+  "generation_sha256": "2ece78dc6e9453088dad29f408341fd5f9ab887c4addfbe04279de53133d3e59",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef check_dict_case(dict):\n    \"\"\"\n    Given a dictionary, return True if all keys are strings in lower \n    case or all keys are strings in upper case, else return False.\n    The function should return False if the given dictionary is empty.\n    \"\"\"\n    if not dict:\n        return False\n    keys = dict.keys()\n    lower = all(isinstance(k, str) and k.islower() for k in keys)\n    upper = all(isinstance(k, str) and k.isupper() for k in keys)\n    return lower or upper\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

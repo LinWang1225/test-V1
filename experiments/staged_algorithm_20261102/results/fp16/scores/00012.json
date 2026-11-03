@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/12",
+  "index": 12,
+  "dataset": "humaneval",
+  "generation_sha256": "6462b0d54eedfd076e0ffd93ca1bdd4dcdf1674cb4a823e23b8f31e073e2c24b",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef longest(strings: List[str]) -> Optional[str]:\n    \"\"\" Out of list of strings, return the longest one. Return the first one in case of multiple\n    strings of the same length. Return None in case the input list is empty.\n    >>> longest([])\n    >>> longest(['a', 'b', 'c'])\n    'a'\n    >>> longest(['a', 'bb', 'ccc'])\n    'ccc'\n    \"\"\"\n    if not strings:\n        return None\n    max_len = max(len(s) for s in strings)\n    for s in strings:\n        if len(s) == max_len:\n            return s\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/33",
+  "index": 33,
+  "dataset": "humaneval",
+  "generation_sha256": "0be2248c302c05854a58b50236faa22e5cc5d773cfd8d66ba0059084f4fe397d",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_third(l: list):\n    \"\"\"This function takes a list l and returns a list l' such that\n    l' is identical to l in the indicies that are not divisible by three, while its values at the indicies that are divisible by three are equal\n    to the values of the corresponding indicies of l, but sorted.\n    >>> sort_third([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_third([5, 6, 3, 4, 8, 9, 2])\n    [2, 6, 3, 4, 8, 9, 5]\n    \"\"\"\n    third_indices = [i for i in range(len(l)) if i % 3 == 0]\n    third_values = [l[i] for i in third_indices]\n    third_values.sort()\n    result = l[:]\n    for i, val in zip(third_indices, third_values):\n        result[i] = val\n    return result\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

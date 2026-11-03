@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/91",
+  "index": 91,
+  "dataset": "humaneval",
+  "generation_sha256": "4b05dbf23a7f1ab1bca264a26c3616f41ee73981fa74611e002f2bae6bf2f774",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef is_bored(S):\n    \"\"\"\n    You'll be given a string of words, and your task is to count the number\n    of boredoms. A boredom is a sentence that starts with the word \"I\".\n    Sentences are delimited by '.', '?' or '!'.\n    \"\"\"\n    count = 0\n    sentences = [s.strip() for s in S.split('. ') if s.strip()]\n    for sentence in sentences:\n        if sentence.startswith('I '):\n            count += 1\n    return count\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

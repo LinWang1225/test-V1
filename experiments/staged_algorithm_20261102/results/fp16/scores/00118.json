@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/118",
+  "index": 118,
+  "dataset": "humaneval",
+  "generation_sha256": "1609df9962155d3559669384b1fdd8e8ab8b7b883f77cc91e2e6c942d3be5d68",
+  "natural_completion": true,
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef get_closest_vowel(word):\n    \"\"\"You are given a word. Your task is to find the closest vowel that stands between \n    two consonants from the right side of the word (case sensitive).\n    \n    Vowels in the beginning and ending doesn't count. Return empty string if you didn't\n    find any vowel met the above condition. \n\n    You may assume that the given string contains English letter only.\n    \"\"\"\n    vowels = \"AEIOUaeiou\"\n    n = len(word)\n    # Start from the end of the word and move left\n    for i in range(n - 2, -1, -1):\n        # Check if current character is a vowel\n        if word[i] in vowels:\n            # Check if the next character (i+1) is a consonant\n            if word[i+1] not in vowels:\n                # Check if the character after that (i+2) is a consonant\n                if word[i+2] not in vowels:\n                    return word[i]\n    return \"\"\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

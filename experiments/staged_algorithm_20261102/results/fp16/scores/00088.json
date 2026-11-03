@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/88",
+  "index": 88,
+  "dataset": "humaneval",
+  "generation_sha256": "7fe8109fc427b71f7f2ba42e6cd846c59f18eb65ecd08017ac4cc7852392d4c8",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sort_array(array):\n    \"\"\"\n    Given an array of non-negative integers, return a copy of the given array after sorting,\n    you will sort the given array in ascending order if the sum( first index value, last index value) is odd,\n    or sort it in descending order if the sum( first index value, last index value) is even.\n\n    Note:\n    * don't change the given array.\n    \"\"\"\n    if not array:\n        return []\n    first = array[0]\n    last = array[-1]\n    if (first + last) % 2 == 1:\n        return sorted(array)\n    else:\n        return sorted(array, reverse=True)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

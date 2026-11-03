@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/61",
+  "index": 61,
+  "dataset": "humaneval",
+  "generation_sha256": "697580d0a20bfae61f4f3eeab5236e0e0922cbb7721d4c9a61ebffd22d36d9bb",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef correct_bracketing(brackets: str) -> bool:\n    \"\"\" brackets is a string of \"(\" and \")\".\n    return True if every opening bracket has a corresponding closing bracket.\n    \"\"\"\n    balance = 0\n    for bracket in brackets:\n        if bracket == '(':\n            balance += 1\n        else:\n            balance -= 1\n        if balance < 0:\n            return False\n    return balance == 0\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

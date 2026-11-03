@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/142",
+  "index": 142,
+  "dataset": "humaneval",
+  "generation_sha256": "b94a0bdba4b6b8e1691d8aef77c903e529d84408bea7c571494ef088aa406e62",
+  "natural_completion": true,
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef sum_squares(lst):\n    \"\"\"\"\n    This function will take a list of integers. For all entries in the list, the function shall square the integer entry if its index is a \n    multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not \n    change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries. \n    \n    Examples:\n    For lst = [1,2,3] the output should be 6\n    For lst = []  the output should be 0\n    For lst = [-1,-5,2,-1,-5]  the output should be -126\n    \"\"\"\n    total = 0\n    for i in range(len(lst)):\n        if i % 3 == 0:\n            total += lst[i] ** 2\n        elif i % 4 == 0:\n            total += lst[i] ** 3\n    return total\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

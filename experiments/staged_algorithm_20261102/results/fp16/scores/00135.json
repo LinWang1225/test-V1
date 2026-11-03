@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/135",
+  "index": 135,
+  "dataset": "humaneval",
+  "generation_sha256": "cffa41c8b09e38fe52bbea627158be58a149aba67607a7169250b3d4d803b9f7",
+  "natural_completion": true,
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef can_arrange(arr):\n    \"\"\"Create a function which returns the largest index of an element which\n    is not greater than or equal to the element immediately preceding it. If\n    no such element exists then return -1. The given array will not contain\n    duplicate values.\n    \"\"\"\n    for i in range(1, len(arr)):\n        if arr[i] < arr[i-1]:\n            return i\n    return -1\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

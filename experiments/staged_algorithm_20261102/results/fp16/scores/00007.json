@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/7",
+  "index": 7,
+  "dataset": "humaneval",
+  "generation_sha256": "5a8bdafccd5b4db7a7fdd11bb427b2a0110d3a5bccab536bc02200bf37a2b32e",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n    return [s for s in strings if substring in s]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

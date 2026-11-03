@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/21",
+  "index": 21,
+  "dataset": "humaneval",
+  "generation_sha256": "54821c7e288bee87bbda8d9fce4ee30a03504b09646f256c10e43ad35728de64",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef rescale_to_unit(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_val = min(numbers)\n    max_val = max(numbers)\n    return [(x - min_val) / (max_val - min_val) for x in numbers]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

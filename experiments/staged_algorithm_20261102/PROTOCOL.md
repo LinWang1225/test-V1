@@ -8,7 +8,7 @@
 
 冻结原始ID、版本、source_index、prompt与token哈希。完整prompt重新分词，不继承旧实验的首尾截断；原生上下文容纳不下的LongBench输入在抽样前排除并记录。所有方案输入一致。
 
-模型Qwen3-4B，revision 1cfa9a7208912126459214e8b04321603b3df60c；贪心、enable_thinking=False、自然EOS；不设2048/8192等人为输出上限、不采用LongBench逐任务短输出上限、不按FP16输出长度停止。模型原生上下文上限是运行边界，触及边界记native_context_limit，保留完整输出与评分并单列完成率。OOM、推理异常保留现场并停止队列，不能跳过样本伪造完成。运行中每256输出token保存部分输出；重启只能重做未完整保存的请求。
+模型Qwen3-4B，revision 1cfa9a7208912126459214e8b04321603b3df60c；贪心、enable_thinking=False、自然EOS；不设2048/8192等人为输出上限、不采用LongBench逐任务短输出上限、不按FP16输出长度停止。模型原生上下文上限是运行边界，触及边界记native_context_limit，保留完整输出与评分并单列完成率。OOM、推理异常保留现场并停止队列，不能跳过样本伪造完成。运行中每256输出token持久化保存前缀；重启校验后跳过完整请求，对未完成请求确定性重放已保存前缀以重建KV，再继续生成。恢复入口与运行边界见RECOVERY.md。
 
 Prefill各方案FP16，decode全36层闭环使用对应KV重建；统一每512 token prefill分块。关注存储已有KV与未来query间的错配，不改变原模型权重。HumanEval官方隔离执行评分、MATH官方等价判分、LongBench官方逐任务指标沿用冻结vendor代码。取消输出上限属于修改生成协议，旧质量结果不得直接混入本轮比较。
 

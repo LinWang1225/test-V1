@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/86",
+  "index": 86,
+  "dataset": "humaneval",
+  "generation_sha256": "aded8df9555ea954a3e6edb0df7651d592653a3d7c07a57b8241f862e0c3a092",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef anti_shuffle(s):\n    \"\"\"\n    Write a function that takes a string and returns an ordered version of it.\n    Ordered version of string, is a string where all words (separated by space)\n    are replaced by a new word where all the characters arranged in\n    ascending order based on ascii value.\n    Note: You should keep the order of words and blank spaces in the sentence.\n    \"\"\"\n    words = s.split()\n    result = []\n    for word in words:\n        sorted_chars = ''.join(sorted(word))\n        result.append(sorted_chars)\n    return ' '.join(result)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

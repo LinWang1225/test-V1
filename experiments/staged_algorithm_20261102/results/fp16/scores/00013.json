@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/13",
+  "index": 13,
+  "dataset": "humaneval",
+  "generation_sha256": "370de6c37ea422eb39c4ec18828a872de34d4472be8954762b6cabf2009e6d64",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    while b != 0:\n        a, b = b, a % b\n    return abs(a)\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

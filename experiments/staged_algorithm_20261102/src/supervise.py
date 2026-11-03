@@ -20,7 +20,10 @@ def main():
         atomic(ROOT/'stage_status.json',dict(stage='waiting_for_natural_generation_check',pid=os.getpid(),
             wait_pid=args.wait_pid,updated=time.strftime('%Y-%m-%d %H:%M:%S')))
         while watched.exists():
-            info=watched.read_text().split()
+            try:
+                info=watched.read_text().split()
+            except FileNotFoundError:
+                break
             if info[21]!=before or info[2]=='Z':
                 break
             time.sleep(10)

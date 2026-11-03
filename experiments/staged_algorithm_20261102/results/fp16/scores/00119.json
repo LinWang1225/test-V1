@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/119",
+  "index": 119,
+  "dataset": "humaneval",
+  "generation_sha256": "1db45d53fae4612da72f6be49e6b34146c767b572882e51e98e1ae0bece15d90",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef match_parens(lst):\n    '''\n    You are given a list of two strings, both strings consist of open\n    parentheses '(' or close parentheses ')' only.\n    Your job is to check if it is possible to concatenate the two strings in\n    some order, that the resulting string will be good.\n    A string S is considered to be good if and only if all parentheses in S\n    are balanced. For example: the string '(())()' is good, while the string\n    '())' is not.\n    Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.\n    '''\n    s1, s2 = lst[0], lst[1]\n    \n    # Check if s1 + s2 is a valid string\n    def is_valid(s):\n        balance = 0\n        for char in s:\n            if char == '(':\n                balance += 1\n            else:\n                balance -= 1\n            if balance < 0:\n                return False\n        return balance == 0\n    \n    # Check both possible orders\n    if is_valid(s1 + s2) or is_valid(s2 + s1):\n        return 'Yes'\n    else:\n        return 'No'\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

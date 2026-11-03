@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/129",
+  "index": 129,
+  "dataset": "humaneval",
+  "generation_sha256": "5aaa6ddc939aac02532944c26a69a1bd25a349d7704c4d25a6aa3ffeb72f1f6d",
+  "natural_completion": true,
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef minPath(grid, k):\n    \"\"\"\n    Given a grid with N rows and N columns (N >= 2) and a positive integer k, \n    each cell of the grid contains a value. Every integer in the range [1, N * N]\n    inclusive appears exactly once on the cells of the grid.\n\n    You have to find the minimum path of length k in the grid. You can start\n    from any cell, and in each step you can move to any of the neighbor cells,\n    in other words, you can go to cells which share an edge with you current\n    cell.\n    Please note that a path of length k means visiting exactly k cells (not\n    necessarily distinct).\n    You CANNOT go off the grid.\n    A path A (of length k) is considered less than a path B (of length k) if\n    after making the ordered lists of the values on the cells that A and B go\n    through (let's call them lst_A and lst_B), lst_A is lexicographically less\n    than lst_B, in other words, there exist an integer index i (1 <= i <= k)\n    such that lst_A[i] < lst_B[i] and for any j (1 <= j < i) we have\n    lst_A[j] = lst_B[j].\n    It is guaranteed that the answer is unique.\n    Return an ordered list of the values on the cells that the minimum path go through.\n    \"\"\"\n    from collections import deque\n    import heapq\n\n    n = len(grid)\n    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]\n\n    # Priority queue: (lexicographical order, path, current position, current value)\n    heap = []\n\n    # Initialize the heap with all starting positions\n    for i in range(n):\n        for j in range(n):\n            val = grid[i][j]\n            heapq.heappush(heap, (val, [val], (i, j), val))\n\n    # Visited set to avoid revisiting the same state (path, position)\n    visited = set()\n\n    while heap:\n        lex_order, path, (i, j), current_val = heapq.heappop(heap)\n\n        # If path length is k, return the path\n        if len(path) == k:\n            return path\n\n        # Generate all possible next moves\n        for dx, dy in directions:\n            ni, nj = i + dx, j + dy\n            if 0 <= ni < n and 0 <= nj < n:\n                next_val = grid[ni][nj]\n                next_path = path + [next_val]\n                state = (tuple(path), (ni, nj))\n                if state not in visited:\n                    visited.add(state)\n                    heapq.heappush(heap, (next_val, next_path, (ni, nj), next_val))\n\n    return []\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/10",
+  "index": 10,
+  "dataset": "humaneval",
+  "generation_sha256": "9b10ae7c10a42e5b872498fe55a023a5fc99efc2848f26fc202649b3646a6344",
+  "natural_completion": true,
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef make_palindrome(string: str) -> str:\n    \"\"\" Find the longest palindrome suffix and construct the shortest palindrome.\"\"\"\n    if not string:\n        return string\n    \n    # Find the longest palindromic suffix\n    for i in range(len(string), 0, -1):\n        if string[i:] == string[i:][::-1]:\n            # Found the longest palindromic suffix\n            return string + string[:len(string) - i][::-1]\n    \n    # If no palindromic suffix found (e.g., empty string)\n    return string + string[::-1]\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}

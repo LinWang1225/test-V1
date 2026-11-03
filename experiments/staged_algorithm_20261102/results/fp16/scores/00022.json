@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/22",
+  "index": 22,
+  "dataset": "humaneval",
+  "generation_sha256": "839277bded4c0045c592d59573d2557962b9fc65422732a39e46d23ab26386bb",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef filter_integers(values: List[Any]) -> List[int]:\n    \"\"\" Filter given list of any python values only for integers\n    >>> filter_integers(['a', 3.14, 5])\n    [5]\n    >>> filter_integers([1, 2, 3, 'abc', {}, []])\n    [1, 2, 3]\n    \"\"\"\n    return [val for val in values if isinstance(val, int)]\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "HumanEval/64",
+  "index": 64,
+  "dataset": "humaneval",
+  "generation_sha256": "a78f7671c9b1130681ef51f76bc8d3122dd9758beacafd72dadb26520d38407a",
+  "natural_completion": true,
+  "score": 1.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef vowels_count(s):\n    \"\"\"Write a function vowels_count which takes a string representing\n    a word as input and returns the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n    \"\"\"\n    vowels = {'a', 'e', 'i', 'o', 'u'}\n    count = 0\n    for char in s.lower():\n        if char in vowels:\n            count += 1\n    if s and s[-1].lower() == 'y':\n        count += 1\n    return count\n",
+  "official_execution_result": {
+    "passed": true,
+    "returncode": 0
+  }
+}

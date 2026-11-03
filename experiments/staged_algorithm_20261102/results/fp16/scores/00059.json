@@ -1,0 +1,18 @@
+{
+  "case_id": "HumanEval/59",
+  "index": 59,
+  "dataset": "humaneval",
+  "generation_sha256": "f3c8b947db3dbdeb88e76d0e7ad49cc06d91ccf938816b253f1b8d500ddec7d8",
+  "natural_completion": true,
+  "score": 0.0,
+  "grading_status": "graded",
+  "extraction_rule": "full_function_after_stub",
+  "completion": "    pass\n\ndef largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\"\"\"\n    # Handle even numbers\n    while n % 2 == 0:\n        n //= 2\n    # Check for odd factors starting from 3\n    i = 3\n    while i * i <= n:\n        while n % i == 0:\n            n //= i\n        i += 2\n    # If n is a prime number greater than 2\n    return n\n",
+  "official_execution_result": {
+    "passed": false,
+    "exception": "AssertionError",
+    "error": "['failed: ']",
+    "traceback": "Traceback (most recent call last):\n  File \"<string>\", line 110, in main\n  File \"<humaneval>\", line 5, in <module>\nAssertionError: ['failed: ']\n",
+    "returncode": 0
+  }
+}
