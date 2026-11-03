@@ -1,0 +1,22 @@
+算子分析阶段结果
+
+以下为累计 GPU 时间的排查候选，不能直接视为可节省的端到端时间。
+融合读 KV / 反量化 / attention 不拆成虚构的独立时间；不同后端与存储位宽均是解释变量。
+
+代表批次 r2/r3 保存在 point_categories.csv，可检查稳定性；首轮完整数据用于下面的增量排序。
+
+1. kvarn / qasper / decode / kv_read_dequant_attention_fused: delta=6077.364 GPU-ms
+2. kvarn / qasper / decode / rotation_normalization_sinkhorn: delta=410.871 GPU-ms
+3. kvarn / qasper / decode / kv_cache_update_gemm: delta=242.507 GPU-ms
+4. kvarn / qasper / decode / attention_backend_gemm: delta=229.992 GPU-ms
+5. kvarn / qasper / mixed / rotation_normalization_sinkhorn: delta=220.783 GPU-ms
+6. kvarn / qasper / mixed / other_unclassified: delta=87.690 GPU-ms
+7. kvarn / qasper / mixed / copy_scatter_gather_other: delta=69.934 GPU-ms
+8. kvarn / qasper / decode / gpu_memcpy: delta=38.480 GPU-ms
+9. kvarn / qasper / mixed / gpu_memcpy: delta=27.638 GPU-ms
+10. kvarn / qasper / mixed / kv_cache_update_gemm: delta=25.100 GPU-ms
+11. kvarn / qasper / mixed / attention_backend_gemm: delta=17.630 GPU-ms
+12. kvarn / qasper / mixed / kv_read_dequant_attention_fused: delta=7.389 GPU-ms
+13. kvarn / qasper / mixed / kv_read_pack_dequant_fused: delta=4.326 GPU-ms
+14. kvarn / qasper / prefill / kv_cache_update_gemm: delta=2.633 GPU-ms
+15. kvarn / qasper / prefill / gpu_memcpy: delta=1.479 GPU-ms

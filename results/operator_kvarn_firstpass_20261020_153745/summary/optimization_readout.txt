@@ -1,0 +1,27 @@
+算子分析阶段结果
+
+以下为累计 GPU 时间的排查候选，不能直接视为可节省的端到端时间。
+融合读 KV / 反量化 / attention 不拆成虚构的独立时间；不同后端与存储位宽均是解释变量。
+
+代表批次 r2/r3 保存在 point_categories.csv，可检查稳定性；首轮完整数据用于下面的增量排序。
+
+1. kvarn / hotpotqa / decode / kv_read_dequant_attention_fused: delta=143640.797 GPU-ms
+2. kvarn / passage_retrieval_en / decode / kv_read_dequant_attention_fused: delta=135817.662 GPU-ms
+3. kvarn / gov_report / decode / kv_read_dequant_attention_fused: delta=118274.057 GPU-ms
+4. kvarn / trec / decode / kv_read_dequant_attention_fused: delta=84954.910 GPU-ms
+5. kvarn / qasper / decode / kv_read_dequant_attention_fused: delta=67725.894 GPU-ms
+6. kvarn / lcc / decode / kv_read_dequant_attention_fused: delta=49514.363 GPU-ms
+7. kvarn / math500 / decode / kv_read_dequant_attention_fused: delta=41404.735 GPU-ms
+8. kvarn / humaneval / decode / kv_read_dequant_attention_fused: delta=36500.985 GPU-ms
+9. kvarn / hotpotqa / mixed / rotation_normalization_sinkhorn: delta=6994.118 GPU-ms
+10. kvarn / passage_retrieval_en / mixed / rotation_normalization_sinkhorn: delta=6733.019 GPU-ms
+11. kvarn / math500 / decode / kv_cache_update_gemm: delta=6302.328 GPU-ms
+12. kvarn / math500 / decode / attention_backend_gemm: delta=6053.321 GPU-ms
+13. kvarn / humaneval / decode / rotation_normalization_sinkhorn: delta=5502.109 GPU-ms
+14. kvarn / gov_report / mixed / rotation_normalization_sinkhorn: delta=5223.340 GPU-ms
+15. kvarn / humaneval / decode / kv_cache_update_gemm: delta=5084.228 GPU-ms
+16. kvarn / humaneval / decode / attention_backend_gemm: delta=4879.487 GPU-ms
+17. kvarn / math500 / decode / rotation_normalization_sinkhorn: delta=4439.031 GPU-ms
+18. kvarn / trec / mixed / rotation_normalization_sinkhorn: delta=3561.380 GPU-ms
+19. kvarn / qasper / mixed / rotation_normalization_sinkhorn: delta=2815.243 GPU-ms
+20. kvarn / hotpotqa / mixed / other_unclassified: delta=2719.218 GPU-ms

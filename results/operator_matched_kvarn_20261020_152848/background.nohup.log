@@ -1,0 +1,36 @@
+2026-10-20T15:28:48 {"status": "starting", "total_points": 262, "run_dir": "/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848", "baseline_source": "/home/wanglin/kvarn-profile-20261019/results/operator_profile_20261019_210036", "unique_samples_per_method": 672}
+2026-10-20T15:28:48 {"status": "server_starting", "method": "kvarn", "server_log": "/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848/servers/kvarn_matched_20261020_152848.log"}
+2026-10-20T15:29:18 {"status": "server_ready", "method": "kvarn"}
+2026-10-20T15:29:18 {"status": "warming_up", "method": "kvarn", "point": "qasper_b000_r1", "dataset": "qasper", "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848/points/kvarn/qasper_b000_r1/attempts/20261020_152918_580469", "point_samples": 8}
+2026-10-20T15:29:41 {"status": "capturing", "method": "kvarn", "point": "qasper_b000_r1", "capture_started_unix": 1792481381.3683336}
+2026-10-20T15:31:24 {"status": "exporting_trace", "method": "kvarn", "point": "qasper_b000_r1"}
+2026-10-20T15:35:14 {"status": "summarizing_trace", "method": "kvarn", "point": "qasper_b000_r1"}
+2026-10-20T15:37:43 {"status": "point_complete", "method": "kvarn", "point": "qasper_b000_r1", "completed_points": 132, "last_point": {"status": "complete", "point": {"id": "qasper_b000_r1", "dataset": "qasper", "batch": 0, "repeat": 1, "case_ids": ["longbench/qasper/53", "longbench/qasper/96", "longbench/qasper/198", "longbench/qasper/71", "longbench/qasper/37", "longbench/qasper/159", "longbench/qasper/164", "longbench/qasper/130"]}, "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848/points/kvarn/qasper_b000_r1/attempts/20261020_152918_580469", "finished": 1792481863.669197, "capture_export_summary_s": 482.3362977784127, "export_s": 230.19378896802664, "summary_s": 148.98282071389258, "gpu_event_count": 876010, "phase_matched_fraction": 1.0, "generated_tokens": 8192, "trace_compressed_bytes": 153980107}}
+2026-10-20T15:37:43 {"status": "warming_up", "method": "kvarn", "point": "qasper_b001_r1", "dataset": "qasper", "attempt": "/home/wanglin/kvarn-profile-20261019/results/operator_matched_kvarn_20261020_152848/points/kvarn/qasper_b001_r1/attempts/20261020_153743_786736", "point_samples": 8}
+2026-10-20T15:37:44 {"status": "failed", "error": "Received signal 15"}
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_matched_kvarn.py", line 119, in <module>
+    main()
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_matched_kvarn.py", line 103, in main
+    ctrl.point('kvarn', point, [lookup[c] for c in point['case_ids']], traces, 1024)
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 210, in point
+    self.evalscope(rows, attempt / 'warmup', min(128, tokens))
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 172, in evalscope
+    result = subprocess.run(cmd, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 2141, in _communicate
+    self.wait(timeout=self._remaining_time(endtime))
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 2047, in _wait
+    time.sleep(delay)
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_matched_kvarn.py", line 82, in stop
+    raise KeyboardInterrupt(f'Received signal {signum}')
+KeyboardInterrupt: Received signal 15

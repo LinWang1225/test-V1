@@ -1,0 +1,46 @@
+GPU 算子分析报告
+
+覆盖情况: {"fp16": {"completed_points": 89, "expected_points": 89}, "kvarn": {"completed_points": 89, "expected_points": 89}}
+
+优化排查优先级（按相同数据集完整首轮的 GPU 累计时间增量排序；不是端到端可节省时间）:
+
+1. kvarn / gov_report / decode / attention_read_dequant_compute_combined: 119825.902 ms vs FP16 104505.953 ms, delta=15319.949 ms, 占该方法该数据集累计GPU时间 38.43%
+2. kvarn / trec / decode / attention_read_dequant_compute_combined: 86554.311 ms vs FP16 73847.687 ms, delta=12706.624 ms, 占该方法该数据集累计GPU时间 36.52%
+3. kvarn / qasper / decode / attention_read_dequant_compute_combined: 69329.602 ms vs FP16 57110.872 ms, delta=12218.729 ms, 占该方法该数据集累计GPU时间 34.14%
+4. kvarn / hotpotqa / decode / attention_read_dequant_compute_combined: 145139.203 ms vs FP16 134208.537 ms, delta=10930.666 ms, 占该方法该数据集累计GPU时间 39.25%
+5. kvarn / humaneval / decode / kv_write_quant_pack_rotation_combined: 12103.597 ms vs FP16 2189.164 ms, delta=9914.433 ms, 占该方法该数据集累计GPU时间 3.77%
+6. kvarn / math500 / decode / kv_write_quant_pack_rotation_combined: 12620.489 ms vs FP16 2714.577 ms, delta=9905.912 ms, 占该方法该数据集累计GPU时间 3.27%
+7. kvarn / lcc / decode / attention_read_dequant_compute_combined: 51126.536 ms vs FP16 42473.664 ms, delta=8652.871 ms, 占该方法该数据集累计GPU时间 29.96%
+8. kvarn / hotpotqa / mixed / kv_write_quant_pack_rotation_combined: 7952.910 ms vs FP16 297.502 ms, delta=7655.408 ms, 占该方法该数据集累计GPU时间 2.15%
+9. kvarn / passage_retrieval_en / mixed / kv_write_quant_pack_rotation_combined: 7651.863 ms vs FP16 275.153 ms, delta=7376.711 ms, 占该方法该数据集累计GPU时间 2.18%
+10. kvarn / gov_report / mixed / kv_write_quant_pack_rotation_combined: 5946.175 ms vs FP16 212.075 ms, delta=5734.100 ms, 占该方法该数据集累计GPU时间 1.91%
+11. kvarn / lcc / decode / kv_write_quant_pack_rotation_combined: 4909.622 ms vs FP16 726.511 ms, delta=4183.111 ms, 占该方法该数据集累计GPU时间 2.88%
+12. kvarn / trec / decode / kv_write_quant_pack_rotation_combined: 4740.158 ms vs FP16 807.896 ms, delta=3932.262 ms, 占该方法该数据集累计GPU时间 2.00%
+13. kvarn / qasper / decode / kv_write_quant_pack_rotation_combined: 4615.479 ms vs FP16 715.690 ms, delta=3899.789 ms, 占该方法该数据集累计GPU时间 2.27%
+14. kvarn / trec / mixed / kv_write_quant_pack_rotation_combined: 4032.785 ms vs FP16 140.795 ms, delta=3891.990 ms, 占该方法该数据集累计GPU时间 1.70%
+15. kvarn / gov_report / decode / kv_write_quant_pack_rotation_combined: 4696.000 ms vs FP16 905.864 ms, delta=3790.136 ms, 占该方法该数据集累计GPU时间 1.51%
+16. kvarn / hotpotqa / decode / kv_write_quant_pack_rotation_combined: 4482.434 ms vs FP16 1172.167 ms, delta=3310.267 ms, 占该方法该数据集累计GPU时间 1.21%
+17. kvarn / math500 / decode / attention_read_dequant_compute_combined: 47458.055 ms vs FP16 44199.903 ms, delta=3258.152 ms, 占该方法该数据集累计GPU时间 12.31%
+18. kvarn / passage_retrieval_en / decode / kv_write_quant_pack_rotation_combined: 4484.430 ms vs FP16 1301.797 ms, delta=3182.634 ms, 占该方法该数据集累计GPU时间 1.28%
+19. kvarn / qasper / mixed / kv_write_quant_pack_rotation_combined: 3180.891 ms vs FP16 104.941 ms, delta=3075.950 ms, 占该方法该数据集累计GPU时间 1.57%
+20. kvarn / passage_retrieval_en / decode / attention_read_dequant_compute_combined: 137279.244 ms vs FP16 134480.089 ms, delta=2799.155 ms, 占该方法该数据集累计GPU时间 39.10%
+21. kvarn / hotpotqa / mixed / other_unclassified: 2726.151 ms vs FP16 6.933 ms, delta=2719.218 ms, 占该方法该数据集累计GPU时间 0.74%
+22. kvarn / passage_retrieval_en / mixed / other_unclassified: 2627.888 ms vs FP16 6.613 ms, delta=2621.275 ms, 占该方法该数据集累计GPU时间 0.75%
+23. kvarn / humaneval / decode / other_unclassified: 3856.090 ms vs FP16 1296.562 ms, delta=2559.528 ms, 占该方法该数据集累计GPU时间 1.20%
+24. kvarn / hotpotqa / mixed / copy_scatter_gather_other: 2310.935 ms vs FP16 6.701 ms, delta=2304.234 ms, 占该方法该数据集累计GPU时间 0.62%
+25. kvarn / passage_retrieval_en / mixed / copy_scatter_gather_other: 2219.925 ms vs FP16 6.389 ms, delta=2213.537 ms, 占该方法该数据集累计GPU时间 0.63%
+26. kvarn / gov_report / mixed / other_unclassified: 2052.289 ms vs FP16 4.975 ms, delta=2047.314 ms, 占该方法该数据集累计GPU时间 0.66%
+27. kvarn / math500 / decode / other_unclassified: 3628.080 ms vs FP16 1607.907 ms, delta=2020.173 ms, 占该方法该数据集累计GPU时间 0.94%
+28. kvarn / lcc / mixed / kv_write_quant_pack_rotation_combined: 1820.682 ms vs FP16 66.352 ms, delta=1754.330 ms, 占该方法该数据集累计GPU时间 1.07%
+29. kvarn / gov_report / mixed / copy_scatter_gather_other: 1723.178 ms vs FP16 4.601 ms, delta=1718.577 ms, 占该方法该数据集累计GPU时间 0.55%
+30. kvarn / humaneval / decode / attention_read_dequant_compute_combined: 41380.472 ms vs FP16 39783.655 ms, delta=1596.817 ms, 占该方法该数据集累计GPU时间 12.89%
+
+解释边界:
+Eager profiler measurements; not production throughput or critical-path savings.
+FP8 uses FLASHINFER on SM86; E4M3 Triton store is unsupported. Backend differences are part of the result.
+Fused KV read/dequant/attention timings cannot be separated with this instrumentation.
+Family comparisons combine standalone and fused implementations; raw kernels retained.
+Per-phase request mixtures and active sequence counts can differ; inspect scheduler_scopes.jsonl.
+KVarN K4V2 and TurboQuant K4V4 use different storage precision; not an equal-byte comparison.
+Hardware DRAM counters unavailable with current driver permissions.
+Kernel accumulated duration is non-additive with concurrent kernels; busy-time unions reported separately.

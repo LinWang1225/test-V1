@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 388, in main
+    ctrl.point(method, point, rows, traces, 1024)
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 210, in point
+    self.evalscope(rows, attempt / 'warmup', min(128, tokens))
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 172, in evalscope
+    result = subprocess.run(cmd, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 2141, in _communicate
+    self.wait(timeout=self._remaining_time(endtime))
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wanglin/miniconda3/envs/kvarn-serve/lib/python3.12/subprocess.py", line 2047, in _wait
+    time.sleep(delay)
+  File "/home/wanglin/kvarn-profile-20261019/scripts/run_operator_experiment.py", line 358, in on_signal
+    raise KeyboardInterrupt(f'Received signal {signum}')
+KeyboardInterrupt: Received signal 15
