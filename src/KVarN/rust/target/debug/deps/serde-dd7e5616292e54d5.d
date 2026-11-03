@@ -1,0 +1,14 @@
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/deps/serde-dd7e5616292e54d5.d: /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/serde-3eceff10943d83fb/out/private.rs
+
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/deps/libserde-dd7e5616292e54d5.rlib: /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/serde-3eceff10943d83fb/out/private.rs
+
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/deps/libserde-dd7e5616292e54d5.rmeta: /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/serde-3eceff10943d83fb/out/private.rs
+
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/serde-3eceff10943d83fb/out/private.rs:
+
+# env-dep:OUT_DIR=/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/serde-3eceff10943d83fb/out

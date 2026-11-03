@@ -1,0 +1,14 @@
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/deps/thiserror-40075df0241e7ebd.d: /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs /home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/thiserror-2d968b5c7ad9a1bf/out/private.rs
+
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/deps/libthiserror-40075df0241e7ebd.rlib: /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs /home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/thiserror-2d968b5c7ad9a1bf/out/private.rs
+
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/deps/libthiserror-40075df0241e7ebd.rmeta: /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs /home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs /home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/thiserror-2d968b5c7ad9a1bf/out/private.rs
+
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/lib.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/aserror.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/display.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/var.rs:
+/home/wanglin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/thiserror-2.0.18/src/private.rs:
+/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/thiserror-2d968b5c7ad9a1bf/out/private.rs:
+
+# env-dep:OUT_DIR=/home/wanglin/kvarn-profile-20261019/src/KVarN/rust/target/debug/build/thiserror-2d968b5c7ad9a1bf/out
