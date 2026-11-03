@@ -1,0 +1,292 @@
+2026-10-21 19:50:09 - evalscope - INFO: Starting benchmark with args: 
+2026-10-21 19:50:09 - evalscope - INFO: {
+    "model": "operator-profile",
+    "model_id": "operator-profile",
+    "attn_implementation": null,
+    "api": "openai",
+    "tokenizer_path": "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c",
+    "port": 8877,
+    "url": "http://127.0.0.1:18391/v1/chat/completions",
+    "headers": {
+        "Authorization": "**********"
+    },
+    "connect_timeout": 30,
+    "read_timeout": 7200,
+    "total_timeout": 7200,
+    "api_key": "**********",
+    "no_test_connection": true,
+    "scenario": null,
+    "number": 8,
+    "parallel": 8,
+    "rate": -1.0,
+    "warmup_num": 0.0,
+    "enable_pd_metrics": false,
+    "open_loop": false,
+    "sleep_interval": 5,
+    "duration": null,
+    "sla_auto_tune": false,
+    "sla_variable": "parallel",
+    "sla_params": null,
+    "sla_num_runs": 3,
+    "sla_upper_bound": 65536,
+    "sla_lower_bound": 1,
+    "sla_fixed_parallel": null,
+    "sla_number_multiplier": null,
+    "db_commit_interval": 1000,
+    "queue_size_multiplier": 5,
+    "in_flight_task_multiplier": 2,
+    "num_workers": 0,
+    "log_every_n_query": 1,
+    "debug": false,
+    "enable_progress_tracker": false,
+    "visualizer": null,
+    "wandb_api_key": null,
+    "swanlab_api_key": null,
+    "swanlab_host": null,
+    "name": "capture",
+    "outputs_dir": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544/warmup/evalscope/capture",
+    "no_timestamp": true,
+    "max_prompt_length": 32768,
+    "min_prompt_length": 0,
+    "prefix_length": 0,
+    "prompt": null,
+    "query_template": null,
+    "apply_chat_template": true,
+    "image_width": 224,
+    "image_height": 224,
+    "image_format": "RGB",
+    "image_num": 1,
+    "image_patch_size": 28,
+    "dataset": "line_by_line",
+    "dataset_path": "/home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544/warmup/requests.jsonl",
+    "data_source": null,
+    "dataset_offset": 0,
+    "dataset_args": null,
+    "frequency_penalty": null,
+    "repetition_penalty": null,
+    "logprobs": null,
+    "max_tokens": 128,
+    "min_tokens": 128,
+    "n_choices": null,
+    "seed": 42,
+    "stop": null,
+    "stop_token_ids": null,
+    "stream": true,
+    "temperature": 0.0,
+    "top_p": null,
+    "top_k": null,
+    "extra_args": {},
+    "tokenize_prompt": false,
+    "multi_turn": false,
+    "min_turns": 1,
+    "max_turns": null,
+    "multi_turn_args": null
+}
+2026-10-21 19:50:09 - evalscope - INFO: uvloop event loop policy installed (asyncio.sleep precision improved)
+2026-10-21 19:50:12 - evalscope - WARNING: Warmup is disabled, so the first 8 requests are released at once against an idle server. Their TTFT carries the start-up burst and can dominate the reported percentiles. Pass --warmup-num 8 to keep that burst out of the measured window, or 16 if you also read the max column.
+2026-10-21 19:50:12 - evalscope - INFO: Generating[requests]  88%| 7/8 [Elapsed: 00:00 < Remaining: 00:00, 16587.64it/s]
+2026-10-21 19:50:12 - evalscope - INFO: Save the data base to: /home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544/warmup/evalscope/capture/parallel_8_number_8/benchmark_data.db
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.1547,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 1,
+  "Success Requests": 1,
+  "Failed Requests": 0,
+  "Stream Requests": 1,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.1398,
+  "Avg Latency (s)": 7.1547,
+  "Avg Input Tokens": 1020.0,
+  "Output Throughput (tok/s)": 17.8903,
+  "Total Throughput (tok/s)": 160.4536,
+  "Avg TTFT (ms)": 295.16,
+  "Avg TPOT (ms)": 54.01,
+  "Avg ITL (ms)": 54.01,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2017,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 2,
+  "Success Requests": 2,
+  "Failed Requests": 0,
+  "Stream Requests": 2,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.2777,
+  "Avg Latency (s)": 7.1775,
+  "Avg Input Tokens": 1146.0,
+  "Output Throughput (tok/s)": 35.5473,
+  "Total Throughput (tok/s)": 353.8068,
+  "Avg TTFT (ms)": 781.44,
+  "Avg TPOT (ms)": 50.36,
+  "Avg ITL (ms)": 50.36,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2048,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 3,
+  "Success Requests": 3,
+  "Failed Requests": 0,
+  "Stream Requests": 3,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.4164,
+  "Avg Latency (s)": 7.1857,
+  "Avg Input Tokens": 1226.6667,
+  "Output Throughput (tok/s)": 53.2981,
+  "Total Throughput (tok/s)": 564.0712,
+  "Avg TTFT (ms)": 943.22,
+  "Avg TPOT (ms)": 49.15,
+  "Avg ITL (ms)": 49.15,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2049,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 4,
+  "Success Requests": 4,
+  "Failed Requests": 0,
+  "Stream Requests": 4,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.5552,
+  "Avg Latency (s)": 7.1899,
+  "Avg Input Tokens": 1278.5,
+  "Output Throughput (tok/s)": 71.0625,
+  "Total Throughput (tok/s)": 780.855,
+  "Avg TTFT (ms)": 1024.13,
+  "Avg TPOT (ms)": 48.55,
+  "Avg ITL (ms)": 48.55,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2051,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 5,
+  "Success Requests": 5,
+  "Failed Requests": 0,
+  "Stream Requests": 5,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.694,
+  "Avg Latency (s)": 7.1923,
+  "Avg Input Tokens": 1322.0,
+  "Output Throughput (tok/s)": 88.8266,
+  "Total Throughput (tok/s)": 1006.2383,
+  "Avg TTFT (ms)": 1072.61,
+  "Avg TPOT (ms)": 48.19,
+  "Avg ITL (ms)": 48.19,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2052,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 6,
+  "Success Requests": 6,
+  "Failed Requests": 0,
+  "Stream Requests": 6,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.8327,
+  "Avg Latency (s)": 7.1938,
+  "Avg Input Tokens": 1357.6667,
+  "Output Throughput (tok/s)": 106.5901,
+  "Total Throughput (tok/s)": 1237.1665,
+  "Avg TTFT (ms)": 1104.95,
+  "Avg TPOT (ms)": 47.94,
+  "Avg ITL (ms)": 47.94,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2144,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 7,
+  "Success Requests": 7,
+  "Failed Requests": 0,
+  "Stream Requests": 7,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 0.9703,
+  "Avg Latency (s)": 7.1963,
+  "Avg Input Tokens": 1390.8571,
+  "Output Throughput (tok/s)": 124.196,
+  "Total Throughput (tok/s)": 1473.7181,
+  "Avg TTFT (ms)": 1166.58,
+  "Avg TPOT (ms)": 47.48,
+  "Avg ITL (ms)": 47.48,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:19 - evalscope - INFO: {
+  "Test Duration (s)": 7.2146,
+  "Concurrency": 8,
+  "Request Rate (req/s)": -1.0,
+  "Total Requests": 8,
+  "Success Requests": 8,
+  "Failed Requests": 0,
+  "Stream Requests": 8,
+  "Non-Stream Requests": 0,
+  "Req Throughput (req/s)": 1.1089,
+  "Avg Latency (s)": 7.198,
+  "Avg Input Tokens": 1419.0,
+  "Output Throughput (tok/s)": 141.9352,
+  "Total Throughput (tok/s)": 1715.4195,
+  "Avg TTFT (ms)": 1212.72,
+  "Avg TPOT (ms)": 47.13,
+  "Avg ITL (ms)": 47.13,
+  "Avg Output Tokens": 128.0
+}
+2026-10-21 19:50:20 - evalscope - INFO: Processing[parallel_8_number_8] 100%| 8/8 [Elapsed: 00:07 < Remaining: 00:00,  7.16s/it]
+2026-10-21 19:50:20 - evalscope - INFO: 
+Benchmarking summary:
+┌───────────────────────────┬───────────┐
+│ Metric                    │     Value │
+├───────────────────────────┼───────────┤
+│ ── General ──             │           │
+│ Test Duration (s)         │      7.21 │
+│ Concurrency               │         8 │
+│ Request Rate (req/s)      │        -1 │
+│ Total / Success / Failed  │ 8 / 8 / 0 │
+│ Req Throughput (req/s)    │      1.11 │
+│ ── Latency ──             │           │
+│ Avg Latency (s)           │     7.198 │
+│ Avg TTFT (ms)             │   1212.72 │
+│ Avg TPOT (ms)             │     47.13 │
+│ Avg ITL (ms)              │     47.13 │
+│ ── Tokens ──              │           │
+│ Avg Input Tokens          │      1419 │
+│ Avg Output Tokens         │       128 │
+│ Output Throughput (tok/s) │    141.94 │
+│ Total Throughput (tok/s)  │   1715.42 │
+└───────────────────────────┴───────────┘
+2026-10-21 19:50:20 - evalscope - INFO: 
+Percentile results:
+┌────────────────┬────────┬────────┬────────┬────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+│ Metric         │    min │     1% │     5% │    10% │     25% │     50% │     75% │     90% │     95% │     99% │     max │
+├────────────────┼────────┼────────┼────────┼────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+│ Latency (s)    │   7.15 │   7.15 │   7.15 │   7.15 │     7.2 │     7.2 │     7.2 │    7.21 │    7.21 │    7.21 │    7.21 │
+│ TTFT (ms)      │ 295.16 │ 295.16 │ 295.16 │ 295.16 │ 1266.56 │ 1266.78 │ 1267.71 │ 1536.34 │ 1536.34 │ 1536.34 │ 1536.34 │
+│ ITL (ms)       │   9.12 │  43.53 │  44.18 │  44.25 │   44.37 │   44.48 │   45.12 │   46.69 │   47.29 │   50.49 │  973.63 │
+│ TPOT (ms)      │  44.68 │  44.68 │  44.68 │  44.68 │   44.68 │   46.73 │   46.74 │   54.01 │   54.01 │   54.01 │   54.01 │
+│ Input tokens   │   1020 │   1020 │   1020 │   1020 │    1272 │    1434 │    1536 │    1616 │    1616 │    1616 │    1616 │
+│ Output tokens  │    128 │    128 │    128 │    128 │     128 │     128 │     128 │     128 │     128 │     128 │     128 │
+│ Output (tok/s) │  17.75 │  17.75 │  17.75 │  17.75 │   17.75 │   17.77 │   17.77 │   17.89 │   17.89 │   17.89 │   17.89 │
+│ Total (tok/s)  │ 160.45 │ 160.45 │ 160.45 │ 160.45 │  194.44 │  216.88 │  231.05 │  241.88 │  241.88 │  241.88 │  241.88 │
+│ Decode (tok/s) │  18.51 │  18.51 │  18.51 │  18.51 │    21.4 │    21.4 │   21.41 │   22.38 │   22.38 │   22.38 │   22.38 │
+└────────────────┴────────┴────────┴────────┴────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘
+2026-10-21 19:50:20 - evalscope - INFO: 
+Workload throughput (8 samples):
+┌─────────────────────┬───────────┬────────────┬─────────────────────┐
+│ Metric (tok/s)      │   Overall │   Last 30s │   Steady (drop 20%) │
+├─────────────────────┼───────────┼────────────┼─────────────────────┤
+│ Total Prompt tok/s  │   1573.48 │    1573.48 │           172639.15 │
+│ New Prompt tok/s    │   1573.48 │    1573.48 │           172639.15 │
+│ Cached Prompt tok/s │         0 │          0 │                   0 │
+│ Completion tok/s    │    141.94 │     141.94 │            14971.42 │
+└─────────────────────┴───────────┴────────────┴─────────────────────┘
+2026-10-21 19:50:20 - evalscope - INFO: Save the summary to: /home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544/warmup/evalscope/capture/parallel_8_number_8
+2026-10-21 19:50:20 - evalscope - INFO: Running[perf] 100%| 1/1 [Elapsed: 00:10 < Remaining: 00:00, 10.16s/it]
+2026-10-21 19:50:20 - evalscope - INFO: Performance summary saved to: /home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544/warmup/evalscope/capture/performance_summary.txt
+2026-10-21 19:50:20 - evalscope - INFO: HTML report generated: /home/wanglin/kvarn-profile-20261019/results/operator_fp8_firstpass_20261020_queue/points/fp8/lcc_b000_r1/attempts/20261021_195005_917544/warmup/evalscope/capture/perf_report.html
