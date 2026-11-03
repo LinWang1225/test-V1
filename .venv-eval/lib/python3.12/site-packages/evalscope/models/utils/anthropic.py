@@ -1,0 +1,971 @@
+import json
+import re
+import time
+from collections import deque
+from copy import copy
+from typing import Any, Dict, List, Literal, Optional, Sequence, Tuple, Union, cast
+
+from anthropic import APIStatusError
+from anthropic.types import (
+    ContentBlock,
+    ContentBlockParam,
+    ImageBlockParam,
+    Message,
+    MessageParam,
+    RedactedThinkingBlock,
+    TextBlock,
+    TextBlockParam,
+    ThinkingBlock,
+    ToolChoiceAnyParam,
+    ToolChoiceAutoParam,
+    ToolChoiceNoneParam,
+    ToolChoiceParam,
+    ToolChoiceToolParam,
+    ToolParam,
+    ToolResultBlockParam,
+    ToolUseBlock,
+    ToolUseBlockParam,
+)
+
+from evalscope.api.messages import (
+    ChatMessage,
+    ChatMessageAssistant,
+    ChatMessageSystem,
+    ChatMessageTool,
+    ChatMessageUser,
+    Content,
+    ContentImage,
+    ContentReasoning,
+    ContentText,
+)
+from evalscope.api.model import ChatCompletionChoice, GenerateConfig, ModelOutput, ModelUsage, StopReason
+from evalscope.api.tool import ToolCall, ToolChoice, ToolFunction, ToolInfo, parse_tool_call
+from evalscope.utils.uri_utils import data_uri_mime_type, data_uri_to_base64, file_as_data_uri, is_http_url
+
+BASE_64_DATA_REMOVED = '<base64-data-removed>'
+NO_CONTENT = '[No content]'
+TOOL_ID_PATTERN = re.compile(r'^[a-zA-Z0-9_-]+$')
+AnthropicCacheStrategy = Literal['evaluation', 'recent_messages']
+AnthropicSystemParam = Union[str, List[TextBlockParam]]
+
+
+class AnthropicResponseError(Exception):
+    """Custom exception for Anthropic API response errors."""
+
+    def __init__(self, code: str, message: str) -> None:
+        self.code = code
+        self.message = message
+
+    def __str__(self) -> str:
+        return f'{self.code}: {self.message}'
+
+
+def _anthropic_internal(value: Any) -> Dict[str, Any]:
+    if isinstance(value, dict):
+        anthropic_value = value.get('anthropic')
+        if isinstance(anthropic_value, dict):
+            return anthropic_value
+    return {}
+
+
+def _cache_control_from_internal(value: Any) -> Optional[Dict[str, Any]]:
+    cache_control = _anthropic_internal(value).get('cache_control')
+    return cache_control if isinstance(cache_control, dict) else None
+
+
+def _add_cache_control(block: Dict[str, Any], cache_control: Optional[Dict[str, Any]]) -> None:
+    """Attach Anthropic cache_control without overwriting caller-provided markers."""
+    if cache_control and 'cache_control' not in block:
+        block['cache_control'] = cache_control
+
+
+def _preserve_cache_control(block: Dict[str, Any], internal: Any) -> None:
+    _add_cache_control(block, _cache_control_from_internal(internal))
+
+
+def anthropic_tool_param(tool: ToolInfo) -> ToolParam:
+    """Convert ToolInfo to Anthropic ToolParam."""
+    tool_param = ToolParam(
+        name=tool.name,
+        description=tool.description,
+        input_schema=tool.parameters.model_dump(exclude_none=True),
+    )
+    _preserve_cache_control(cast(Dict[str, Any], tool_param), tool.options)
+    return tool_param
+
+
+def anthropic_chat_tools(
+    tools: List[ToolInfo],
+    cache_control: Optional[Dict[str, Any]] = None,
+    cache_strategy: AnthropicCacheStrategy = 'evaluation',
+) -> List[ToolParam]:
+    """Convert list of ToolInfo to list of Anthropic ToolParam."""
+    tool_params = [anthropic_tool_param(tool) for tool in tools]
+    if cache_control and cache_strategy == 'evaluation' and tool_params:
+        _add_cache_control(cast(Dict[str, Any], tool_params[-1]), cache_control)
+    elif cache_strategy not in ('evaluation', 'recent_messages'):
+        raise ValueError(f'Unknown Anthropic cache strategy: {cache_strategy}')
+    return tool_params
+
+
+def anthropic_chat_tool_choice(tool_choice: ToolChoice) -> ToolChoiceParam:
+    """Convert ToolChoice to Anthropic ToolChoiceParam."""
+    if tool_choice == 'none':
+        return ToolChoiceNoneParam(type='none')
+    elif tool_choice == 'any':
+        return ToolChoiceAnyParam(type='any')
+    elif isinstance(tool_choice, ToolFunction):
+        return ToolChoiceToolParam(type='tool', name=tool_choice.name)
+    else:  # 'auto'
+        return ToolChoiceAutoParam(type='auto')
+
+
+def anthropic_image_block_param(image: str) -> ImageBlockParam:
+    """Convert image path/URL to Anthropic ImageBlockParam."""
+    # Resolve to data URI if needed
+    if not is_http_url(image) and not image.startswith('data:'):
+        image = file_as_data_uri(image)
+
+    # Get media type and base64 content
+    media_type = data_uri_mime_type(image) or 'image/png'
+    image_data = data_uri_to_base64(image)
+
+    return ImageBlockParam(
+        type='image',
+        source=dict(type='base64', media_type=cast(Any, media_type), data=image_data),
+    )
+
+
+def anthropic_content_block_param(content: Content) -> List[ContentBlockParam]:
+    """Convert Content to list of Anthropic ContentBlockParam."""
+    if content.type == 'text':
+        block = TextBlockParam(type='text', text=content.text or NO_CONTENT)
+        _preserve_cache_control(cast(Dict[str, Any], block), content.internal)
+        return [block]
+    elif content.type == 'image':
+        block = anthropic_image_block_param(content.image)
+        _preserve_cache_control(cast(Dict[str, Any], block), content.internal)
+        return [block]
+    elif content.type == 'reasoning':
+        # For reasoning content, we convert to text with think tags
+        reasoning_text = f'<think>\n{content.reasoning}\n</think>'
+        return [TextBlockParam(type='text', text=reasoning_text)]
+    else:
+        # For other content types (audio, video), convert to text representation
+        return [TextBlockParam(type='text', text=f'[{content.type} content not supported]')]
+
+
+def anthropic_message_param(message: ChatMessage) -> MessageParam:
+    """Convert ChatMessage to Anthropic MessageParam.
+
+    Note: Anthropic doesn't have a system role in messages - system messages
+    should be passed separately to the API.
+    """
+    # Handle empty content
+    content: Union[str, List[ContentBlockParam]]
+
+    if message.role == 'system':
+        # System messages are handled separately, but we convert them here for completeness
+        raise ValueError('System messages should be handled separately in Anthropic API')
+
+    elif message.role == 'tool':
+        # Tool messages become user messages with tool_result blocks
+        tool_message = cast(ChatMessageTool, message)
+        if tool_message.error is not None:
+            result_content: Union[str, List[TextBlockParam | ImageBlockParam]] = tool_message.error.message or 'error'
+        elif isinstance(tool_message.content, str):
+            result_content = [TextBlockParam(type='text', text=tool_message.content or NO_CONTENT)]
+        else:
+            result_content = []
+            for c in tool_message.content:
+                result_content.extend(anthropic_content_block_param(c))
+
+        tool_result_block = ToolResultBlockParam(
+            tool_use_id=str(tool_message.tool_call_id),
+            type='tool_result',
+            content=cast(List[TextBlockParam | ImageBlockParam], result_content),
+            is_error=tool_message.error is not None,
+        )
+        _preserve_cache_control(cast(Dict[str, Any], tool_result_block), tool_message.internal)
+        return MessageParam(role='user', content=[tool_result_block])
+
+    elif message.role == 'assistant':
+        assistant_message = cast(ChatMessageAssistant, message)
+        block_params: List[ContentBlockParam] = []
+
+        # Add content blocks
+        if isinstance(assistant_message.content, str):
+            if assistant_message.content:
+                block = TextBlockParam(type='text', text=assistant_message.content)
+                _preserve_cache_control(cast(Dict[str, Any], block), assistant_message.internal)
+                block_params.append(block)
+        else:
+            for c in assistant_message.content:
+                block_params.extend(anthropic_content_block_param(c))
+
+        # Add tool use blocks
+        if assistant_message.tool_calls:
+            for tool_call in assistant_message.tool_calls:
+                tool_use_block = ToolUseBlockParam(
+                    type='tool_use',
+                    id=tool_call.id,
+                    name=tool_call.function.name,
+                    input=tool_call.function.arguments,
+                )
+                _preserve_cache_control(cast(Dict[str, Any], tool_use_block), tool_call.internal)
+                block_params.append(tool_use_block)
+
+        return MessageParam(role='assistant', content=block_params or [TextBlockParam(type='text', text=NO_CONTENT)])
+
+    else:  # user message
+        user_message = cast(ChatMessageUser, message)
+        if isinstance(user_message.content, str):
+            if _cache_control_from_internal(user_message.internal):
+                content = [TextBlockParam(type='text', text=user_message.content or NO_CONTENT)]
+                _preserve_cache_control(cast(Dict[str, Any], content[-1]), user_message.internal)
+            else:
+                content = user_message.content or NO_CONTENT
+        else:
+            content = []
+            for c in user_message.content:
+                content.extend(anthropic_content_block_param(c))
+            if not content:
+                content = [TextBlockParam(type='text', text=NO_CONTENT)]
+
+        return MessageParam(role='user', content=content)
+
+
+def _sanitize_tool_call_ids(messages: List[ChatMessage]) -> List[ChatMessage]:
+    """Rewrite tool call ids so they satisfy Anthropic's ``^[a-zA-Z0-9_-]+$``
+    constraint and are unique across the conversation.
+
+    Dataset-provided histories (e.g. general_fc) may carry ids like
+    ``functions.search:0`` which contain illegal characters and repeat across
+    turns, causing 400 errors from the Anthropic API. Ids that are already
+    legal and unique are kept as-is (model-generated ``toolu_xxx`` ids are
+    unaffected). tool_use/tool_result pairing is preserved by remapping each
+    assistant turn's ids and applying the same mapping to subsequent tool
+    messages; duplicate ids within one turn are disambiguated positionally,
+    pairing each tool_result with its own tool_use in order of appearance.
+    Modified messages are copied; the originals are not mutated.
+    """
+    used_ids: set[str] = set()
+
+    def new_id(old_id: str) -> str:
+        sanitized = re.sub(r'[^a-zA-Z0-9_-]', '_', old_id) or 'tool_call'
+        candidate = sanitized
+        suffix = 1
+        while candidate in used_ids:
+            candidate = f'{sanitized}_{suffix}'
+            suffix += 1
+        return candidate
+
+    result: List[ChatMessage] = []
+    id_map: Dict[str, deque[str]] = {}
+    for message in messages:
+        if isinstance(message, ChatMessageAssistant) and message.tool_calls:
+            # Each assistant turn starts a fresh mapping scope
+            id_map = {}
+            tool_calls: List[ToolCall] = []
+            changed = False
+            for tool_call in message.tool_calls:
+                old_id = str(tool_call.id)
+                mapped_id = old_id if TOOL_ID_PATTERN.match(old_id) and old_id not in used_ids else new_id(old_id)
+                used_ids.add(mapped_id)
+                id_map.setdefault(old_id, deque()).append(mapped_id)
+                if mapped_id != old_id:
+                    tool_calls.append(tool_call.model_copy(update={'id': mapped_id}))
+                    changed = True
+                else:
+                    tool_calls.append(tool_call)
+            message = message.model_copy(update={'tool_calls': tool_calls}) if changed else message
+        elif isinstance(message, ChatMessageTool):
+            old_id = str(message.tool_call_id)
+            if old_id in id_map:
+                # Consume mapped ids positionally so duplicate ids within one
+                # turn pair each tool_result with its own tool_use
+                queue = id_map[old_id]
+                mapped_id = queue.popleft() if len(queue) > 1 else queue[0]
+            elif TOOL_ID_PATTERN.match(old_id):
+                mapped_id = old_id
+            else:
+                # Orphan tool message: sanitize independently
+                mapped_id = new_id(old_id)
+            if mapped_id != old_id:
+                message = message.model_copy(update={'tool_call_id': mapped_id})
+        result.append(message)
+    return result
+
+
+def anthropic_chat_messages(
+    messages: List[ChatMessage],
+    cache_control: Optional[Dict[str, Any]] = None,
+    cache_strategy: AnthropicCacheStrategy = 'evaluation',
+) -> Tuple[Optional[AnthropicSystemParam], List[MessageParam]]:
+    """Convert list of ChatMessages to Anthropic format.
+
+    Returns:
+        Tuple of (system_message, message_params)
+    """
+    system_message: Optional[AnthropicSystemParam] = None
+    message_params: List[MessageParam] = []
+
+    # Normalize tool call ids to satisfy Anthropic's id constraints
+    messages = _sanitize_tool_call_ids(messages)
+
+    for message in messages:
+        if message.role == 'system':
+            # Anthropic requires system message as a separate parameter
+            system_message = _merge_system_message(system_message, _system_param_from_message(message))
+        else:
+            message_params.append(anthropic_message_param(message))
+
+    # Collapse consecutive user messages (required by Anthropic)
+    message_params = _collapse_consecutive_messages(message_params, 'user')
+
+    if cache_control:
+        if cache_strategy == 'evaluation':
+            system_message = _system_message_with_cache_control(system_message, cache_control)
+            _add_cache_control_to_evaluation_prefix(message_params, cache_control)
+        elif cache_strategy == 'recent_messages':
+            # Top-level cache_control handles Anthropic automatic caching for this strategy.
+            pass
+        else:
+            raise ValueError(f'Unknown Anthropic cache strategy: {cache_strategy}')
+
+    return system_message, message_params
+
+
+def _system_param_from_message(message: ChatMessage) -> AnthropicSystemParam:
+    if isinstance(message.content, str):
+        block_cache_control = _cache_control_from_internal(message.internal)
+        if not block_cache_control:
+            return message.content
+        block = cast(TextBlockParam, {'type': 'text', 'text': message.content or NO_CONTENT})
+        _add_cache_control(cast(Dict[str, Any], block), block_cache_control)
+        return [block]
+
+    blocks: List[TextBlockParam] = []
+    for content in message.content:
+        if content.type != 'text':
+            continue
+        block = cast(TextBlockParam, {'type': 'text', 'text': content.text or NO_CONTENT})
+        _preserve_cache_control(cast(Dict[str, Any], block), content.internal)
+        blocks.append(block)
+    return blocks if blocks else message.text
+
+
+def _merge_system_message(
+    current: Optional[AnthropicSystemParam],
+    new_value: AnthropicSystemParam,
+) -> AnthropicSystemParam:
+    if current is None:
+        return new_value
+    if isinstance(current, str) and isinstance(new_value, str):
+        return f'{current}\n\n{new_value}'
+    return (
+        _system_blocks(current) + [cast(TextBlockParam, {'type': 'text', 'text': '\n\n'})] + _system_blocks(new_value)
+    )
+
+
+def _system_blocks(value: AnthropicSystemParam) -> List[TextBlockParam]:
+    if isinstance(value, str):
+        return [cast(TextBlockParam, {'type': 'text', 'text': value})]
+    return value
+
+
+def _system_message_with_cache_control(
+    system_message: Optional[AnthropicSystemParam],
+    cache_control: Dict[str, Any],
+) -> Optional[List[TextBlockParam]]:
+    if not system_message:
+        return None
+
+    system_blocks = _system_blocks(system_message)
+    _add_cache_control_to_last_block_list(system_blocks, cache_control)
+    return system_blocks
+
+
+def _add_cache_control_to_evaluation_prefix(
+    messages: List[MessageParam],
+    cache_control: Dict[str, Any],
+) -> None:
+    """Attach cache_control to the stable message prefix before the final sample message."""
+    if len(messages) <= 1:
+        return
+
+    _add_cache_control_to_last_block(messages[:-1], cache_control)
+
+
+def _add_cache_control_to_last_block(
+    messages: List[MessageParam],
+    cache_control: Dict[str, Any],
+) -> bool:
+    for message in reversed(messages):
+        block = _last_cacheable_content_block(message)
+        if block is not None:
+            _add_cache_control(block, cache_control)
+            return True
+    return False
+
+
+def _add_cache_control_to_last_block_list(
+    blocks: List[TextBlockParam],
+    cache_control: Dict[str, Any],
+) -> bool:
+    for block in reversed(blocks):
+        if isinstance(block, dict):
+            _add_cache_control(cast(Dict[str, Any], block), cache_control)
+            return True
+    return False
+
+
+def _last_cacheable_content_block(message: MessageParam) -> Optional[Dict[str, Any]]:
+    content = message['content']
+    if isinstance(content, str):
+        content = [cast(TextBlockParam, {'type': 'text', 'text': content})]
+        message['content'] = content
+
+    for block in reversed(content):
+        if isinstance(block, dict) and _is_cacheable_content_block(block):
+            return cast(Dict[str, Any], block)
+    return None
+
+
+def _is_cacheable_content_block(block: Dict[str, Any]) -> bool:
+    return block.get('type') in ('text', 'image')
+
+
+def _collapse_consecutive_messages(
+    messages: List[MessageParam], role: Literal['user', 'assistant']
+) -> List[MessageParam]:
+    """Collapse consecutive messages of the same role."""
+    if not messages:
+        return messages
+
+    result: List[MessageParam] = []
+    for message in messages:
+        if message['role'] == role and result and result[-1]['role'] == role:
+            # Combine with previous message
+            result[-1] = _combine_messages(result[-1], message)
+        else:
+            result.append(message)
+
+    return result
+
+
+def _combine_messages(a: MessageParam, b: MessageParam) -> MessageParam:
+    """Combine two messages of the same role."""
+    role = a['role']
+    a_content = a['content']
+    b_content = b['content']
+
+    if isinstance(a_content, str) and isinstance(b_content, str):
+        return MessageParam(role=role, content=f'{a_content}\n{b_content}')
+    elif isinstance(a_content, list) and isinstance(b_content, list):
+        return MessageParam(role=role, content=a_content + b_content)
+    elif isinstance(a_content, str) and isinstance(b_content, list):
+        return MessageParam(role=role, content=[TextBlockParam(type='text', text=a_content)] + b_content)
+    elif isinstance(a_content, list) and isinstance(b_content, str):
+        return MessageParam(role=role, content=a_content + [TextBlockParam(type='text', text=b_content)])
+    else:
+        raise ValueError(f'Unexpected content types for messages: {a}, {b}')
+
+
+def anthropic_completion_params(model: str, config: GenerateConfig) -> Dict[str, Any]:
+    """Build Anthropic API completion parameters from GenerateConfig."""
+    # Anthropic requires max_tokens to be set
+    max_tokens = config.max_tokens if config.max_tokens is not None else 4096
+
+    params: Dict[str, Any] = dict(
+        model=model,
+        max_tokens=max_tokens,
+    )
+
+    # Temperature (not compatible with extended thinking)
+    if config.temperature is not None:
+        params['temperature'] = config.temperature
+
+    # Top P
+    if config.top_p is not None:
+        params['top_p'] = config.top_p
+
+    # Top K
+    if config.top_k is not None:
+        params['top_k'] = config.top_k
+
+    # Stop sequences
+    if config.stop_seqs is not None:
+        params['stop_sequences'] = config.stop_seqs
+
+    # Timeout
+    if config.timeout is not None:
+        params['timeout'] = config.timeout
+
+    # Extended thinking / reasoning
+    if config.reasoning_tokens is not None:
+        params['thinking'] = dict(type='enabled', budget_tokens=config.reasoning_tokens)
+
+    # Anthropic top-level automatic prompt caching.
+    if config.anthropic_cache_control and config.anthropic_cache_strategy == 'recent_messages':
+        params['cache_control'] = config.anthropic_cache_control.model_dump(exclude_none=True)
+
+    # Extra body parameters
+    if config.extra_body:
+        for key, value in config.extra_body.items():
+            if key not in params:
+                params[key] = value
+
+    return params
+
+
+def chat_message_assistant_from_anthropic(model: str, message: Message, tools: List[ToolInfo]) -> ChatMessageAssistant:
+    """Convert Anthropic Message to ChatMessageAssistant."""
+    content, tool_calls = _content_and_tool_calls_from_blocks(message.content, tools)
+
+    return ChatMessageAssistant(
+        content=content,
+        model=model,
+        source='generate',
+        tool_calls=tool_calls,
+    )
+
+
+def _content_and_tool_calls_from_blocks(
+    content_blocks: Sequence[ContentBlock], tools: List[ToolInfo]
+) -> Tuple[Union[str, List[Content]], Optional[List[ToolCall]]]:
+    """Extract content and tool calls from Anthropic content blocks."""
+    content: List[Content] = []
+    tool_calls: Optional[List[ToolCall]] = None
+
+    for block in content_blocks:
+        if isinstance(block, TextBlock):
+            if block.text:
+                content.append(ContentText(text=block.text))
+        elif isinstance(block, ToolUseBlock):
+            tool_calls = tool_calls or []
+            tool_calls.append(
+                parse_tool_call(
+                    block.id,
+                    block.name,
+                    json.dumps(block.input) if isinstance(block.input, dict) else str(block.input),
+                    tools,
+                )
+            )
+        elif isinstance(block, ThinkingBlock):
+            content.append(ContentReasoning(reasoning=block.thinking, signature=block.signature))
+        elif isinstance(block, RedactedThinkingBlock):
+            content.append(ContentReasoning(reasoning=block.data, redacted=True))
+
+    # If only one text content, return as string
+    if len(content) == 1 and isinstance(content[0], ContentText):
+        return content[0].text, tool_calls
+
+    return content if content else '', tool_calls
+
+
+def message_stop_reason(message: Message) -> StopReason:
+    """Convert Anthropic stop reason to EvalScope StopReason."""
+    match message.stop_reason:
+        case 'end_turn' | 'stop_sequence':
+            return 'stop'
+        case 'tool_use':
+            return 'tool_calls'
+        case 'max_tokens':
+            return 'model_length'
+        case 'refusal':
+            return 'content_filter'
+        case _:
+            return 'unknown'
+
+
+def chat_choices_from_anthropic(message: Message, tools: List[ToolInfo]) -> List[ChatCompletionChoice]:
+    """Convert Anthropic Message to list of ChatCompletionChoice."""
+    assistant_message = chat_message_assistant_from_anthropic(message.model, message, tools)
+    stop_reason = message_stop_reason(message)
+
+    return [
+        ChatCompletionChoice(
+            message=assistant_message,
+            stop_reason=stop_reason,
+        )
+    ]
+
+
+def model_output_from_anthropic(
+    message: Message,
+    choices: List[ChatCompletionChoice],
+) -> ModelOutput:
+    """Convert Anthropic Message to ModelOutput."""
+    usage = message.usage.model_dump()
+    input_tokens_cache_write = usage.get('cache_creation_input_tokens', None)
+    input_tokens_cache_read = usage.get('cache_read_input_tokens', None)
+
+    total_tokens = (
+        message.usage.input_tokens
+        + (input_tokens_cache_write or 0)
+        + (input_tokens_cache_read or 0)
+        + message.usage.output_tokens
+    )
+
+    return ModelOutput(
+        id=message.id,
+        model=message.model,
+        choices=choices,
+        usage=ModelUsage(
+            input_tokens=message.usage.input_tokens,
+            output_tokens=message.usage.output_tokens,
+            total_tokens=total_tokens,
+            input_tokens_cache_write=input_tokens_cache_write,
+            input_tokens_cache_read=input_tokens_cache_read,
+        ),
+    )
+
+
+def anthropic_handle_bad_request(model_name: str, ex: APIStatusError) -> Union[ModelOutput, Exception]:
+    """Handle Anthropic BadRequestError and convert to ModelOutput if possible."""
+    error_message = str(ex.message).lower() if hasattr(ex, 'message') else str(ex).lower()
+    content: Optional[str] = None
+    stop_reason: Optional[StopReason] = None
+
+    # Check for context length errors
+    if any(
+        msg in error_message
+        for msg in [
+            'prompt is too long',
+            'input is too long',
+            'input length and `max_tokens` exceed context limit',
+        ]
+    ):
+        if isinstance(ex.body, dict) and 'error' in ex.body:
+            error_dict = ex.body.get('error', {})
+            if isinstance(error_dict, dict) and 'message' in error_dict:
+                content = str(error_dict.get('message'))
+            else:
+                content = str(error_dict)
+        else:
+            content = error_message
+        stop_reason = 'model_length'
+
+    # Check for content filter errors
+    elif 'content filtering' in error_message:
+        content = 'Sorry, but I am unable to help with that request.'
+        stop_reason = 'content_filter'
+
+    if content and stop_reason:
+        return ModelOutput.from_content(
+            model=model_name,
+            content=content,
+            stop_reason=stop_reason,
+        )
+    else:
+        return ex
+
+
+def anthropic_media_filter(key: Optional[Any], value: Any) -> Any:
+    """Filter out base64 encoded media from API call logs."""
+    if key == 'source' and isinstance(value, dict) and value.get('type', None) == 'base64':
+        value = copy(value)
+        value.update(data=BASE_64_DATA_REMOVED)
+    return value
+
+
+def collect_stream_response(
+    response_stream: Any,
+    request_start: Optional[float] = None,
+) -> Tuple[Message, Optional[float]]:
+    """Collect streaming response chunks into a single Message.
+
+    This function handles Anthropic's streaming response format.
+
+    Args:
+        response_stream: Iterable of Anthropic streaming events.
+        request_start: ``time.monotonic()`` timestamp captured immediately before the
+            underlying HTTP request was initiated (e.g. before ``retry_call``).  When
+            provided, TTFT is measured from that point so that connection-establishment
+            and header-receive latency are included.  When ``None``, TTFT is measured
+            from the moment this function is entered (legacy behaviour).
+
+    Returns:
+        A tuple of:
+        - The assembled :class:`Message` object.
+        - Time To First Token (TTFT) in seconds measured from ``request_start`` (or
+          from function entry when ``request_start`` is ``None``) until the first chunk
+          carrying non-empty content or tool-call data arrives.
+          ``None`` if no content chunk was observed.
+    """
+    from anthropic.types import (
+        ContentBlockDeltaEvent,
+        ContentBlockStartEvent,
+        MessageDeltaEvent,
+        MessageStartEvent,
+        Usage,
+    )
+
+    message_id: str = ''
+    model: str = ''
+    role: str = 'assistant'
+    content_blocks: List[ContentBlock] = []
+    stop_reason: Optional[str] = None
+    usage_input_tokens: int = 0
+    usage_output_tokens: int = 0
+    usage_cache_creation_input_tokens: Optional[int] = None
+    usage_cache_read_input_tokens: Optional[int] = None
+
+    current_block_index: int = -1
+    current_text: str = ''
+    current_tool_input: str = ''
+    current_tool_id: str = ''
+    current_tool_name: str = ''
+
+    t_start = request_start if request_start is not None else time.monotonic()
+    ttft: Optional[float] = None
+
+    for event in response_stream:
+        if isinstance(event, MessageStartEvent):
+            message_id = event.message.id
+            model = event.message.model
+            # Only update role if it's not None
+            if event.message.role is not None:
+                role = event.message.role
+            if event.message.usage:
+                usage_input_tokens = event.message.usage.input_tokens
+                usage_cache_creation_input_tokens = getattr(event.message.usage, 'cache_creation_input_tokens', None)
+                usage_cache_read_input_tokens = getattr(event.message.usage, 'cache_read_input_tokens', None)
+
+        elif isinstance(event, ContentBlockStartEvent):
+            # Save previous block if exists
+            if current_block_index >= 0:
+                _append_content_block(
+                    content_blocks, current_text, current_tool_id, current_tool_name, current_tool_input
+                )
+
+            current_block_index = event.index
+            current_text = ''
+            current_tool_input = ''
+            current_tool_id = ''
+            current_tool_name = ''
+
+            if hasattr(event.content_block, 'text'):
+                current_text = event.content_block.text or ''
+            elif hasattr(event.content_block, 'id'):
+                current_tool_id = event.content_block.id
+                current_tool_name = getattr(event.content_block, 'name', '')
+
+        elif isinstance(event, ContentBlockDeltaEvent):
+            delta_text = ''
+            delta_tool = ''
+            if hasattr(event.delta, 'text'):
+                delta_text = event.delta.text or ''
+                current_text += delta_text
+            elif hasattr(event.delta, 'partial_json'):
+                delta_tool = event.delta.partial_json or ''
+                current_tool_input += delta_tool
+
+            # Record TTFT on the first chunk with actual content
+            if ttft is None and (delta_text or delta_tool):
+                ttft = time.monotonic() - t_start
+
+        elif isinstance(event, MessageDeltaEvent):
+            stop_reason = event.delta.stop_reason
+            if event.usage:
+                usage_output_tokens = event.usage.output_tokens
+                usage_cache_creation_input_tokens = _usage_token_value(
+                    usage_cache_creation_input_tokens,
+                    event.usage,
+                    'cache_creation_input_tokens',
+                )
+                usage_cache_read_input_tokens = _usage_token_value(
+                    usage_cache_read_input_tokens,
+                    event.usage,
+                    'cache_read_input_tokens',
+                )
+
+    # Append the last block
+    if current_block_index >= 0:
+        _append_content_block(content_blocks, current_text, current_tool_id, current_tool_name, current_tool_input)
+
+    return Message(
+        id=message_id,
+        type='message',
+        role=role,  # type: ignore
+        model=model,
+        content=content_blocks,
+        stop_reason=stop_reason,  # type: ignore
+        stop_sequence=None,
+        usage=Usage(
+            **_anthropic_usage_params(
+                input_tokens=usage_input_tokens,
+                output_tokens=usage_output_tokens,
+                cache_creation_input_tokens=usage_cache_creation_input_tokens,
+                cache_read_input_tokens=usage_cache_read_input_tokens,
+            )
+        ),
+    ), ttft
+
+
+def _usage_token_value(current_value: Optional[int], usage: Any, field: str) -> Optional[int]:
+    value = getattr(usage, field, None)
+    return value if value is not None else current_value
+
+
+def _anthropic_usage_params(
+    input_tokens: int,
+    output_tokens: int,
+    cache_creation_input_tokens: Optional[int],
+    cache_read_input_tokens: Optional[int],
+) -> Dict[str, Any]:
+    usage_params: Dict[str, Any] = {
+        'input_tokens': input_tokens,
+        'output_tokens': output_tokens,
+    }
+    if cache_creation_input_tokens is not None:
+        usage_params['cache_creation_input_tokens'] = cache_creation_input_tokens
+    if cache_read_input_tokens is not None:
+        usage_params['cache_read_input_tokens'] = cache_read_input_tokens
+    return usage_params
+
+
+def _append_content_block(
+    content_blocks: List[ContentBlock],
+    text: str,
+    tool_id: str,
+    tool_name: str,
+    tool_input: str,
+) -> None:
+    """Helper to append a content block to the list."""
+    if tool_id:
+        # Tool use block
+        try:
+            input_data = json.loads(tool_input) if tool_input else {}
+        except json.JSONDecodeError:
+            input_data = {}
+        content_blocks.append(ToolUseBlock(type='tool_use', id=tool_id, name=tool_name, input=input_data))
+    elif text:
+        # Text block
+        content_blocks.append(TextBlock(type='text', text=text))
+
+
+async def async_collect_stream_response(
+    response_stream: Any,
+    request_start: Optional[float] = None,
+) -> Tuple[Message, Optional[float]]:
+    """Async version of :func:`collect_stream_response`.
+
+    Consumes an ``AsyncStream`` returned by
+    ``AsyncAnthropic.messages.create(stream=True)`` and assembles events
+    into a single :class:`Message`.
+
+    Args:
+        response_stream: Async iterable of Anthropic streaming events.
+        request_start: ``time.monotonic()`` timestamp for TTFT measurement.
+
+    Returns:
+        A tuple of the assembled ``Message`` and TTFT in seconds
+        (or ``None`` if no content chunk was observed).
+    """
+    from anthropic.types import (
+        ContentBlockDeltaEvent,
+        ContentBlockStartEvent,
+        MessageDeltaEvent,
+        MessageStartEvent,
+        Usage,
+    )
+
+    message_id: str = ''
+    model: str = ''
+    role: str = 'assistant'
+    content_blocks: List[ContentBlock] = []
+    stop_reason: Optional[str] = None
+    usage_input_tokens: int = 0
+    usage_output_tokens: int = 0
+    usage_cache_creation_input_tokens: Optional[int] = None
+    usage_cache_read_input_tokens: Optional[int] = None
+
+    current_block_index: int = -1
+    current_text: str = ''
+    current_tool_input: str = ''
+    current_tool_id: str = ''
+    current_tool_name: str = ''
+
+    t_start = request_start if request_start is not None else time.monotonic()
+    ttft: Optional[float] = None
+
+    async for event in response_stream:
+        if isinstance(event, MessageStartEvent):
+            message_id = event.message.id
+            model = event.message.model
+            if event.message.role is not None:
+                role = event.message.role
+            if event.message.usage:
+                usage_input_tokens = event.message.usage.input_tokens
+                usage_cache_creation_input_tokens = getattr(event.message.usage, 'cache_creation_input_tokens', None)
+                usage_cache_read_input_tokens = getattr(event.message.usage, 'cache_read_input_tokens', None)
+
+        elif isinstance(event, ContentBlockStartEvent):
+            if current_block_index >= 0:
+                _append_content_block(
+                    content_blocks, current_text, current_tool_id, current_tool_name, current_tool_input
+                )
+
+            current_block_index = event.index
+            current_text = ''
+            current_tool_input = ''
+            current_tool_id = ''
+            current_tool_name = ''
+
+            if hasattr(event.content_block, 'text'):
+                current_text = event.content_block.text or ''
+            elif hasattr(event.content_block, 'id'):
+                current_tool_id = event.content_block.id
+                current_tool_name = getattr(event.content_block, 'name', '')
+
+        elif isinstance(event, ContentBlockDeltaEvent):
+            delta_text = ''
+            delta_tool = ''
+            if hasattr(event.delta, 'text'):
+                delta_text = event.delta.text or ''
+                current_text += delta_text
+            elif hasattr(event.delta, 'partial_json'):
+                delta_tool = event.delta.partial_json or ''
+                current_tool_input += delta_tool
+
+            if ttft is None and (delta_text or delta_tool):
+                ttft = time.monotonic() - t_start
+
+        elif isinstance(event, MessageDeltaEvent):
+            stop_reason = event.delta.stop_reason
+            if event.usage:
+                usage_output_tokens = event.usage.output_tokens
+                usage_cache_creation_input_tokens = _usage_token_value(
+                    usage_cache_creation_input_tokens,
+                    event.usage,
+                    'cache_creation_input_tokens',
+                )
+                usage_cache_read_input_tokens = _usage_token_value(
+                    usage_cache_read_input_tokens,
+                    event.usage,
+                    'cache_read_input_tokens',
+                )
+
+    # Append the last block
+    if current_block_index >= 0:
+        _append_content_block(content_blocks, current_text, current_tool_id, current_tool_name, current_tool_input)
+
+    return Message(
+        id=message_id,
+        type='message',
+        role=role,  # type: ignore
+        model=model,
+        content=content_blocks,
+        stop_reason=stop_reason,  # type: ignore
+        stop_sequence=None,
+        usage=Usage(
+            **_anthropic_usage_params(
+                input_tokens=usage_input_tokens,
+                output_tokens=usage_output_tokens,
+                cache_creation_input_tokens=usage_cache_creation_input_tokens,
+                cache_read_input_tokens=usage_cache_read_input_tokens,
+            )
+        ),
+    ), ttft

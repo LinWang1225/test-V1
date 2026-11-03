@@ -1,0 +1,197 @@
+import ast
+import json
+from typing import Any, Dict, List
+
+import numpy as np
+
+from evalscope.api.benchmark import BenchmarkMeta, VisionLanguageAdapter
+from evalscope.api.dataset import Sample
+from evalscope.api.messages import ChatMessageUser, Content, ContentImage, ContentText
+from evalscope.api.metric.scorer import AggScore, SampleScore, Score
+from evalscope.api.metric.semantics import MetricSelector
+from evalscope.api.registry import register_benchmark
+from evalscope.constants import Tags
+from evalscope.utils.import_utils import check_import
+from evalscope.utils.logger import get_logger
+
+logger = get_logger()
+
+LEGACY_METRIC_NAMES = {
+    'display_formula_CDM': 'display_formula_cdm',
+    'display_formula_Edit_dist': 'display_formula_edit_dist',
+    'overall': 'normalized_score',
+    'reading_order_Edit_dist': 'reading_order_edit_dist',
+    'table_Edit_dist': 'table_edit_dist',
+    'table_TEDS': 'table_teds',
+    'text_block_Edit_dist': 'text_block_edit_dist',
+}
+
+PROMPT_TEMPLATE = r""" You are an AI assistant specialized in converting PDF images to Markdown format. Please follow these instructions for the conversion:
+
+    1. Text Processing:
+    - Accurately recognize all text content in the PDF image without guessing or inferring.
+    - Convert the recognized text into Markdown format.
+    - Maintain the original document structure, including headings, paragraphs, lists, etc.
+
+    2. Mathematical Formula Processing:
+    - Convert all mathematical formulas to LaTeX format.
+    - Enclose inline formulas with \( \). For example: This is an inline formula \( E = mc^2 \)
+    - Enclose block formulas with \\[ \\]. For example: \[ \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \]
+
+    3. Table Processing:
+    - Convert tables to HTML format.
+    - Wrap the entire table with <table> and </table>.
+
+    4. Figure Handling:
+    - Ignore figures content in the PDF image. Do not attempt to describe or convert images.
+
+    5. Output Format:
+    - Ensure the output Markdown document has a clear structure with appropriate line breaks between elements.
+    - For complex layouts, try to maintain the original document's structure and format as closely as possible.
+
+    Please strictly follow these guidelines to ensure accuracy and consistency in the conversion. Your task is to accurately convert the content of the PDF image into Markdown format without adding any extra explanations or comments.
+"""  # noqa: E501
+
+
+@register_benchmark(
+    BenchmarkMeta(
+        name='omni_doc_bench',
+        pretty_name='OmniDocBench',
+        tags=[Tags.MULTI_MODAL, Tags.KNOWLEDGE, Tags.QA],
+        description="""
+## Overview
+
+This adapter preserves EvalScope's original 981-page OmniDocBench TSV integration for compatibility with existing evaluations.
+
+## Task Description
+
+- **Task Type**: Document Parsing and Understanding
+- **Input**: PDF page image
+- **Output**: Parsed document structure in Markdown format
+- **Domain**: Document understanding, OCR, layout analysis
+
+## Key Features
+
+- Uses the legacy `evalscope/OmniDocBench_tsv` dataset with 981 PDF pages
+- Covers text blocks, formulas, tables, and reading order
+- Keeps the existing local Python scoring implementation and metric names unchanged
+- Remains available for reproducing existing EvalScope results
+
+## Evaluation Notes
+
+- This legacy TSV dataset is not labeled as a specific upstream OmniDocBench release.
+- For new evaluations, use the recommended `omni_doc_bench_v1_6` benchmark.
+- Implements the existing `end2end` and `quick_match` scoring paths.
+- Metrics: Edit_dist, BLEU, METEOR (text), TEDS (tables)
+- Install the `evalscope[omnidoc_bench]` extra for legacy scoring dependencies.
+- Output format: Markdown with LaTeX formulas and HTML tables
+- Scores from this legacy integration are not directly comparable with v1.6 scores.
+""",  # noqa: E501
+        dataset_id='evalscope/OmniDocBench_tsv',
+        metric_list=[
+            {'text_block': {'metric': ['Edit_dist', 'BLEU', 'METEOR']}},
+            {'display_formula': {'metric': ['Edit_dist']}},
+            {'table': {'metric': ['TEDS', 'Edit_dist']}},
+            {'reading_order': {'metric': ['Edit_dist']}},
+            {'normalized_score': {'metric': []}},
+        ],
+        primary_metric=MetricSelector(name='normalized_score', aggregation='macro_mean'),
+        eval_split='train',
+        prompt_template=PROMPT_TEMPLATE,
+        extra_params={
+            'match_method': {
+                'type': 'str',
+                'description': 'Scoring match method used for evaluation.',
+                'value': 'quick_match',
+                'choices': ['quick_match', 'simple_match', 'no_split'],
+            }
+        },
+    )
+)
+class OmniDocBenchAdapter(VisionLanguageAdapter):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.match_method = self.extra_params.get('match_method', 'quick_match')
+
+        check_import(
+            module_name=['apted', 'distance', 'Levenshtein', 'lxml', 'bs4', 'jieba'],
+            extra='omnidoc_bench',
+            raise_error=True,
+            feature_name='OmniDocBench',
+        )
+
+    def record_to_sample(self, record) -> Sample:
+        content_list: List[Content] = [
+            ContentImage(image=f'data:image/png;base64,{record["image"]}'),
+            ContentText(text=self.prompt_template),
+        ]
+
+        return Sample(input=[ChatMessageUser(content=content_list)], target=record['answer'])
+
+    def match_score(self, original_prediction, filtered_prediction, reference, task_state) -> Score:
+        # Dummy implementation to comply with the interface
+
+        try:
+            reference = json.loads(reference)
+        except json.JSONDecodeError:
+            reference = ast.literal_eval(reference)
+
+        score = Score(
+            prediction=original_prediction,
+            extracted_prediction=filtered_prediction,
+            metadata={'reference': reference},
+        )
+
+        return score
+
+    def aggregate_scores(self, sample_scores: List[SampleScore]) -> List[AggScore]:
+        from .end2end_eval import End2EndEvaluator
+
+        if not sample_scores:
+            return []
+
+        predictions = [s.score.prediction for s in sample_scores]
+        references = [(s.score.metadata or {}).get('reference', s.sample_metadata) for s in sample_scores]
+
+        metric_dict = {
+            metric_name: metric_params
+            for metric in self.metric_list
+            for metric_name, metric_params in metric.items()
+            if metric_name != 'normalized_score'
+        }
+        evaluator = End2EndEvaluator(
+            prediction=predictions,
+            reference=references,
+            metrics=metric_dict,
+            match_method=self.match_method,
+        )
+        agg_results = evaluator.score()
+
+        agg_scores = []
+        language_scores = []
+        for metric_name, agg_result in agg_results.items():
+            if np.isnan(agg_result):
+                continue
+            legacy_name, language = metric_name.rsplit('_', 1)
+            agg_scores.append(
+                AggScore(
+                    dimensions={'language': language.lower()},
+                    score=agg_result,
+                    metric_name=LEGACY_METRIC_NAMES[legacy_name],
+                    num=len(sample_scores),
+                )
+            )
+            if legacy_name == 'overall':
+                language_scores.append(agg_result)
+
+        if language_scores:
+            agg_scores.append(
+                AggScore(
+                    aggregation='macro_mean',
+                    score=float(np.mean(language_scores)),
+                    metric_name='normalized_score',
+                    num=len(sample_scores),
+                )
+            )
+
+        return agg_scores

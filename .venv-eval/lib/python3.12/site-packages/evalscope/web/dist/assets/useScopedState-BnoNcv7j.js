@@ -1,0 +1,1 @@
+import{r as e}from"./rolldown-runtime-QTnfLwEv.js";import{n as t}from"./preload-helper-XiM6iCGS.js";var n=e(t(),1);function r(e,t){let[r,i]=(0,n.useState)(()=>({scope:e,value:t}));return[r.scope===e?r.value:t,(0,n.useCallback)(n=>{i(r=>{let i=r.scope===e?r.value:t;return{scope:e,value:typeof n==`function`?n(i):n}})},[e,t])]}export{r as t};

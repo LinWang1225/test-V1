@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "pretty_name": "OpenAI MRCR",
+    "dataset_id": "openai-mirror/mrcr",
+    "paper_url": null,
+    "tags": [
+      "LongContext",
+      "Retrieval"
+    ],
+    "metrics": [
+      "mrcr_score"
+    ],
+    "primary_metric": {
+      "name": "mrcr_score",
+      "aggregation": "mean",
+      "dimensions": {
+        "scope": "overall"
+      }
+    },
+    "few_shot_num": 0,
+    "eval_split": "train",
+    "train_split": "",
+    "subset_list": [
+      "default"
+    ],
+    "description": "\n## Overview\n\nMRCR (Memory-Recall with Contextual Retrieval) is OpenAI's benchmark for evaluating retrieval and recall capabilities in long-context scenarios. It tests whether models can correctly extract and use specific information (needles) embedded in long prompts.\n\n## Task Description\n\n- **Task Type**: Long-Context Memory and Retrieval\n- **Input**: Long chat conversation with 2, 4, or 8 embedded needles\n- **Output**: Exact retrieval of needle content\n- **Domains**: Long-context understanding, information retrieval\n\n## Key Features\n\n- Tests retrieval with varying needle counts (2, 4, or 8)\n- Evaluates across multiple context length bins (4K to 1M tokens)\n- Measures exact recall of embedded information\n- Uses sequence ratio scoring for precise matching\n- Supports configurable context size filtering\n\n## Evaluation Notes\n\n- Default evaluation uses the **train** split\n- Primary metric: **MRCR Score** (sequence ratio)\n- Results bucketed by token count:\n  - 4K-8K, 8K-16K, 16K-32K, 32K-64K\n  - 64K-128K, 128K-256K, 256K-512K, 512K-1M\n- Configurable via extra_params: max/min_context_size, needle_count, tokenizer\n- Uses tiktoken for accurate token counting\n",
+    "prompt_template": "",
+    "system_prompt": "",
+    "few_shot_prompt_template": "",
+    "aggregation": "mean",
+    "extra_params": {
+      "max_context_size": {
+        "type": "int | null",
+        "description": "Maximum context tokens; samples exceeding are skipped. Defaults to None (no limit).",
+        "value": null
+      },
+      "min_context_size": {
+        "type": "int | null",
+        "description": "Minimum context tokens; samples below are skipped. Defaults to None (no limit).",
+        "value": null
+      },
+      "needle_count": {
+        "type": "list[int] | null",
+        "description": "Needle count filter (allowed: 2,4,8). Must be a list, e.g., [2], [4], or [2, 4, 8].  None keeps all.",
+        "value": null
+      },
+      "tik_enc": {
+        "type": "str",
+        "description": "tiktoken encoding name used for token counting.",
+        "value": "o200k_base"
+      },
+      "prefix_filter": {
+        "type": "str | null",
+        "description": "Regex pattern to filter answers. Defaults to None (no filtering).",
+        "value": null
+      }
+    },
+    "sandbox_config": {},
+    "category": "llm"
+  },
+  "statistics": {
+    "total_samples": 2400,
+    "subset_stats": [
+      {
+        "name": "default",
+        "sample_count": 2400,
+        "prompt_length_mean": 944363.11,
+        "prompt_length_min": 15459,
+        "prompt_length_max": 5244934,
+        "prompt_length_std": 1278497.93,
+        "target_length_mean": 1796.16
+      }
+    ],
+    "prompt_length": {
+      "mean": 944363.11,
+      "min": 15459,
+      "max": 5244934,
+      "std": 1278497.93
+    },
+    "target_length_mean": 1796.16,
+    "computed_at": "2026-01-28T17:51:00.577538"
+  },
+  "sample_example": {
+    "data": {
+      "input": [
+        {
+          "id": "d0537a08",
+          "content": "Here are some examples of conversations succeeded by a follow-up question answered correctly:\n\n======EXAMPLE======\nUser: write a short essay about education\nAssistant: Education is a cornerstone of society, serving as the foundation upon whic ... [TRUNCATED 14670 chars] ... etween creators and audiences, one carefully edited word at a time.\n\n**Contact Information:**\n\nFor more information on the role of editors in publishing, please contact [Your Contact Information].\n\n**End of Article**\n\n======END EXAMPLE======\n"
+        },
+        {
+          "id": "0a4d44d6",
+          "content": "write a email about horses"
+        },
+        {
+          "id": "6b6a9ec1",
+          "content": "Subject: Let's Talk About Horses!\n\nHi [Recipient's Name],\n\nI hope this email finds you well! I wanted to share some thoughts and insights about a subject that I find truly fascinating: horses.\n\nHorses have been integral to human history for t ... [TRUNCATED 943 chars] ...  volunteering at equestrian centers.\n\nPlease feel free to share your experiences or any questions you might have about horses. I’d love to hear what interests you most about them!\n\nLooking forward to your thoughts.\n\nBest regards,\n\n[Your Name]"
+        },
+        {
+          "id": "09e6442d",
+          "content": "write a social media post about records"
+        },
+        {
+          "id": "d045617f",
+          "content": "🌟✨ Dive into the World of Records! 🎶📀\n\nHey, music lovers! 🎧 Did you know that records are making a major comeback? From their rich sound quality to their iconic artwork, vinyl is not just about music; it's an experience! 🎵📚\n\nWhether you're a  ... [TRUNCATED 230 chars] ... pins with us! 📸🤩 Let's celebrate the timeless magic of vinyl together. Tag a friend who needs to know about this revival! 🎤💫\n\n#VinylRevival #RecordLovers #SpinThatVinyl #MusicMagic #AnalogVibes\n\n🎶 Drop your favorite record in the comments! 🎤👇"
+        },
+        {
+          "id": "7e20ad5e",
+          "content": "write a email about departments"
+        },
+        {
+          "id": "4b9162de",
+          "content": "Sure, I can help you draft an email about departments. Could you please provide some details about the specific purpose of the email? Are you introducing new department structures, outlining changes, or simply describing different departments within an organization? Knowing this will help tailor the email to your needs."
+        },
+        {
+          "id": "1a818762",
+          "content": "write a poem about fields"
+        },
+        {
+          "id": "f6dcf345",
+          "content": "In the heart of the gentle rolling plains,  \nWhere the horizon meets the sky,  \nFields stretch wide, like endless lanes,  \nBeneath the sun's watchful eye.\n\nGolden grains sway with the breeze,  \nA whispering sea of amber hues,  \nDancing with a ... [TRUNCATED 546 chars] ... s and blessings dry,  \nIn every furrow, in every knell,  \nEcho tales of ages gone by.\n\nSo let us wander through these lands,  \nWhere nature’s beauty softly sings,  \nAnd feel the earth beneath our hands,  \nIn fields where life forever springs."
+        },
+        {
+          "id": "a0d56b6e",
+          "content": "write a social media post about force"
+        },
+        "... [TRUNCATED 762 more items] ..."
+      ],
+      "target": "mWEa9DrPT3**Verse 1**  \nIn a world so vast and wide,  \nWe walk on paths unknown.  \nTwo souls meeting eye to eye,  \nSeeds of trust are sown.  \nWhispers of understanding,  \nIn the gentle breeze they glide,  \nPromises of commitment,  \nAs we stan ... [TRUNCATED 1435 chars] ...  \nSo here’s to the agreements,  \nThe vows that bind us tight.  \nFor in our shared convictions,  \nWe'll march into the night.  \nHand in hand we journey,  \nOn a path we've made our own.  \nWith every heart’s agreement,  \nTogether, we have grown.",
+      "id": 0,
+      "group_id": 0,
+      "metadata": {
+        "random_string_to_prepend": "mWEa9DrPT3",
+        "n_needles": 2,
+        "desired_msg_index": 721,
+        "total_messages": 772,
+        "n_chars": 708925,
+        "raw_input_tok_cnt": 146252,
+        "bin_index": 5
+      }
+    },
+    "subset": "default",
+    "truncated": false
+  },
+  "readme": {
+    "en": "# OpenAI MRCR\n\n\n## Overview\n\nMRCR (Memory-Recall with Contextual Retrieval) is OpenAI's benchmark for evaluating retrieval and recall capabilities in long-context scenarios. It tests whether models can correctly extract and use specific information (needles) embedded in long prompts.\n\n## Task Description\n\n- **Task Type**: Long-Context Memory and Retrieval\n- **Input**: Long chat conversation with 2, 4, or 8 embedded needles\n- **Output**: Exact retrieval of needle content\n- **Domains**: Long-context understanding, information retrieval\n\n## Key Features\n\n- Tests retrieval with varying needle counts (2, 4, or 8)\n- Evaluates across multiple context length bins (4K to 1M tokens)\n- Measures exact recall of embedded information\n- Uses sequence ratio scoring for precise matching\n- Supports configurable context size filtering\n\n## Evaluation Notes\n\n- Default evaluation uses the **train** split\n- Primary metric: **MRCR Score** (sequence ratio)\n- Results bucketed by token count:\n  - 4K-8K, 8K-16K, 16K-32K, 32K-64K\n  - 64K-128K, 128K-256K, 256K-512K, 512K-1M\n- Configurable via extra_params: max/min_context_size, needle_count, tokenizer\n- Uses tiktoken for accurate token counting\n\n\n## Properties\n\n| Property | Value |\n|----------|-------|\n| **Benchmark Name** | `openai_mrcr` |\n| **Dataset ID** | [openai-mirror/mrcr](https://modelscope.cn/datasets/openai-mirror/mrcr/summary) |\n| **Paper** | N/A |\n| **Tags** | `LongContext`, `Retrieval` |\n| **Metrics** | `mrcr_score` |\n| **Default Shots** | 0-shot |\n| **Evaluation Split** | `train` |\n\n\n## Data Statistics\n\n| Metric | Value |\n|--------|-------|\n| Total Samples | 2,400 |\n| Prompt Length (Mean) | 944363.11 chars |\n| Prompt Length (Min/Max) | 15459 / 5244934 chars |\n\n## Sample Example\n\n**Subset**: `default`\n\n```json\n{\n  \"input\": [\n    {\n      \"id\": \"d0537a08\",\n      \"content\": \"Here are some examples of conversations succeeded by a follow-up question answered correctly:\\n\\n======EXAMPLE======\\nUser: write a short essay about education\\nAssistant: Education is a cornerstone of society, serving as the foundation upon whic ... [TRUNCATED 14670 chars] ... etween creators and audiences, one carefully edited word at a time.\\n\\n**Contact Information:**\\n\\nFor more information on the role of editors in publishing, please contact [Your Contact Information].\\n\\n**End of Article**\\n\\n======END EXAMPLE======\\n\"\n    },\n    {\n      \"id\": \"0a4d44d6\",\n      \"content\": \"write a email about horses\"\n    },\n    {\n      \"id\": \"6b6a9ec1\",\n      \"content\": \"Subject: Let's Talk About Horses!\\n\\nHi [Recipient's Name],\\n\\nI hope this email finds you well! I wanted to share some thoughts and insights about a subject that I find truly fascinating: horses.\\n\\nHorses have been integral to human history for t ... [TRUNCATED 943 chars] ...  volunteering at equestrian centers.\\n\\nPlease feel free to share your experiences or any questions you might have about horses. I’d love to hear what interests you most about them!\\n\\nLooking forward to your thoughts.\\n\\nBest regards,\\n\\n[Your Name]\"\n    },\n    {\n      \"id\": \"09e6442d\",\n      \"content\": \"write a social media post about records\"\n    },\n    {\n      \"id\": \"d045617f\",\n      \"content\": \"🌟✨ Dive into the World of Records! 🎶📀\\n\\nHey, music lovers! 🎧 Did you know that records are making a major comeback? From their rich sound quality to their iconic artwork, vinyl is not just about music; it's an experience! 🎵📚\\n\\nWhether you're a  ... [TRUNCATED 230 chars] ... pins with us! 📸🤩 Let's celebrate the timeless magic of vinyl together. Tag a friend who needs to know about this revival! 🎤💫\\n\\n#VinylRevival #RecordLovers #SpinThatVinyl #MusicMagic #AnalogVibes\\n\\n🎶 Drop your favorite record in the comments! 🎤👇\"\n    },\n    {\n      \"id\": \"7e20ad5e\",\n      \"content\": \"write a email about departments\"\n    },\n    {\n      \"id\": \"4b9162de\",\n      \"content\": \"Sure, I can help you draft an email about departments. Could you please provide some details about the specific purpose of the email? Are you introducing new department structures, outlining changes, or simply describing different departments within an organization? Knowing this will help tailor the email to your needs.\"\n    },\n    {\n      \"id\": \"1a818762\",\n      \"content\": \"write a poem about fields\"\n    },\n    {\n      \"id\": \"f6dcf345\",\n      \"content\": \"In the heart of the gentle rolling plains,  \\nWhere the horizon meets the sky,  \\nFields stretch wide, like endless lanes,  \\nBeneath the sun's watchful eye.\\n\\nGolden grains sway with the breeze,  \\nA whispering sea of amber hues,  \\nDancing with a ... [TRUNCATED 546 chars] ... s and blessings dry,  \\nIn every furrow, in every knell,  \\nEcho tales of ages gone by.\\n\\nSo let us wander through these lands,  \\nWhere nature’s beauty softly sings,  \\nAnd feel the earth beneath our hands,  \\nIn fields where life forever springs.\"\n    },\n    {\n      \"id\": \"a0d56b6e\",\n      \"content\": \"write a social media post about force\"\n    },\n    \"... [TRUNCATED 762 more items] ...\"\n  ],\n  \"target\": \"mWEa9DrPT3**Verse 1**  \\nIn a world so vast and wide,  \\nWe walk on paths unknown.  \\nTwo souls meeting eye to eye,  \\nSeeds of trust are sown.  \\nWhispers of understanding,  \\nIn the gentle breeze they glide,  \\nPromises of commitment,  \\nAs we stan ... [TRUNCATED 1435 chars] ...  \\nSo here’s to the agreements,  \\nThe vows that bind us tight.  \\nFor in our shared convictions,  \\nWe'll march into the night.  \\nHand in hand we journey,  \\nOn a path we've made our own.  \\nWith every heart’s agreement,  \\nTogether, we have grown.\",\n  \"id\": 0,\n  \"group_id\": 0,\n  \"metadata\": {\n    \"random_string_to_prepend\": \"mWEa9DrPT3\",\n    \"n_needles\": 2,\n    \"desired_msg_index\": 721,\n    \"total_messages\": 772,\n    \"n_chars\": 708925,\n    \"raw_input_tok_cnt\": 146252,\n    \"bin_index\": 5\n  }\n}\n```\n\n## Prompt Template\n\n*No prompt template defined.*\n\n## Extra Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `max_context_size` | `int | null` | `None` | Maximum context tokens; samples exceeding are skipped. Defaults to None (no limit). |\n| `min_context_size` | `int | null` | `None` | Minimum context tokens; samples below are skipped. Defaults to None (no limit). |\n| `needle_count` | `list[int] | null` | `None` | Needle count filter (allowed: 2,4,8). Must be a list, e.g., [2], [4], or [2, 4, 8].  None keeps all. |\n| `tik_enc` | `str` | `o200k_base` | tiktoken encoding name used for token counting. |\n| `prefix_filter` | `str | null` | `None` | Regex pattern to filter answers. Defaults to None (no filtering). |\n\n## Usage\n\n### Using CLI\n\n```bash\nevalscope eval \\\n    --model YOUR_MODEL \\\n    --api-url OPENAI_API_COMPAT_URL \\\n    --api-key EMPTY_TOKEN \\\n    --datasets openai_mrcr \\\n    --limit 10  # Remove this line for formal evaluation\n```\n\n### Using Python\n\n```python\nfrom evalscope import run_task\nfrom evalscope.config import TaskConfig\n\ntask_cfg = TaskConfig(\n    model='YOUR_MODEL',\n    api_url='OPENAI_API_COMPAT_URL',\n    api_key='EMPTY_TOKEN',\n    datasets=['openai_mrcr'],\n    dataset_args={\n        'openai_mrcr': {\n            # extra_params: {}  # uses default extra parameters\n        }\n    },\n    limit=10,  # Remove this line for formal evaluation\n)\n\nrun_task(task_cfg=task_cfg)\n```\n\n\n",
+    "zh": "# OpenAI MRCR\n\n\n## 概述\n\nMRCR（Memory-Recall with Contextual Retrieval，上下文检索记忆召回）是 OpenAI 用于评估模型在长上下文场景中检索与回忆能力的基准测试。该基准测试检验模型能否从长提示中准确提取并使用嵌入的特定信息（称为“针”/needles）。\n\n## 任务描述\n\n- **任务类型**：长上下文记忆与检索\n- **输入**：包含 2、4 或 8 个嵌入“针”的长对话\n- **输出**：精确召回“针”的内容\n- **领域**：长上下文理解、信息检索\n\n## 核心特性\n\n- 测试不同数量“针”（2、4 或 8 个）下的检索能力\n- 在多个上下文长度区间（4K 至 1M tokens）进行评估\n- 衡量嵌入信息的精确召回率\n- 使用序列比率（sequence ratio）评分实现精准匹配\n- 支持可配置的上下文长度过滤\n\n## 评估说明\n\n- 默认使用 **train** 数据划分进行评估\n- 主要指标：**MRCR Score**（序列比率）\n- 结果按 token 数量分桶：\n  - 4K-8K、8K-16K、16K-32K、32K-64K\n  - 64K-128K、128K-256K、256K-512K、512K-1M\n- 可通过 `extra_params` 配置：`max_context_size`、`min_context_size`、`needle_count`、`tokenizer`\n- 使用 `tiktoken` 进行精确的 token 计数\n\n## 属性\n\n| 属性 | 值 |\n|----------|-------|\n| **基准测试名称** | `openai_mrcr` |\n| **数据集ID** | [openai-mirror/mrcr](https://modelscope.cn/datasets/openai-mirror/mrcr/summary) |\n| **论文** | N/A |\n| **标签** | `LongContext`, `Retrieval` |\n| **指标** | `mrcr_score` |\n| **默认示例数** | 0-shot |\n| **评估划分** | `train` |\n\n\n## 数据统计\n\n| 指标 | 值 |\n|--------|-------|\n| 总样本数 | 2,400 |\n| 提示词长度（平均） | 944363.11 字符 |\n| 提示词长度（最小/最大） | 15459 / 5244934 字符 |\n\n## 样例示例\n\n**子集**: `default`\n\n```json\n{\n  \"input\": [\n    {\n      \"id\": \"d0537a08\",\n      \"content\": \"Here are some examples of conversations succeeded by a follow-up question answered correctly:\\n\\n======EXAMPLE======\\nUser: write a short essay about education\\nAssistant: Education is a cornerstone of society, serving as the foundation upon whic ... [TRUNCATED 14670 chars] ... etween creators and audiences, one carefully edited word at a time.\\n\\n**Contact Information:**\\n\\nFor more information on the role of editors in publishing, please contact [Your Contact Information].\\n\\n**End of Article**\\n\\n======END EXAMPLE======\\n\"\n    },\n    {\n      \"id\": \"0a4d44d6\",\n      \"content\": \"write a email about horses\"\n    },\n    {\n      \"id\": \"6b6a9ec1\",\n      \"content\": \"Subject: Let's Talk About Horses!\\n\\nHi [Recipient's Name],\\n\\nI hope this email finds you well! I wanted to share some thoughts and insights about a subject that I find truly fascinating: horses.\\n\\nHorses have been integral to human history for t ... [TRUNCATED 943 chars] ...  volunteering at equestrian centers.\\n\\nPlease feel free to share your experiences or any questions you might have about horses. I’d love to hear what interests you most about them!\\n\\nLooking forward to your thoughts.\\n\\nBest regards,\\n\\n[Your Name]\"\n    },\n    {\n      \"id\": \"09e6442d\",\n      \"content\": \"write a social media post about records\"\n    },\n    {\n      \"id\": \"d045617f\",\n      \"content\": \"🌟✨ Dive into the World of Records! 🎶📀\\n\\nHey, music lovers! 🎧 Did you know that records are making a major comeback? From their rich sound quality to their iconic artwork, vinyl is not just about music; it's an experience! 🎵📚\\n\\nWhether you're a  ... [TRUNCATED 230 chars] ... pins with us! 📸🤩 Let's celebrate the timeless magic of vinyl together. Tag a friend who needs to know about this revival! 🎤💫\\n\\n#VinylRevival #RecordLovers #SpinThatVinyl #MusicMagic #AnalogVibes\\n\\n🎶 Drop your favorite record in the comments! 🎤👇\"\n    },\n    {\n      \"id\": \"7e20ad5e\",\n      \"content\": \"write a email about departments\"\n    },\n    {\n      \"id\": \"4b9162de\",\n      \"content\": \"Sure, I can help you draft an email about departments. Could you please provide some details about the specific purpose of the email? Are you introducing new department structures, outlining changes, or simply describing different departments within an organization? Knowing this will help tailor the email to your needs.\"\n    },\n    {\n      \"id\": \"1a818762\",\n      \"content\": \"write a poem about fields\"\n    },\n    {\n      \"id\": \"f6dcf345\",\n      \"content\": \"In the heart of the gentle rolling plains,  \\nWhere the horizon meets the sky,  \\nFields stretch wide, like endless lanes,  \\nBeneath the sun's watchful eye.\\n\\nGolden grains sway with the breeze,  \\nA whispering sea of amber hues,  \\nDancing with a ... [TRUNCATED 546 chars] ... s and blessings dry,  \\nIn every furrow, in every knell,  \\nEcho tales of ages gone by.\\n\\nSo let us wander through these lands,  \\nWhere nature’s beauty softly sings,  \\nAnd feel the earth beneath our hands,  \\nIn fields where life forever springs.\"\n    },\n    {\n      \"id\": \"a0d56b6e\",\n      \"content\": \"write a social media post about force\"\n    },\n    \"... [TRUNCATED 762 more items] ...\"\n  ],\n  \"target\": \"mWEa9DrPT3**Verse 1**  \\nIn a world so vast and wide,  \\nWe walk on paths unknown.  \\nTwo souls meeting eye to eye,  \\nSeeds of trust are sown.  \\nWhispers of understanding,  \\nIn the gentle breeze they glide,  \\nPromises of commitment,  \\nAs we stan ... [TRUNCATED 1435 chars] ...  \\nSo here’s to the agreements,  \\nThe vows that bind us tight.  \\nFor in our shared convictions,  \\nWe'll march into the night.  \\nHand in hand we journey,  \\nOn a path we've made our own.  \\nWith every heart’s agreement,  \\nTogether, we have grown.\",\n  \"id\": 0,\n  \"group_id\": 0,\n  \"metadata\": {\n    \"random_string_to_prepend\": \"mWEa9DrPT3\",\n    \"n_needles\": 2,\n    \"desired_msg_index\": 721,\n    \"total_messages\": 772,\n    \"n_chars\": 708925,\n    \"raw_input_tok_cnt\": 146252,\n    \"bin_index\": 5\n  }\n}\n```\n\n## 提示模板\n\n*未定义提示模板。*\n\n## 额外参数\n\n| 参数 | 类型 | 默认值 | 描述 |\n|-----------|------|---------|-------------|\n| `max_context_size` | `int | null` | `None` | 最大上下文 token 数；超过此值的样本将被跳过。默认为 None（无限制）。 |\n| `min_context_size` | `int | null` | `None` | 最小上下文 token 数；低于此值的样本将被跳过。默认为 None（无限制）。 |\n| `needle_count` | `list[int] | null` | `None` | “针”数量过滤器（允许值：2、4、8）。必须为列表，例如 `[2]`、`[4]` 或 `[2, 4, 8]`。设为 None 则保留所有样本。 |\n| `tik_enc` | `str` | `o200k_base` | 用于 token 计数的 tiktoken 编码名称。 |\n| `prefix_filter` | `str | null` | `None` | 用于过滤答案的正则表达式模式。默认为 None（无过滤）。 |\n\n## 使用方法\n\n### 使用 CLI\n\n```bash\nevalscope eval \\\n    --model YOUR_MODEL \\\n    --api-url OPENAI_API_COMPAT_URL \\\n    --api-key EMPTY_TOKEN \\\n    --datasets openai_mrcr \\\n    --limit 10  # 正式评估时请删除此行\n```\n\n### 使用 Python\n\n```python\nfrom evalscope import run_task\nfrom evalscope.config import TaskConfig\n\ntask_cfg = TaskConfig(\n    model='YOUR_MODEL',\n    api_url='OPENAI_API_COMPAT_URL',\n    api_key='EMPTY_TOKEN',\n    datasets=['openai_mrcr'],\n    dataset_args={\n        'openai_mrcr': {\n            # extra_params: {}  # 使用默认额外参数\n        }\n    },\n    limit=10,  # 正式评估时请删除此行\n)\n\nrun_task(task_cfg=task_cfg)\n```",
+    "content_hash": "9e43b38e9a988af92804b524edc198ba",
+    "needs_translation": false
+  },
+  "updated_at": "2026-08-11T15:30:53.628808",
+  "translation_updated_at": "2026-01-28T18:07:35Z"
+}

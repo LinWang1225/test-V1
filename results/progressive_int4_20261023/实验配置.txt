@@ -1,0 +1,42 @@
+实验配置：20261023 从路线第2步开始的离线诊断
+
+运行目录：/home/wanglin/kvarn-profile-20261019
+数据：LongBench qasper / hotpotqa / passage_retrieval_en，每任务2条，共6条独立原始请求。
+每任务第1条校准、第2条留出；3条校准/3条留出，无独立开发集，不调优阈值。
+每条4个cache ordinal(0/12/24/35) × 3个decode调用位置(0/15/63) = 12份快照。
+共72份快照：校准36、留出36；每份8个KV heads、每KV head共享4个Query heads。
+留出测量288个GQA组，但独立验证请求仍然只有3条；不能当作288题或72题。
+cache ordinal是采集顺序，尚未验证语义层名；decode调用位置不等同绝对生成token位置。
+
+样本列表（完整ID另见 experiment_config.json）：
+qasper | calibration | 输入3907tokens | 快照上下文[3908, 3923, 3971] | qasper/b96a5e2e8d4b32aff5401e97c66942bf33f6c3c62a43609d
+qasper | heldout | 输入5645tokens | 快照上下文[5646, 5661, 5709] | qasper/db4afd55783aaf6d069c5228152492cf0804e9cf310cb238
+hotpotqa | calibration | 输入12433tokens | 快照上下文[12434, 12449, 12497] | hotpotqa/60ec93a22fbcb65eeadd9f1d2b3c8e4ed44d3a2c4285b168
+hotpotqa | heldout | 输入16322tokens | 快照上下文[16323, 16338, 16386] | hotpotqa/7bb5645d62fc946b46910757e007f59e87f52bbf8535da58
+passage_retrieval_en | calibration | 输入12356tokens | 快照上下文[12357, 12372, 12420] | passage_retrieval_en/ae0aae9a66f6bbe58796720b3ad135dc4de3a0f63f51fc0c
+passage_retrieval_en | heldout | 输入13473tokens | 快照上下文[13474, 13489, 13537] | passage_retrieval_en/2024cb6239c0be12fae84bbbbcca6bb976a704c0bddb305b
+
+模型：Qwen3-4B，36层，32 Query heads / 8 KV heads，head_dim=128。
+源采集：RTX3090、原生K4V4、group=128、C1、eager、关闭前缀缓存、生成最多96tokens；max_model_len=32768。
+采样：thinking=true，temperature=0.6，top_p=0.95，top_k=20，min_p=0；request_seed=20261009，server_seed=20260917。
+以上是旧快照的采集设置；本批在当前项目CPU float64重放，不重新生成回答，不测GPU性能。
+
+第2步：全部72份快照做High2+Low2位打包与恢复，逐码字检查；原生元数据不变。
+重建：Zero-fill、Midpoint、K/V分开校准的条件均值；在原量化坐标使用Scale/Zero Point与归一化。
+第3步：留出36份，K2V2/K2V4/K4V2/K4V4；attention相对L2、K/V重建相对L2、attention score RMSE。
+第4—6步离线候选：32token tile，GQA组共享mask；补读预算0/25/50/75/100%。
+V：随机/按时间固定/全局Attention Mass/Mass×V风险；K：随机/按时间固定/Query×Scale风险。
+KV：同一mask等比例分配，尚未实现共享预算优化；全局attention只是离线参考。
+随机顺序seed=20261023+KV head，每个head冻结1次；不是三次独立随机重复。
+参照：同输入完整原生INT4的float64 attention；原采集GPU输出另行比较。
+逻辑bit只计量化码，不含metadata/padding/FP16池；不等于存储压缩或HBM减少。
+
+当前范围限制：这是6请求的小规模机制诊断，尚不能给任务准确率结论。
+未跑HumanEval/MATH500评分、LongBench答案评分、最终层token logit、单遍online控制、阶段7筛选、阶段8—11硬件及端到端验收。
+未设正式任务质量等效容差，不以attention误差替代任务质量，也不以相关快照计算独立样本置信区间。
+
+记录：experiment_config.json为机器可读完整配置；protocol.json保存输入与脚本哈希；measurements.csv保存逐组误差；aggregate.csv和结论.md由后台结束后输出。
+
+源采集软件版本：{"vllm": "0.1.dev227+g7586257f1.cu126", "torch": "2.11.0+cu126", "triton": "3.6.0", "numpy": "2.3.5", "transformers": "4.57.6"}
+本次重放版本：{"python": "3.12.13 | packaged by conda-forge | (main, Aug 11 2026, 10:27:28) [GCC 14.4.0]", "numpy": "2.3.5"}
+原始完整服务启动参数：source_server_launch.json。

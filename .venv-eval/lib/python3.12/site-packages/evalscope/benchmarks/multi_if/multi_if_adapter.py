@@ -1,0 +1,204 @@
+import json
+from typing import Any, Dict, List, Optional, Union
+
+from evalscope.api.benchmark import BenchmarkMeta, MultiTurnAdapter
+from evalscope.api.dataset import Sample
+from evalscope.api.evaluator import TaskState
+from evalscope.api.messages import ChatMessage, ChatMessageUser, messages_pretty_str
+from evalscope.api.metric import Score
+from evalscope.api.model import Model, ModelOutput
+from evalscope.api.registry import register_benchmark
+from evalscope.constants import Tags
+from evalscope.metrics.aggregators import METRIC_WEIGHTS_KEY
+from evalscope.utils.import_utils import check_import
+from evalscope.utils.logger import get_logger
+
+logger = get_logger()
+
+SUBSET_LIST = [
+    'Chinese',
+    'English',
+    'German',
+    'Italian',
+    'Vietnamese',
+    'Spanish',
+    'Hindi',
+    'Portuguese',
+    'French',
+    'Thai',
+    'Russian',
+]
+
+
+@register_benchmark(
+    BenchmarkMeta(
+        name='multi_if',
+        pretty_name='Multi-IF',
+        description="""
+## Overview
+
+Multi-IF is a benchmark designed to evaluate LLM capabilities in multi-turn instruction following within a multilingual environment. It tests the ability to follow complex instructions across multiple conversation turns in different languages.
+
+## Task Description
+
+- **Task Type**: Multi-Turn Multilingual Instruction Following
+- **Input**: Multi-turn conversation with instructions
+- **Output**: Responses following given instructions
+- **Domains**: Instruction following, multilingual understanding
+
+## Key Features
+
+- 11 supported languages: Chinese, English, German, Italian, Vietnamese, Spanish, Hindi, Portuguese, French, Thai, Russian
+- Multi-turn conversation evaluation (up to 3 turns)
+- Tests instruction following in multilingual contexts
+- Both strict and loose evaluation metrics
+- Prompt-level and instruction-level scoring
+
+## Evaluation Notes
+
+- Default evaluation uses the **train** split
+- Configurable max_turns (1-3, default: 3)
+- Four metrics tracked:
+  - `prompt_level_strict/loose`: Strict/loose prompt-level accuracy
+  - `inst_level_strict/loose`: Strict/loose instruction-level accuracy, micro-averaged over instructions
+- Requires: nltk, langdetect, emoji (for Chinese), pythainlp (for Thai)
+""",  # noqa: E501
+        tags=[Tags.INSTRUCTION_FOLLOWING, Tags.MULTI_LINGUAL, Tags.MULTI_TURN],
+        dataset_id='facebook/Multi-IF',
+        subset_list=SUBSET_LIST,
+        metric_list=[
+            'prompt_level_strict',
+            'inst_level_strict',
+            'prompt_level_loose',
+            'inst_level_loose',
+        ],
+        primary_metric='prompt_level_strict',
+        aggregation='weighted_mean',
+        evaluation_version='v1.1',
+        few_shot_num=0,
+        train_split=None,
+        eval_split='train',
+        extra_params={
+            'max_turns': {
+                'type': 'int',
+                'description': 'Maximum number of interactive turns to evaluate (1-3).',
+                'value': 3,
+                'choices': [1, 2, 3],
+            }
+        },
+    )
+)
+class MultiIFAdapter(MultiTurnAdapter):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        # Ensure required packages are installed
+        check_import(
+            module_name=['nltk', 'langdetect', 'emoji', 'pythainlp'],
+            extra='multi_if',
+            raise_error=True,
+            feature_name=self.pretty_name,
+        )
+
+        self.reformat_subset = True
+        self.max_turns = self.extra_params.get('max_turns', 3)
+
+    def record_to_sample(self, record: Dict[str, Any]) -> Sample:
+        return Sample(
+            input=[ChatMessageUser(content='')],  # NOTE: we will build the multi turn conversation in the evaluator
+            target='',
+            subset_key=record['language'],
+            metadata=record,
+        )
+
+    def build_turn_prompt(
+        self,
+        sample: Sample,
+        history: List[ChatMessage],
+        turn_index: int,
+    ) -> Optional[Union[str, ChatMessage]]:
+        """Pull the ``turn_{step}_prompt`` field for the 1-based step.
+
+        Returns ``None`` when the sample has no prompt for this step, which
+        signals the base loop to stop cleanly.
+        """
+        record = sample.metadata
+        step = turn_index + 1
+        raw = record.get(f'turn_{step}_prompt')
+        if not raw:
+            return None
+        current_prompt = json.loads(raw)
+        return ChatMessageUser(content=current_prompt['content'])
+
+    def on_turn_complete(
+        self,
+        sample: Sample,
+        turn_index: int,
+        model_output: ModelOutput,
+        history: List[ChatMessage],
+    ) -> None:
+        """Capture per-turn scoring inputs into ``sample.metadata['step_record']``."""
+        record = sample.metadata
+        step = turn_index + 1
+        instruction_id_list = json.loads(record[f'turn_{step}_instruction_id_list'])
+        kwargs_list = json.loads(record[f'turn_{step}_kwargs'])
+        _kwargs = [json.loads(kwarg) for kwarg in kwargs_list]
+
+        # history at this point ends with the assistant message for `step`;
+        # everything before it (excluding that assistant) is the prompt stack.
+        prompt_history = history[:-1]
+
+        step_record = record.setdefault('step_record', {})
+        step_record[step] = {
+            'prompt': messages_pretty_str(prompt_history),
+            'response': model_output.completion,
+            'instruction_id_list': instruction_id_list,
+            'kwargs': _kwargs,
+        }
+
+    def match_score(
+        self, original_prediction: str, filtered_prediction: str, reference: Dict, task_state: TaskState
+    ) -> Score:
+        """
+        Calculate evaluation scores by comparing prediction with reference.
+        """
+        from .metrics import gen_acc_loose, gen_acc_strict, parse_result
+
+        # Initialize the score object with prediction details
+        score = Score(
+            extracted_prediction=filtered_prediction,
+            prediction=original_prediction,
+        )
+
+        step_record = task_state.metadata['step_record']
+        results = {}
+        weights = {}
+        try:
+            for step, record in step_record.items():
+                outputs_strict = gen_acc_strict(record)
+                outputs_loose = gen_acc_loose(record)
+                prompt_level_strict, inst_level_strict = parse_result([outputs_strict])
+                prompt_level_loose, inst_level_loose = parse_result([outputs_loose])
+                results.update(
+                    {
+                        f'turn_{step}_prompt_level_strict': prompt_level_strict,
+                        f'turn_{step}_inst_level_strict': inst_level_strict,
+                        f'turn_{step}_prompt_level_loose': prompt_level_loose,
+                        f'turn_{step}_inst_level_loose': inst_level_loose,
+                    }
+                )
+                instruction_count = len(outputs_strict['instruction_id_list'])
+                weights[f'turn_{step}_inst_level_strict'] = instruction_count
+                weights[f'turn_{step}_inst_level_loose'] = instruction_count
+            score.value.update(results)
+            score.metadata[METRIC_WEIGHTS_KEY] = weights
+
+            # Set main score name
+            if results:
+                score.main_score_name = f'turn_{step}_prompt_level_strict'
+
+        except Exception as e:
+            logger.error(f'Error calculating ifeval metrics: {e}')
+            score.value = {}
+
+        return score

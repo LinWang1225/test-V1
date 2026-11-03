@@ -1,0 +1,656 @@
+# flake8: noqa: E501
+import glob
+import os
+from collections import defaultdict
+from typing import Any, Dict, List, Literal
+
+from pydantic import BaseModel, ValidationError
+
+from evalscope.api.benchmark import BenchmarkMeta, DefaultDataAdapter
+from evalscope.api.dataset import DatasetDict, Sample, build_dataset_from_records
+from evalscope.api.evaluator import ReviewResult, TaskState
+from evalscope.api.judge import (
+    JudgeCase,
+    JudgeContext,
+    JudgeDefinition,
+    JudgeRequest,
+    OutputContract,
+    PairwiseOutcome,
+    PairwisePlacementOutcome,
+    Placement,
+    ReducedVerdict,
+)
+from evalscope.api.messages.chat_message import ChatMessage, ChatMessageSystem, ChatMessageUser, messages_to_markdown
+from evalscope.api.metric import AggScore, SampleScore, Score
+from evalscope.api.registry import register_benchmark
+from evalscope.constants import ScoringPolicy, Tags
+from evalscope.report import Report, ReportKey
+from evalscope.utils.import_utils import check_import
+from evalscope.utils.logger import get_logger
+
+logger = get_logger()
+
+
+class BattleVerdict(BaseModel):
+    """One game's verdict on the official five-point preference scale."""
+
+    reasoning: str = ''
+    verdict: Literal['A>>B', 'A>B', 'A=B', 'B>A', 'B>>A']
+
+
+BATTLE_CONTRACT = OutputContract(schema_model=BattleVerdict)
+
+GRADER_SYSTEM_PROMPT = "Please act as an impartial judge and evaluate the quality of the responses provided by two AI assistants to the user prompt displayed below. You will be given assistant A's answer and assistant B's answer. Your job is to evaluate which assistant's answer is better.\n\nBegin your evaluation by generating your own answer to the prompt. You must provide your answers before judging any answers.\n\nWhen evaluating the assistants' answers, compare both assistants' answers with your answer. You must identify and correct any mistakes or inaccurate information.\n\nThen consider if the assistant's answers are helpful, relevant, and concise. Helpful means the answer correctly responds to the prompt or follows the instructions. Note when user prompt has any ambiguity or more than one interpretation, it is more helpful and appropriate to ask for clarifications or more information from the user than providing an answer based on assumptions. Relevant means all parts of the response closely connect or are appropriate to what is being asked. Concise means the response is clear and not verbose or excessive.\n\nThen consider the creativity and novelty of the assistant's answers when needed. Finally, identify any missing important information in the assistants' answers that would be beneficial to include when responding to the user prompt.\n\nAfter providing your explanation, you must state your final verdict as one of: A>>B (Assistant A is significantly better), A>B (Assistant A is slightly better), A=B (tie), B>A (Assistant B is slightly better), or B>>A (Assistant B is significantly better)."  # noqa: E501
+
+GRADER_TEMPLATE = "<|User Prompt|>\n{question}\n\n<|The Start of Assistant A's Answer|>\n{answer_1}\n<|The End of Assistant A's Answer|>\n\n<|The Start of Assistant B's Answer|>\n{answer_2}\n<|The End of Assistant B's Answer|>".strip()  # noqa: E501
+
+
+@register_benchmark(
+    BenchmarkMeta(
+        name='general_arena',
+        evaluation_version='v1.2',
+        pretty_name='GeneralArena',
+        tags=[Tags.CUSTOM, Tags.ARENA],
+        description="""
+## Overview
+
+GeneralArena is a custom benchmark designed to evaluate the performance of large language models in a competitive setting, where models are pitted against each other in custom tasks to determine their relative strengths and weaknesses.
+
+## Task Description
+
+- **Task Type**: Model vs Model Arena Evaluation
+- **Input**: User prompts with responses from multiple models
+- **Output**: Pairwise comparison judgments and ELO ratings
+- **Focus**: Comparative model evaluation
+
+## Key Features
+
+- LLM-as-judge for pairwise comparisons
+- ELO rating calculation for model ranking
+- Supports custom model pairs for comparison
+- Winrate and ranking metrics
+- Configurable baseline model
+
+## Evaluation Notes
+
+- Default configuration uses **0-shot** evaluation
+- Requires model outputs from previous evaluations
+- Uses LLM-as-judge for quality assessment
+- Aggregation: ELO rating calculation
+- See [Arena User Guide](https://evalscope.readthedocs.io/en/latest/user_guides/arena.html) for details
+""",
+        dataset_id='general_arena',
+        metric_list=['win_rate'],
+        aggregation='elo',
+        few_shot_num=0,
+        train_split=None,
+        eval_split='test',
+        system_prompt=GRADER_SYSTEM_PROMPT,
+        prompt_template=GRADER_TEMPLATE,
+        extra_params={
+            'models': {
+                'type': 'list[dict]',
+                'description': 'List of model entries with name and report_path for arena comparison.',
+                'value': [
+                    {'name': 'qwen-plus', 'report_path': 'outputs/20250627_172550/reports/qwen-plus'},
+                    {'name': 'qwen2.5-7b', 'report_path': 'outputs/20250627_172817/reports/qwen2.5-7b-instruct'},
+                ],
+            },
+            'baseline': {
+                'type': 'str',
+                'description': 'Baseline model name used for ELO and winrate comparisons.',
+                'value': 'qwen2.5-7b',
+            },
+        },
+    )
+)
+class GeneralArenaAdapter(DefaultDataAdapter):
+    scoring_policy = ScoringPolicy.JUDGE_ONLY
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        check_import(module_name=['sklearn'], extra='general_arena', raise_error=True, feature_name=self.pretty_name)
+
+        self.models = self.extra_params.get('models', [])
+        self.baseline = self.extra_params.get('baseline', None)
+
+    def load(self):
+        """Load dataset by processing model reports."""
+        self._check_names()
+        self._check_reports()
+        self._check_datasets()
+        logger.info(f'Overall datasets: {self.overall_datasets}')
+        dataset_model_dict = self._load_common_datasets()
+        datasets = self._build_pair_wise_data(dataset_model_dict)
+
+        # Convert to DatasetDict format
+        dataset_dict = {}
+        for subset_name, samples in datasets.items():
+            dataset = build_dataset_from_records(
+                records=samples,
+                sample_fields=self.record_to_sample,
+                name=subset_name,
+                location=None,
+                limit=self.limit,
+                shuffle=self.shuffle,
+                repeats=self.repeats,
+                seed=None,
+            )
+            dataset_dict[subset_name] = dataset
+
+        test_dataset = DatasetDict(dataset_dict)
+        return test_dataset, None
+
+    def record_to_sample(self, record: Dict[str, Any]) -> Sample:
+        """Convert a data record to a Sample object."""
+        return Sample(
+            input=[ChatMessageUser(content=record['question'])],
+            target=record['answer_2'],  # baseline answer
+            metadata={
+                'answer_1': record['answer_1'],
+                'model_1': record['model_1'],
+                'model_2': record['model_2'],
+            },
+        )
+
+    def _check_names(self):
+        """Check the names of the models and baseline."""
+        # check duplicate models
+        model_names = [model['name'] for model in self.models]
+        if len(model_names) != len(set(model_names)):
+            raise ValueError(f'Duplicate model names found in the models list {model_names}.')
+        # check if models list is empty
+        if len(self.models) < 2:
+            raise ValueError('Models list must contain at least two models.')
+        # check baseline model
+        if self.baseline and self.baseline not in model_names:
+            raise ValueError(f'Baseline model {self.baseline} not found in the models list.')
+        # check if the baseline model is not set
+        if not self.baseline:
+            logger.warning('Baseline model is not set. Using the first model as the baseline.')
+            self.baseline = self.models[0]['name']
+
+    def _check_reports(self):
+        """Check if the report paths are valid."""
+        for model in self.models:
+            report_path = model.get('report_path', None)
+            if not report_path or not os.path.exists(report_path):
+                raise ValueError(f'Report path {report_path} for model {model["name"]} does not exist.')
+            reports = []
+            for report_item in glob.glob(os.path.join(report_path, '*.json')):
+                report = Report.from_json(report_item)
+                reports.append(report)
+            model['reports'] = reports
+
+    def _check_datasets(self):
+        """Check common datasets in the reports."""
+        overall_datasets = set()
+        for model in self.models:
+            datasets = set()
+            for report in model['reports']:
+                report_df = report.to_dataframe()
+                # get unique (dataset, subset) tuples
+                unique_datasets = set(zip(report_df[ReportKey.dataset_name], report_df[ReportKey.subset_name]))
+                datasets.update(unique_datasets)
+            model['datasets'] = datasets
+        # get overall datasets by intersecting all models' datasets
+        overall_datasets = set.intersection(*[model['datasets'] for model in self.models if 'datasets' in model])
+        self.overall_datasets = overall_datasets
+
+    def _load_common_datasets(self) -> Dict[tuple[str, str], Dict[str, List[Dict[str, Any]]]]:
+        """Load common datasets from the local path."""
+        from evalscope.utils import OutputsStructure
+        from evalscope.utils.io_utils import jsonl_to_list
+
+        dataset_dict = defaultdict(dict)
+        for dataset_name, subset_name in self.overall_datasets:
+            for model in self.models:
+                dataset_path = model['report_path'].replace(OutputsStructure.REPORTS_DIR, OutputsStructure.REVIEWS_DIR)
+                dataset_file_path = os.path.join(dataset_path, f'{dataset_name}_{subset_name}.jsonl')
+                if not os.path.exists(dataset_file_path):
+                    raise ValueError(
+                        f'Dataset {dataset_name} with subset {subset_name} not found in model {model["name"]}.'
+                    )
+                dataset = jsonl_to_list(dataset_file_path)
+                dataset_dict[(dataset_name, subset_name)][model['name']] = dataset
+
+        return dataset_dict
+
+    def _index_reviews(
+        self, items: List[Dict[str, Any]], dataset_name: str, subset_name: str, model_name: str
+    ) -> Dict[int, tuple[ReviewResult, bool]]:
+        context = f'model {model_name!r}, dataset {dataset_name!r}, subset {subset_name!r}'
+        reviews = {}
+        duplicates = 0
+        for row, item in enumerate(items, start=1):
+            try:
+                # Legacy input migration mutates its argument; retain the loaded cache row.
+                review = ReviewResult.from_cache_item(dict(item))
+            except ValidationError as error:
+                raise ValueError(f'Invalid review for {context} at row {row}: {error}') from error
+            sample_id = review.sample_score.sample_id
+            if sample_id is not None and str(sample_id) != str(review.index):
+                raise ValueError(f'Conflicting review index {review.index} and sample_id {sample_id!r} for {context}.')
+            if review.index in reviews:
+                duplicates += 1
+            # Match CacheManager's resume policy: the last saved row is authoritative.
+            legacy_input = bool(item.get('input')) and not item.get('messages')
+            reviews[review.index] = (review, legacy_input)
+
+        if not reviews:
+            raise ValueError(f'No reviews for {context}; arena comparisons require matching non-empty review sets.')
+        if duplicates:
+            logger.warning(f'Dropped {duplicates} duplicate review rows for {context}; using the last row per index.')
+        return reviews
+
+    @staticmethod
+    def _review_input_messages(review: ReviewResult) -> List[ChatMessage]:
+        # Native caches include generated answers and agent trajectories after the input.
+        # Unmarked legacy input and assistant demonstrations must remain part of the prompt.
+        for position, message in enumerate(review.messages):
+            if message.source == 'generate':
+                return review.messages[:position]
+        return review.messages
+
+    @classmethod
+    def _review_input(cls, review: ReviewResult, *, legacy_input: bool) -> str | List[Dict[str, Any]]:
+        messages = cls._review_input_messages(review)
+        if legacy_input:
+            # Legacy caches retained only rendered text, without roles or typed content.
+            return messages_to_markdown(messages)
+
+        # Rename native tool IDs consistently so call/result relationships survive comparison.
+        # IDs inside arguments or opaque provider payloads remain part of the actual input.
+        tool_ids: Dict[str, int] = {}
+
+        def normalize_tool_id(tool_id: str) -> int:
+            return tool_ids.setdefault(tool_id, len(tool_ids))
+
+        inputs = []
+        for message in messages:
+            data = message.model_dump(exclude={'id', 'source', 'metadata', 'perf_metrics', 'model'})
+            for tool_call in data.get('tool_calls') or []:
+                tool_call['id'] = normalize_tool_id(tool_call['id'])
+            reference = data.get('tool_call_id')
+            if isinstance(reference, list):
+                data['tool_call_id'] = [normalize_tool_id(tool_id) for tool_id in reference]
+            elif isinstance(reference, str):
+                data['tool_call_id'] = normalize_tool_id(reference)
+            inputs.append(data)
+        return inputs
+
+    def _build_pair_wise_data(
+        self, dataset_dict: Dict[tuple[str, str], Dict[str, List[Dict[str, Any]]]]
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        """Build pairwise data for the models."""
+        from .utils import process_review_item
+
+        pairwise_data = defaultdict(list)
+        for (dataset_name, subset_name), model_data in dataset_dict.items():
+            if len(model_data) < 2:
+                logger.warning(f'Not enough models for dataset {dataset_name} with subset {subset_name}. Skipping.')
+                continue
+            reviews_by_model = {
+                name: self._index_reviews(items, dataset_name, subset_name, name) for name, items in model_data.items()
+            }
+            baseline_reviews = reviews_by_model[self.baseline]
+            baseline_indices = set(baseline_reviews)
+            # Create pairwise data only for matching observations, never a positional zip.
+            for name, model_reviews in reviews_by_model.items():
+                if name == self.baseline:
+                    continue
+                context = (
+                    f'model {name!r} against baseline {self.baseline!r}, '
+                    f'dataset {dataset_name!r}, subset {subset_name!r}'
+                )
+                model_indices = set(model_reviews)
+                if model_indices != baseline_indices:
+                    missing = sorted(baseline_indices - model_indices)
+                    extra = sorted(model_indices - baseline_indices)
+                    raise ValueError(
+                        f'Mismatched review indices for {context}: '
+                        f'{len(missing)} missing (first indices: {missing[:5]}), '
+                        f'{len(extra)} extra (first indices: {extra[:5]}). '
+                        'Run all models on the same dataset with matching ordering, filters, limits, and repeats.'
+                    )
+                pairs = []
+                for index in sorted(baseline_indices):
+                    model_review, model_legacy = model_reviews[index]
+                    baseline_review, baseline_legacy = baseline_reviews[index]
+                    for field in ('group_id', 'generation_index'):
+                        model_value = getattr(model_review.sample_score, field)
+                        baseline_value = getattr(baseline_review.sample_score, field)
+                        if (
+                            model_value is not None
+                            and baseline_value is not None
+                            and str(model_value) != str(baseline_value)
+                        ):
+                            raise ValueError(f'Conflicting {field} at review index {index} for {context}.')
+                    legacy_input = model_legacy or baseline_legacy
+                    if self._review_input(model_review, legacy_input=legacy_input) != self._review_input(
+                        baseline_review, legacy_input=legacy_input
+                    ):
+                        raise ValueError(
+                            f'Mismatched input prompt at review index {index} for {context}. '
+                            'Review indices must refer to the same input in every model.'
+                        )
+
+                    question = messages_to_markdown(self._review_input_messages(model_review))
+                    for model_choice, baseline_choice in zip(
+                        process_review_item(model_review), process_review_item(baseline_review)
+                    ):
+                        pairs.append(
+                            {
+                                'question': question,
+                                'answer_1': model_choice['Generated'],
+                                'answer_2': baseline_choice['Generated'],
+                                'model_1': name,
+                                'model_2': self.baseline,
+                            }
+                        )
+                pairwise_data[f'{dataset_name}&{subset_name}@{name}&{self.baseline}'] = pairs
+
+        return pairwise_data
+
+    supports_position_swap = True
+    official_position_swap = True
+    """Each pair is judged twice with the two answers swapped."""
+
+    def judge_definition(self, context: JudgeContext) -> JudgeDefinition:
+
+        def request(case, placement, completed_cases, judge_context) -> JudgeRequest:
+            metadata = judge_context.task_state.metadata or {}
+            candidate_first = placement is Placement.ORIGINAL
+            prompt = self.prompt_template.format(
+                question=judge_context.task_state.input_text,
+                answer_1=metadata['answer_1'] if candidate_first else judge_context.reference,
+                answer_2=judge_context.reference if candidate_first else metadata['answer_1'],
+            )
+            return JudgeRequest(
+                messages=[
+                    ChatMessageSystem(content=self.system_prompt),
+                    ChatMessageUser(content=prompt + case.output_contract.instruction()),
+                ]
+            )
+
+        def reduce(case_verdicts, judge_context) -> ReducedVerdict:
+            placements = case_verdicts[0].placements
+            res1 = placements.get('original', case_verdicts[0].value).verdict
+            res2 = placements.get('swapped')
+            outcomes = {'original': _placement_outcome(res1, candidate_is_a=True)}
+            if res2 is not None:
+                outcomes['swapped'] = _placement_outcome(res2.verdict, candidate_is_a=False)
+            result, strength = _reduce_placements(outcomes)
+            outcome = PairwiseOutcome(metric_name='score', result=result, strength=strength, placements=outcomes)
+            return ReducedVerdict(value={'score': outcome.score}, outcome=outcome)
+
+        def finalize(score, review, judge_context) -> Score:
+            if review.outcome is not None:
+                metadata = judge_context.task_state.metadata or {}
+                model_1, model_2 = metadata['model_1'], metadata['model_2']
+                score.metadata['battle_result'] = {
+                    'score': review.value['score'],
+                    'games': [
+                        {
+                            'model_a': model_1,
+                            'model_b': model_2,
+                            'judgment': _battle_label(review.outcome.placements['original'], candidate_is_a=True),
+                        },
+                        *(
+                            [
+                                {
+                                    'model_a': model_2,
+                                    'model_b': model_1,
+                                    'judgment': _battle_label(
+                                        review.outcome.placements['swapped'], candidate_is_a=False
+                                    ),
+                                }
+                            ]
+                            if 'swapped' in review.outcome.placements
+                            else []
+                        ),
+                    ],
+                }
+            return score
+
+        return JudgeDefinition.workflow(
+            cases=[JudgeCase(case_id='battle', output_contract=BATTLE_CONTRACT)],
+            request=request,
+            reduce=reduce,
+            main_score_name='score',
+            finalize=finalize,
+        )
+
+    def aggregate_scores(self, sample_scores: List[SampleScore]) -> List[AggScore]:
+        """Aggregate scores to compute winrate."""
+        import numpy as np
+        import pandas as pd
+
+        from .utils import compute_mle_elo, get_battles_from_row, get_bootstrap_result, get_win_rate_column
+
+        # A sample whose judge verdicts were unusable has no battle to contribute.
+        scored = [res for res in sample_scores if (res.score.metadata or {}).get('battle_result')]
+        if not scored:
+            return []
+        battles = pd.concat([get_battles_from_row(res.score.metadata['battle_result']) for res in scored])
+
+        bt_model_coef = compute_mle_elo(battles, baseline_model=self.baseline)
+
+        bootstrap_model_coef = get_bootstrap_result(
+            battles, func_compute_elo=compute_mle_elo, num_round=100, baseline_model=self.baseline, seed=self.seed
+        )
+
+        stats = pd.DataFrame()
+        stats['results'] = None
+        stats['results'] = stats['results'].astype('object')
+
+        for i, model in enumerate(bt_model_coef.index):
+            stats.at[i, 'model'] = model
+            stats.at[i, 'score'] = bt_model_coef[model]
+            stats.at[i, 'lower'] = np.percentile(bootstrap_model_coef[model], 2.5)
+            stats.at[i, 'upper'] = np.percentile(bootstrap_model_coef[model], 97.5)
+
+        metrics_dict = {}
+        # Canonical names: `winrate` is migrated to `win_rate` on the way into AggScore, so the
+        # bounds must follow the same spelling or the leaderboard filter below cannot match them.
+        metrics_dict['win_rate'] = get_win_rate_column(stats, 'score', self.baseline).to_dict()
+        metrics_dict['win_rate_lower'] = get_win_rate_column(stats, 'lower', self.baseline).to_dict()
+        metrics_dict['win_rate_upper'] = get_win_rate_column(stats, 'upper', self.baseline).to_dict()
+
+        agg_scores = []
+        for metric_name, models in metrics_dict.items():
+            for model_name, score_val in models.items():
+                if model_name == self.baseline:
+                    continue
+                agg_scores.append(AggScore(score=score_val, metric_name=metric_name, num=len(sample_scores)))
+
+        return agg_scores
+
+    def extract_answer(self, prediction, task_state):
+        # NOTE: This is a hacky way to extract the answer from the prediction
+        return task_state.metadata['answer_1']
+
+    def _on_generate_report_end(self, report: 'Report', output_dir: str, **kwargs):
+        """Post-process the report to convert it to a DataFrame with winrate leaderboards."""
+        import pandas as pd
+        import tabulate
+
+        report_path = output_dir
+        leaderboard_file = os.path.join(report_path, 'leaderboard.txt')
+
+        # Ensure report directory exists
+        os.makedirs(report_path, exist_ok=True)
+
+        # Convert report to dataframe
+        df = report.to_dataframe()
+
+        # Filter for win-rate related metrics
+        winrate_df = df[df[ReportKey.metric_name].str.contains('win_rate')].copy()
+
+        if winrate_df.empty:
+            logger.warning('No winrate data found in the report.')
+            return
+
+        # Get all model names from self.models
+        all_model_names = [model['name'] for model in self.models]
+
+        # Collect all leaderboard outputs
+        leaderboard_outputs = []
+
+        def format_leaderboard(data_df, title):
+            """Format DataFrame as leaderboard with CI."""
+            # Pivot to get win_rate, win_rate_lower, win_rate_upper as columns
+            pivot_df = data_df.pivot_table(
+                index=[ReportKey.model_name], columns=ReportKey.metric_name, values=ReportKey.score, aggfunc='first'
+            )
+
+            # Add baseline model with 50% win rate
+            baseline_data = {'win_rate': 0.5, 'win_rate_lower': 0.5, 'win_rate_upper': 0.5}
+
+            # Create a complete index with all models
+            complete_index = pd.Index(all_model_names, name=pivot_df.index.name)
+            pivot_df = pivot_df.reindex(complete_index)
+
+            # Fill baseline model data
+            if self.baseline in pivot_df.index:
+                for col, val in baseline_data.items():
+                    if col in pivot_df.columns:
+                        pivot_df.loc[self.baseline, col] = val
+
+            # Fill missing values with the win rate score for other models
+            if 'win_rate' in pivot_df.columns:
+                pivot_df['win_rate_lower'] = pivot_df.get('win_rate_lower', pivot_df['win_rate'])
+                pivot_df['win_rate_upper'] = pivot_df.get('win_rate_upper', pivot_df['win_rate'])
+
+            # Format for display
+            leaderboard_data = []
+            for model in pivot_df.index:
+                if pd.isna(pivot_df.loc[model, 'win_rate']):
+                    continue
+
+                score_pct = pivot_df.loc[model, 'win_rate'] * 100
+                lower_diff = (pivot_df.loc[model, 'win_rate_lower'] - pivot_df.loc[model, 'win_rate']) * 100
+                upper_diff = (pivot_df.loc[model, 'win_rate_upper'] - pivot_df.loc[model, 'win_rate']) * 100
+
+                leaderboard_data.append(
+                    {
+                        'Model': model,
+                        'WinRate (%)': f'{score_pct:.1f}',
+                        'CI (%)': f'({lower_diff:+.1f} / {upper_diff:+.1f})',
+                    }
+                )
+
+            # Sort by score descending
+            leaderboard_data.sort(key=lambda x: float(x['WinRate (%)'].replace('%', '')), reverse=True)
+
+            # Create DataFrame
+            leaderboard_df = pd.DataFrame(leaderboard_data)
+            leaderboard_df.index = range(len(leaderboard_df))
+
+            # Format as string
+            table_str = tabulate.tabulate(leaderboard_df, headers='keys', showindex=False)
+            output = f'{title}\n{table_str}\n'
+
+            logger.info(f'\n{title}\n{table_str}')
+            return output
+
+        # Parse dataset and subset information from dataset_name column
+        # Format: '{dataset_name}&{subset_name}@{name}&{self.baseline}'
+        def parse_dataset_key(dataset_key):
+            """Parse dataset key to extract dataset_name, subset_name, and model pair."""
+            parts = dataset_key.split('@')
+
+            dataset_subset = parts[0]
+            model_pair = parts[1]
+
+            dataset_name, subset_name = dataset_subset.split('&', 1)
+            model_1, model_2 = model_pair.split('&', 1)
+
+            return dataset_name, subset_name, model_1, model_2
+
+        # Add parsed columns
+        parsed_data = []
+        for _, row in winrate_df.iterrows():
+            dataset_name, subset_name, model_1, model_2 = parse_dataset_key(row[ReportKey.subset_name])
+            if dataset_name is not None:
+                parsed_data.append(
+                    {
+                        'dataset_name': dataset_name,
+                        'subset_name': subset_name,
+                        ReportKey.model_name: model_1,
+                        ReportKey.metric_name: row[ReportKey.metric_name],
+                        ReportKey.score: row[ReportKey.score],
+                    }
+                )
+
+        if not parsed_data:
+            logger.warning('No valid dataset keys found for parsing.')
+            return
+
+        parsed_df = pd.DataFrame(parsed_data)
+
+        # 1. Overall ranking (aggregate across all datasets and subsets)
+        overall_df = (
+            parsed_df.groupby([ReportKey.model_name, ReportKey.metric_name])[ReportKey.score].mean().reset_index()
+        )
+        leaderboard_outputs.append(format_leaderboard(overall_df, '=== OVERALL LEADERBOARD ==='))
+
+        # 2. Dataset-level rankings
+        datasets = parsed_df['dataset_name'].unique()
+        for dataset in sorted(datasets):
+            dataset_df = parsed_df[parsed_df['dataset_name'] == dataset]
+            dataset_agg = (
+                dataset_df.groupby([ReportKey.model_name, ReportKey.metric_name])[ReportKey.score].mean().reset_index()
+            )
+            leaderboard_outputs.append(format_leaderboard(dataset_agg, f'=== DATASET LEADERBOARD: {dataset} ==='))
+
+        # 3. Subset-level rankings
+        subsets = parsed_df[['dataset_name', 'subset_name']].drop_duplicates()
+        for _, subset_row in subsets.iterrows():
+            dataset_name = subset_row['dataset_name']
+            subset_name = subset_row['subset_name']
+            subset_df = parsed_df[
+                (parsed_df['dataset_name'] == dataset_name) & (parsed_df['subset_name'] == subset_name)
+            ]
+            leaderboard_outputs.append(
+                format_leaderboard(subset_df, f'=== SUBSET LEADERBOARD: {dataset_name} - {subset_name} ===')
+            )
+
+        # Write all leaderboard outputs to file
+        with open(leaderboard_file, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(leaderboard_outputs))
+
+        logger.info(f'Leaderboard results saved to: {leaderboard_file}')
+
+
+def _candidate_outcome(label: str, candidate_is_a: bool) -> str:
+    if label == 'A=B':
+        return 'tie'
+    return 'win' if label.startswith('A') == candidate_is_a else 'loss'
+
+
+def _placement_outcome(label: str, candidate_is_a: bool) -> PairwisePlacementOutcome:
+    return PairwisePlacementOutcome(
+        result=_candidate_outcome(label, candidate_is_a),
+        strength='strong' if label in ('A>>B', 'B>>A') else 'weak',
+    )
+
+
+def _reduce_placements(placements: Dict[str, PairwisePlacementOutcome]) -> tuple[str, str]:
+    results = [placement.result for placement in placements.values()]
+    result = results[0] if len(set(results)) == 1 else 'tie'
+    strength = (
+        'strong'
+        if result != 'tie'
+        and any(placement.result == result and placement.strength == 'strong' for placement in placements.values())
+        else 'weak'
+    )
+    return result, strength
+
+
+def _battle_label(outcome: PairwisePlacementOutcome, candidate_is_a: bool) -> str:
+    if outcome.result == 'tie':
+        return 'A=B'
+    a_wins = (outcome.result == 'win') == candidate_is_a
+    marker = '>>' if outcome.strength == 'strong' else '>'
+    return f'A{marker}B' if a_wins else f'B{marker}A'

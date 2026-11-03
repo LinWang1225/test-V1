@@ -1,0 +1,1 @@
+import{a as e}from"./utils-ChYPhaCg.js";import{t}from"./task--YminzgR.js";var n=t(`eval`),r=n.submit,i=n.progress,a=n.log,o=n.reportUrl,s=n.stop;async function c(t,n,r){let i={};return t&&(i.type=t),n&&(i.all=`true`),e(`/api/v1/eval/benchmarks`,{params:i,signal:r})}export{s as a,c as i,i as n,r as o,o as r,a as t};

@@ -1,0 +1,302 @@
+import codecs
+import json
+import sys
+import time
+import traceback
+from typing import Any, Dict
+
+import aiohttp
+
+from evalscope.perf.arguments import Arguments
+from evalscope.perf.plugin.api.base import ApiPluginBase
+from evalscope.perf.utils.benchmark_util import BenchmarkData, is_stream_body
+from evalscope.utils.logger import get_logger
+
+logger = get_logger()
+
+
+def _parse_chat_delta(delta: Any) -> tuple[str, bool]:
+    """Return concatenable text and whether a chat delta carries observable output."""
+    if not isinstance(delta, dict):
+        return '', False
+
+    content_value = delta.get('content')
+    content = content_value if isinstance(content_value, str) else ''
+
+    reasoning_value = delta.get('reasoning_content')
+    if not isinstance(reasoning_value, str) or not reasoning_value:
+        reasoning_value = delta.get('reasoning')
+    reasoning = reasoning_value if isinstance(reasoning_value, str) else ''
+
+    text = content + reasoning
+    if text:
+        return text, True
+
+    # Structured reasoning must only affect timing: providers disagree on whether
+    # these values are incremental or cumulative, so appending them would corrupt
+    # generated_text. Encrypted payloads and type-only records are metadata.
+    reasoning_details = delta.get('reasoning_details')
+    if isinstance(reasoning_details, list):
+        for detail in reasoning_details:
+            if not isinstance(detail, dict):
+                continue
+            if any(isinstance(detail.get(key), str) and detail[key] for key in ('text', 'summary')):
+                return '', True
+
+    return '', False
+
+
+class StreamedResponseHandler:
+    """Handles streaming HTTP responses by accumulating chunks until complete
+    messages are available."""
+
+    def __init__(self):
+        self.buffer = ''
+        # Keep decoder state across chunks to handle split multibyte sequences
+        self.decoder = codecs.getincrementaldecoder('utf-8')()
+
+    @staticmethod
+    def _extract_sse_payload(message: str) -> str | None:
+        """Extract and flatten the 'data:' field(s) from an SSE message block.
+
+        SSE message blocks may contain multiple fields (id:, event:, retry:,
+        data:, ...). Only the 'data:' field(s) carry the JSON payload; other
+        fields are metadata and must be skipped, otherwise they would be fed
+        into ``json.loads`` and raise ``JSONDecodeError``. Multiple 'data:'
+        lines are flattened into a single line so downstream consumers that
+        only recognize one leading 'data:' prefix (e.g. this class itself and
+        ``_extract_sse_data`` in ``openai_responses_api.py``) don't silently
+        drop continuation lines.
+        """
+        data_values: list[str] = []
+        # SSE lines use CR/LF only; splitlines() also splits valid JSON characters
+        # such as U+0085, U+2028, and U+2029.
+        for line in message.strip().split('\n'):
+            if line.startswith('data:'):
+                data_values.append(line.removeprefix('data:').lstrip(' '))
+
+        if not data_values:
+            return None
+        payload = ''.join(data_values).strip()
+        return f'data: {payload}' if payload else None
+
+    def add_chunk(self, chunk_bytes: bytes) -> list[str]:
+        """Add a chunk of bytes to the buffer and return any complete
+        messages."""
+        # Use incremental decoding so incomplete multibyte sequences don't error
+        try:
+            chunk_str = self.decoder.decode(chunk_bytes, final=False)
+        except UnicodeDecodeError:
+            # Bad bytes: drop them and reset decoder state to avoid corruption
+            self.decoder.reset()
+            chunk_str = chunk_bytes.decode('utf-8', errors='ignore')
+        # Normalize CRLF (common in SSE implementations) to LF so downstream
+        # splitting on "\n\n" works consistently.
+        self.buffer += chunk_str.replace('\r\n', '\n')
+
+        messages = []
+
+        # Split by double newlines (SSE message separator)
+        while '\n\n' in self.buffer:
+            message, self.buffer = self.buffer.split('\n\n', 1)
+            normalized_message = self._extract_sse_payload(message)
+            if normalized_message:
+                messages.append(normalized_message)
+
+        # If self.buffer is not empty, check if it is a complete message by
+        # extracting the 'data:' field(s) and checking if it is valid JSON.
+        # This must reuse the same extraction as above, otherwise a leftover
+        # chunk that starts with metadata fields (id:/event:) instead of
+        # 'data:' would get stuck in the buffer forever when the stream ends
+        # without a trailing "\n\n" separator.
+        normalized_buffer = self._extract_sse_payload(self.buffer)
+        if normalized_buffer:
+            message_content = normalized_buffer.removeprefix('data:').strip()
+            if message_content == '[DONE]':
+                messages.append(normalized_buffer)
+                self.buffer = ''
+            elif message_content:
+                try:
+                    json.loads(message_content)
+                    messages.append(normalized_buffer)
+                    self.buffer = ''
+                except json.JSONDecodeError:
+                    # Incomplete JSON, wait for more chunks.
+                    pass
+
+        return messages
+
+
+class DefaultApiPlugin(ApiPluginBase):
+    """Default implementation of API plugin with common HTTP handling methods."""
+
+    def __init__(self, param: Arguments):
+        super().__init__(param)
+
+    async def process_request(
+        self, client_session: aiohttp.ClientSession, url: str, headers: Dict, body: Dict
+    ) -> BenchmarkData:
+        """Process the HTTP request and handle the response.
+
+        Args:
+            client_session: The aiohttp client session
+            url: The request URL
+            headers: The request headers
+            body: The request body
+
+        Returns:
+            BenchmarkData: Aggregated benchmarking data for the request/response.
+        """
+        headers = {'Content-Type': 'application/json', **headers}
+        data = json.dumps(body, ensure_ascii=False)  # serialize to JSON
+
+        output = BenchmarkData()
+        generated_text = ''
+        st = time.perf_counter()
+        output.start_time = st
+        output.request = data
+        most_recent_timestamp = st
+        last_output_timestamp: float | None = None
+        try:
+            async with client_session.post(url=url, data=data, headers=headers) as response:
+                content_type = response.headers.get('Content-Type', '')
+                if response.status == 200:
+                    # Handle streaming responses (SSE)
+                    if 'text/event-stream' in content_type:
+                        output.is_stream = True
+                        handler = StreamedResponseHandler()
+                        async for chunk_bytes in response.content.iter_any():
+                            if not chunk_bytes:
+                                continue
+
+                            messages = handler.add_chunk(chunk_bytes)
+                            for message in messages:
+                                # NOTE: SSE comments (often used as pings) start with
+                                # a colon. These are not JSON data payload and should
+                                # be skipped.
+                                if message.startswith(':'):
+                                    continue
+
+                                chunk = message.removeprefix('data:').strip()
+
+                                if chunk != '[DONE]':
+                                    timestamp = time.perf_counter()
+                                    data = json.loads(chunk)
+
+                                    if choices := data.get('choices'):
+                                        if data.get('object') == 'text_completion':
+                                            content = choices[0].get('text') or ''
+                                            has_output = bool(content)
+                                        else:
+                                            delta = choices[0].get('delta', {})
+                                            content, has_output = _parse_chat_delta(delta)
+                                        if has_output:
+                                            # First token
+                                            if last_output_timestamp is None:
+                                                output.first_chunk_latency = timestamp - st
+
+                                            # Decoding phase
+                                            else:
+                                                output.inter_chunk_latency.append(timestamp - last_output_timestamp)
+
+                                            last_output_timestamp = timestamp
+
+                                        generated_text += content
+                                        output.response_messages.append(data)
+                                    if usage := data.get('usage'):
+                                        output.prompt_tokens = usage.get('prompt_tokens')
+                                        output.completion_tokens = usage.get('completion_tokens')
+                                        # Extract real cached tokens from prompt_tokens_details
+                                        _details = usage.get('prompt_tokens_details')
+                                        if _details and isinstance(_details, dict):
+                                            _cached = _details.get('cached_tokens')
+                                            if _cached is not None:
+                                                output.real_cached_tokens = _cached
+
+                                    most_recent_timestamp = timestamp
+
+                        output.generated_text = generated_text
+                        output.success = True
+                        output.completed_time = most_recent_timestamp
+                        output.query_latency = most_recent_timestamp - st
+
+                    # Handle non-stream JSON responses
+                    elif 'application/json' in content_type or 'application/' in content_type:
+                        payload: Any
+                        try:
+                            payload = await response.json()
+                        except Exception:
+                            # Fallback to text if JSON parsing fails
+                            payload = await response.text()
+
+                        timestamp = time.perf_counter()
+                        output.completed_time = timestamp
+                        output.query_latency = timestamp - st
+                        # For non-stream, first chunk equals full latency
+                        output.first_chunk_latency = output.query_latency
+
+                        if isinstance(payload, dict):
+                            # Extract generated text from choices
+                            text = ''
+                            if choices := payload.get('choices'):
+                                first = choices[0] if choices else {}
+                                # Chat Completions format
+                                msg = first.get('message') or {}
+                                if isinstance(msg, dict) and msg.get('content') is not None:
+                                    text = (msg.get('content') or '') + (msg.get('reasoning_content') or '')
+                                else:
+                                    # Legacy Completions format
+                                    text = first.get('text') or ''
+                            generated_text = text
+
+                            # Extract usage if provided
+                            if usage := payload.get('usage'):
+                                output.prompt_tokens = usage.get('prompt_tokens')
+                                output.completion_tokens = usage.get('completion_tokens')
+                                # Extract real cached tokens from prompt_tokens_details
+                                _details = usage.get('prompt_tokens_details')
+                                if _details and isinstance(_details, dict):
+                                    _cached = _details.get('cached_tokens')
+                                    if _cached is not None:
+                                        output.real_cached_tokens = _cached
+
+                            output.response_messages.append(payload)
+                        else:
+                            generated_text = str(payload)
+
+                        output.generated_text = generated_text
+                        output.success = True
+
+                    else:
+                        # Unknown successful content-type: read as text
+                        raw = await response.text()
+                        timestamp = time.perf_counter()
+                        output.completed_time = timestamp
+                        output.query_latency = timestamp - st
+                        output.first_chunk_latency = output.query_latency
+                        output.generated_text = raw
+                        output.response_messages.append(raw)
+                        output.success = True
+                else:
+                    # Try to parse structured error, fallback to reason/text
+                    output.status_code = response.status
+                    try:
+                        err_payload = await response.json()
+                        output.error = json.dumps(err_payload, ensure_ascii=False)
+                    except Exception:
+                        try:
+                            output.error = await response.text()
+                        except Exception:
+                            output.error = response.reason or ''
+                    output.success = False
+        except Exception:
+            output.success = False
+            exc_info = sys.exc_info()
+            output.error = ''.join(traceback.format_exception(*exc_info))
+            logger.error(output.error)
+
+        # Fall back to request body — response may not have been SSE (or arrived at all).
+        if not output.success and not output.is_stream:
+            output.is_stream = is_stream_body(body)
+
+        return output

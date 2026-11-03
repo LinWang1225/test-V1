@@ -1,0 +1,86 @@
+import json
+import sys
+from typing import Any, Dict, Iterator, List, Union
+
+from evalscope.perf.arguments import Arguments
+from evalscope.perf.plugin.datasets.base import DatasetPluginBase
+from evalscope.perf.plugin.datasets.dataset_args import TextDatasetArgs
+from evalscope.perf.plugin.registry import register_dataset
+
+
+@register_dataset('line_by_line')
+class LineByLineDatasetPlugin(DatasetPluginBase):
+    """Read dataset line by line and return prompt.
+
+    Each line in the file can be one of the following formats:
+
+    1. **Plain text** (original format)::
+
+        example: 今天天气怎么样？
+
+       Treated as a raw prompt string. ``__compose_query_from_parameter`` is
+       called to merge CLI-level generation parameters (e.g. ``temperature``).
+
+    2. **OpenAI messages** (JSON array)::
+
+        example: [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}]
+
+       Treated as a list of message dicts. ``__compose_query_from_parameter`` is
+       called to merge CLI-level generation parameters.
+
+    3. **Complete request body** (JSON object)::
+
+        example: {"messages": [...], "temperature": 0.6, "max_tokens": 128}
+
+       Treated as a complete request body. Fields provided in the JSON object
+       (e.g. ``temperature``, ``max_tokens``) are preserved and take precedence;
+       ``__compose_query_from_parameter`` only fills in generation parameters that
+       are **missing** from the body (``setdefault`` semantics), so CLI-level
+       defaults do not silently overwrite a user-supplied body.
+
+    Input-length control (``target_input_len`` / ``prefix_file``) only applies to
+    format 1; a JSON line raises an error when those arguments are set.
+    """
+
+    args_schema = TextDatasetArgs
+
+    def __init__(self, query_parameters: Arguments):
+        super().__init__(query_parameters)
+
+    def _try_parse_json(self, line: str) -> Union[str, List[Dict], Dict[str, Any]]:
+        """Try to parse the line as JSON.
+
+        Returns:
+            - The original string if JSON parsing fails.
+            - List[Dict] if the line is a JSON array (messages format).
+            - Dict if the line is a JSON object (complete request body).
+        """
+        try:
+            parsed = json.loads(line)
+        except json.JSONDecodeError:
+            return line  # Not valid JSON, treat as plain text
+        return parsed  # List[Dict] or Dict
+
+    def build_messages(self) -> Iterator[Union[str, List[Dict], Dict[str, Any]]]:
+        for item in self.dataset_line_by_line(self.query_parameters.dataset_path):
+            line = item.strip()
+            if not line:
+                continue
+
+            parsed = self._try_parse_json(line)
+
+            if isinstance(parsed, str):
+                result = self.prepare_messages(parsed)
+                if result is None:
+                    continue
+            else:
+                # JSON lines are forwarded verbatim, bypassing prepare_messages, so
+                # length control would silently not apply and mix input lengths.
+                if self.dataset_args.target_input_len is not None:
+                    raise ValueError(
+                        '`target_input_len` / `prefix_file` only support plain-text lines in the '
+                        f'`line_by_line` dataset, but this line is JSON: {line[:80]}... Either drop '
+                        'those arguments or use a plain-text dataset file.'
+                    )
+                result = parsed
+            yield result

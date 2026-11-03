@@ -1,0 +1,122 @@
+# Copyright (c) Alibaba, Inc. and its affiliates.
+from typing import Any, Dict, List, Optional, Union
+
+from evalscope.api.benchmark import BenchmarkMeta, DefaultDataAdapter
+from evalscope.api.dataset import Sample
+from evalscope.api.evaluator import TaskState
+from evalscope.api.messages import ChatMessageSystem, ChatMessageUser, dict_to_chat_message
+from evalscope.api.metric import Score
+from evalscope.api.metric.semantics import MetricSelector
+from evalscope.api.registry import register_benchmark
+from evalscope.benchmarks.general_qa_vqa_metrics import METRIC_SCORE_KEYS, MetricScoringError, calculate_metric_score
+from evalscope.constants import Tags
+from evalscope.utils.logger import get_logger
+
+logger = get_logger()
+
+PROMPT_TEMPLATE = '请回答问题\n{question}'
+
+
+@register_benchmark(
+    BenchmarkMeta(
+        name='general_qa',
+        pretty_name='General-QA',
+        description="""
+## Overview
+
+General-QA is a customizable question answering benchmark for evaluating language models on open-ended text generation tasks. It supports flexible data formats and configurable evaluation metrics.
+
+## Task Description
+
+- **Task Type**: Open-Ended Question Answering
+- **Input**: Question (with optional system prompt and conversation history)
+- **Output**: Free-form text answer
+- **Flexibility**: Supports custom datasets via local files
+
+## Key Features
+
+- Flexible input format (query/answer or messages format)
+- Optional system prompt support
+- BLEU and Rouge evaluation metrics
+- Custom dataset support via local file loading
+- Extensible for various QA use cases
+
+## Evaluation Notes
+
+- Default configuration uses **0-shot** evaluation
+- Default metrics: **BLEU**, **Rouge** (Rouge-L-R as main score)
+- Evaluates on **test** split
+- See [User Guide](https://evalscope.readthedocs.io/en/latest/advanced_guides/custom_dataset/llm.html#qa) for dataset format
+""",  # noqa: E501
+        tags=[Tags.QA, Tags.CUSTOM],
+        dataset_id='general_qa',
+        metric_list=['BLEU', 'Rouge'],
+        primary_metric=MetricSelector(
+            name='rouge', aggregation='mean', dimensions={'variant': 'l', 'statistic': 'recall'}
+        ),
+        few_shot_num=0,
+        train_split=None,
+        eval_split='test',
+        prompt_template=PROMPT_TEMPLATE,
+        evaluation_version='v1.1',
+    )
+)
+class GeneralQAAdapter(DefaultDataAdapter):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def load_from_disk(self, **kwargs):
+        return super().load_from_disk(use_local_loader=True)
+
+    def record_to_sample(self, record: Dict[str, Any]) -> Sample:
+        """
+        Convert a data record to a Sample object.
+
+        Args:
+            record (Dict[str, Any]): Input data record.
+
+        Returns:
+            Sample: Sample object with input, target, and metadata.
+        """
+        query = record.get('question') or record.get('query')
+        answer = record.get('answer') or record.get('response')
+        system_prompt = record.get('system')
+        messages = record.get('messages')
+
+        message_list = []
+        if messages:
+            message_list = [dict_to_chat_message(m) for m in messages]
+        else:
+            if system_prompt:
+                message_list.append(ChatMessageSystem(content=system_prompt))
+            message_list.append(ChatMessageUser(content=query))
+
+        return Sample(input=message_list, target=answer or '')
+
+    def match_score(
+        self, original_prediction: str, filtered_prediction: str, reference: str, task_state: TaskState
+    ) -> Score:
+        """
+        Calculate evaluation scores by comparing prediction with reference.
+        """
+        # Initialize the score object with prediction details
+        score = Score(
+            extracted_prediction=filtered_prediction,
+            prediction=original_prediction,
+        )
+
+        # Calculate scores for each configured metric
+        for metric in self.metric_list:
+            if metric not in METRIC_SCORE_KEYS:
+                continue
+            try:
+                metric_score = calculate_metric_score(metric, filtered_prediction, reference)
+            except (ImportError, LookupError, MetricScoringError) as e:
+                logger.error(f'Error calculating metric {metric}: {e}')
+                score.value.update(dict.fromkeys(METRIC_SCORE_KEYS[metric], 0.0))
+                score.metadata.setdefault('metric_errors', {})[metric] = f'{type(e).__name__}: {e}'
+                continue
+            score.value.update(metric_score)
+
+        score.main_score_name = 'Rouge-L-R'
+        return score
