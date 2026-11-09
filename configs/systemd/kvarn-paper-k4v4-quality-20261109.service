@@ -1,0 +1,22 @@
+[Unit]
+Description=Paper TurboQuant and author-official KVarN K4V4 quality
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/wanglin/kvarn-profile-20261019
+ExecStart=/home/wanglin/kvarn-profile-20261019/.venv/bin/python -u /home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/run_queue.py
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=MAX_JOBS=4
+Environment=PATH=/home/wanglin/kvarn-profile-20261019/.venv/bin:/usr/local/cuda-12.6/bin:/usr/local/bin:/usr/bin:/bin
+Restart=on-failure
+RestartSec=60
+KillMode=control-group
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target

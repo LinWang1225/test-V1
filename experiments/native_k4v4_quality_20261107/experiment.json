@@ -1,0 +1,21 @@
+{
+  "purpose": "Paired task-quality comparison against frozen FP16 and Jacobian full4 generation",
+  "parent": "experiments/staged_vllm_recovery_20261106",
+  "methods": ["turboquant_4bit_nc", "kvarn_k4v4_g128"],
+  "cases_per_method": 464,
+  "generation": {"do_sample": true, "enable_thinking": true, "temperature": 0.6, "top_p": 0.95, "top_k": 20, "min_p": 0.0, "seed": 20261105},
+  "prefill": "Identical FP16 paged FlashAttention throughout all 512-token prompt chunks; simultaneously populate each native compressed cache",
+  "decode": "Unmodified native TurboQuant/KVarN store, metadata builder and decode; independent sampled trajectory",
+  "max_model_len": 40960,
+  "max_num_seqs": 1,
+  "max_num_batched_tokens": 512,
+  "input_truncation": false,
+  "task_specific_output_limits": false,
+  "physical_measurement_required": false,
+  "performance_claims": false,
+  "kvarn": {"key_bits": 4, "value_bits": 4, "group": 128, "sink_tokens": 128, "sinkhorn_iters": 8, "tail": "Native incomplete-block FP16 staging; preserve native protection, report as a package comparison"},
+  "turboquant": {"key_bits": 4, "value_bits": 4, "norm_correction": true},
+  "scheduler": "Wait for the existing entire frozen queue to release locks/staged_algorithm_gpu.lock; never interrupt its active request",
+  "scoring": "Unchanged pinned official scorers; only the final response after thinking; incomplete thinking remains in denominator",
+  "limitations": ["One fixed sampling seed per case; exploratory comparison", "Native KVarN sink/tail protection differs from Jacobian all-KV quantization", "FP16 prompt shadow cache is used strictly for matched prefill; memory and timing are not compression-performance results"]
+}

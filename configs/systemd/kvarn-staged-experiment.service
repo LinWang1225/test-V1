@@ -1,0 +1,21 @@
+[Unit]
+Description=Resume sampling/thinking KV encoding experiment after boot
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/wanglin/kvarn-profile-20261019
+ExecStart=/home/wanglin/kvarn-profile-20261019/.venv/bin/python /home/wanglin/kvarn-profile-20261019/scripts/staged_experiment_service.py
+Environment=PYTHONUNBUFFERED=1
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Restart=on-failure
+RestartSec=60
+TimeoutStopSec=60
+KillMode=control-group
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

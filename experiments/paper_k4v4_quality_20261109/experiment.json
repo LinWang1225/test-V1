@@ -1,0 +1,62 @@
+{
+  "purpose": "Paper-method K4V4 task quality; U_Clipped cancelled at user request on 2026-11-09",
+  "parent": "experiments/staged_vllm_recovery_20261106",
+  "methods": [
+    "turboquant_paper_k4v4",
+    "kvarn_k4v4_g128"
+  ],
+  "cases_per_method": 464,
+  "generation": {
+    "do_sample": true,
+    "enable_thinking": true,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 20261105
+  },
+  "prefill": "Identical FP16 paged FlashAttention throughout all 512-token prompt chunks; simultaneously populate each native compressed cache",
+  "decode": "Paper TurboQuant algorithms 1/2; author-official KVarN K4V4 path; native independent sampled trajectories",
+  "max_model_len": 40960,
+  "max_num_seqs": 1,
+  "max_num_batched_tokens": 512,
+  "input_truncation": false,
+  "task_specific_output_limits": false,
+  "physical_measurement_required": false,
+  "performance_claims": false,
+  "kvarn": {
+    "key_bits": 4,
+    "value_bits": 4,
+    "group": 128,
+    "sink_tokens": 128,
+    "sinkhorn_iters": 8,
+    "tail": "Native incomplete-block FP16 staging; preserve native protection, report as a package comparison"
+  },
+  "turboquant": {
+    "key_algorithm": "TurboQuant_prod, Algorithm 2: 3-bit scalar MSE plus 1-bit Gaussian QJL residual",
+    "value_algorithm": "TurboQuant_mse, Algorithm 1, 4 bits",
+    "rotation": "Haar orthogonal QR of iid Gaussian; separate fixed K and V rotations",
+    "scalar_density": "Exact unit-sphere Beta coordinate density at d=128; no KV calibration",
+    "norm_correction": false,
+    "norm_metadata": "FP32 vector L2 norms and key residual norm; explicitly counted",
+    "implementation": "Independent implementation of paper Algorithms 1/2; not claimed as author-released code",
+    "seed": 20261109
+  },
+  "scheduler": "Handoff after Gaussian_Tree; U_Clipped explicitly cancelled; acquire existing exclusive GPU lock",
+  "scoring": "Unchanged pinned official scorers; only the final response after thinking; incomplete thinking remains in denominator",
+  "limitations": [
+    "Matched Qwen3-4B/464-case thinking protocol, not a reproduction of paper benchmark settings",
+    "K4V4 specified by user; original KVarN paper experiments emphasize K2V2",
+    "Official KVarN implementation uses FP16 auxiliary scales, while paper Appendix D reports 8-bit auxiliary parameters",
+    "KVarN official sink and incomplete-tail handling differs from all-token TurboQuant quantization",
+    "TurboQuant K uses inner-product algorithm and V uses MSE algorithm; this K/V assignment is declared explicitly rather than claimed as author code",
+    "Quality-only implementation retains FP16 prompt cache for matched prefill; no deployment speed/memory claim"
+  ],
+  "references": {
+    "turboquant": "https://arxiv.org/abs/2504.19874",
+    "turboquant_algorithms": "https://openreview.net/attachment?id=tO3ASKZlok&name=pdf",
+    "kvarn": "https://arxiv.org/abs/2606.03458",
+    "kvarn_official": "https://github.com/huawei-csl/KVarN",
+    "kvarn_official_commit": "7586257f1c632e63187bfacbbe21ccb51540f7b3"
+  }
+}

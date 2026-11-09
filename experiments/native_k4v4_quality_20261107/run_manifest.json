@@ -1,0 +1,72 @@
+{
+  "config": {
+    "purpose": "Paired task-quality comparison against frozen FP16 and Jacobian full4 generation",
+    "parent": "experiments/staged_vllm_recovery_20261106",
+    "methods": [
+      "turboquant_4bit_nc",
+      "kvarn_k4v4_g128"
+    ],
+    "cases_per_method": 464,
+    "generation": {
+      "do_sample": true,
+      "enable_thinking": true,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0.0,
+      "seed": 20261105
+    },
+    "prefill": "Identical FP16 paged FlashAttention throughout all 512-token prompt chunks; simultaneously populate each native compressed cache",
+    "decode": "Unmodified native TurboQuant/KVarN store, metadata builder and decode; independent sampled trajectory",
+    "max_model_len": 40960,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 512,
+    "input_truncation": false,
+    "task_specific_output_limits": false,
+    "physical_measurement_required": false,
+    "performance_claims": false,
+    "kvarn": {
+      "key_bits": 4,
+      "value_bits": 4,
+      "group": 128,
+      "sink_tokens": 128,
+      "sinkhorn_iters": 8,
+      "tail": "Native incomplete-block FP16 staging; preserve native protection, report as a package comparison"
+    },
+    "turboquant": {
+      "key_bits": 4,
+      "value_bits": 4,
+      "norm_correction": true
+    },
+    "scheduler": "Wait for the existing entire frozen queue to release locks/staged_algorithm_gpu.lock; never interrupt its active request",
+    "scoring": "Unchanged pinned official scorers; only the final response after thinking; incomplete thinking remains in denominator",
+    "limitations": [
+      "One fixed sampling seed per case; exploratory comparison",
+      "Native KVarN sink/tail protection differs from Jacobian all-KV quantization",
+      "FP16 prompt shadow cache is used strictly for matched prefill; memory and timing are not compression-performance results"
+    ]
+  },
+  "source_hashes": {
+    "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_20261027/src/score.py": "b37f08fcb65d2c416ade08d15885563f917022cf70946db6a3df470a217700e5",
+    "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_20261027/vendor/official_sources.json": "f38df24751bd51eaeb31a7d02c65cbe12d7efe37875548a52349bce2e5ad29ec",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/experiment.json": "4059028a77d75b0badfddd9d91fd71b6f43137000a59fc52f5e33f2f84b8c6a8",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/audit_jacobian.py": "e6a0f57b4ec51bced908936e3b92a28f75b8d4b88c3c32fb2cc2e9389a6a8054",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/common.py": "707b9729d8e2b8f9a34e2868f08b6b9ed1963ab760160c6e62239f23b2fd7309",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/generate.py": "e62024b82a519451cc98e42e13391d788f549022fea00b80aa2687057f08022c",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/matched_prefill.py": "3d5f79919190ef9b07e54e62b2df05d6599e527b300fbddce45e3604c149aff7",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/report.py": "5c4136c21d059108ced632e2f88fc35a9351e69a1a91822c3cde974a3d9a37e5",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/run_queue.py": "989ce5b3bb756724c41d85f549415f8f4c89324457a39217717d8aa4e5561577",
+    "/home/wanglin/kvarn-profile-20261019/experiments/native_k4v4_quality_20261107/src/score.py": "f8b1cd82385022b4c5f16538f70ffb1861f3fbd795a6fe03832dc89eadace2d7",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/inputs/cases.jsonl": "c2a861b06dffa006b072187170e4d63226413fdbacd5c20c7fb274b7831cee51",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/inputs/manifest.json": "68364d22cf09163b31569903a0a2c4c02be3acb1d0f9556eb0d08b73fbf348b3",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/run_manifest.json": "58816334652285abe479c86bd0ea40bc5b2b602ad12f43579952dc5dfb884bff",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/source_baseline/manifest.json": "a88ed92892fcdf0494d8e8a451d1950d976823d83fec1a94d450270848eda906",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/src/sampling.py": "79218ab189e6471b04d617dad2fef847471e6432d10492087fa5dbb36ae045e1",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/src/score.py": "adbdb4f121c4415b79e6ada174896c8bcd3053adeef671ee21c97f72e8ebbe82",
+    "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c/config.json": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a",
+    "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c/generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+  },
+  "model": "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c",
+  "upstream_files_checked": 1910,
+  "fingerprint": "b94577ab6aeacdbb8da167d70c926c1f7576d529cc7ae0fc91b0db3abda5da9f"
+}

@@ -1,0 +1,96 @@
+{
+  "config": {
+    "purpose": "Paper-method K4V4 task quality; U_Clipped cancelled at user request on 2026-11-09",
+    "parent": "experiments/staged_vllm_recovery_20261106",
+    "methods": [
+      "turboquant_paper_k4v4",
+      "kvarn_k4v4_g128"
+    ],
+    "cases_per_method": 464,
+    "generation": {
+      "do_sample": true,
+      "enable_thinking": true,
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0.0,
+      "seed": 20261105
+    },
+    "prefill": "Identical FP16 paged FlashAttention throughout all 512-token prompt chunks; simultaneously populate each native compressed cache",
+    "decode": "Paper TurboQuant algorithms 1/2; author-official KVarN K4V4 path; native independent sampled trajectories",
+    "max_model_len": 40960,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 512,
+    "input_truncation": false,
+    "task_specific_output_limits": false,
+    "physical_measurement_required": false,
+    "performance_claims": false,
+    "kvarn": {
+      "key_bits": 4,
+      "value_bits": 4,
+      "group": 128,
+      "sink_tokens": 128,
+      "sinkhorn_iters": 8,
+      "tail": "Native incomplete-block FP16 staging; preserve native protection, report as a package comparison"
+    },
+    "turboquant": {
+      "key_algorithm": "TurboQuant_prod, Algorithm 2: 3-bit scalar MSE plus 1-bit Gaussian QJL residual",
+      "value_algorithm": "TurboQuant_mse, Algorithm 1, 4 bits",
+      "rotation": "Haar orthogonal QR of iid Gaussian; separate fixed K and V rotations",
+      "scalar_density": "Exact unit-sphere Beta coordinate density at d=128; no KV calibration",
+      "norm_correction": false,
+      "norm_metadata": "FP32 vector L2 norms and key residual norm; explicitly counted",
+      "implementation": "Independent implementation of paper Algorithms 1/2; not claimed as author-released code",
+      "seed": 20261109
+    },
+    "scheduler": "Handoff after Gaussian_Tree; U_Clipped explicitly cancelled; acquire existing exclusive GPU lock",
+    "scoring": "Unchanged pinned official scorers; only the final response after thinking; incomplete thinking remains in denominator",
+    "limitations": [
+      "Matched Qwen3-4B/464-case thinking protocol, not a reproduction of paper benchmark settings",
+      "K4V4 specified by user; original KVarN paper experiments emphasize K2V2",
+      "Official KVarN implementation uses FP16 auxiliary scales, while paper Appendix D reports 8-bit auxiliary parameters",
+      "KVarN official sink and incomplete-tail handling differs from all-token TurboQuant quantization",
+      "TurboQuant K uses inner-product algorithm and V uses MSE algorithm; this K/V assignment is declared explicitly rather than claimed as author code",
+      "Quality-only implementation retains FP16 prompt cache for matched prefill; no deployment speed/memory claim"
+    ],
+    "references": {
+      "turboquant": "https://arxiv.org/abs/2504.19874",
+      "turboquant_algorithms": "https://openreview.net/attachment?id=tO3ASKZlok&name=pdf",
+      "kvarn": "https://arxiv.org/abs/2606.03458",
+      "kvarn_official": "https://github.com/huawei-csl/KVarN",
+      "kvarn_official_commit": "7586257f1c632e63187bfacbbe21ccb51540f7b3"
+    }
+  },
+  "source_hashes": {
+    "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_20261027/src/score.py": "b37f08fcb65d2c416ade08d15885563f917022cf70946db6a3df470a217700e5",
+    "/home/wanglin/kvarn-profile-20261019/experiments/full_quality_20261027/vendor/official_sources.json": "f38df24751bd51eaeb31a7d02c65cbe12d7efe37875548a52349bce2e5ad29ec",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/experiment.json": "53af20ab6c332f2df4ed5d141cfcbbc5064fc3037fccd498586b2070dae3ec12",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/ops/handoff.py": "f0636f688c4e0801c764e63978a246d9779794e2b9ced3de401c8e2f9ad70f13",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/ops/install_handoff.py": "3d05bf77f227dd07d39134dd0fb89d01f8a30160dad78e00e0b192dab528c355",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/ops/scoped_parent.py": "995e725ae2551b271d917977c9417a8967ff54e2413c3a35375ad5f2a3314e33",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/references/kvarn_official_tree.json": "df5373a59857e025611c000714cb639a20cff56d3b57018f13151991cbbaa4e9",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/references/turboquant_parameters.json": "7a1acfe1f297118b60edd6c1018a80570914fd01018ef3f9748373518cf0f4fd",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/references/turboquant_parameters.npz": "e0e65a6fb0681cffc512cdff40034c69d51096f6f437fbc346ff84e9e2358b56",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/common.py": "243f69531ef03091fb326addb0457b5fe54ba7a1a1bffca0240a2522f2a96505",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/generate.py": "c2e59a4e79928736652b4beb104068b36e7332bce504ab3b2087a46cbfd33314",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/matched_prefill.py": "d7f7ddf4f97ae835c0802ae33d82483432b677bd22e9fc826b3f22220db69997",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/report.py": "bd25265f0fc60cb8a20612747731aac35b979d27d9dea64b767e062115b9a0dc",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/run_queue.py": "4ff20759b260b3a888ee350c5018c599e1de4c80302fdb6dea652a04007b8474",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/score.py": "f8b1cd82385022b4c5f16538f70ffb1861f3fbd795a6fe03832dc89eadace2d7",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/turboquant_backend.py": "c424bdc081c551b5a3e52374fbd1dac32a6bcfcf569070a4a54e44f7edec82ea",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/turboquant_kernel.py": "fb69ec919f4b6e488405d4232ba4fb399d756b14340fdaf2a0696e2296cb0815",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/turboquant_math.py": "2cfd89b2e90149c054d60eb2b08e6e263437088c6ff5ce35dd66178705c33f96",
+    "/home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/src/validate_paper_gpu.py": "7467e2a76b542c664c26306b954563fe1619ef996aae5fe33eb7ebc9be6da9ac",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/inputs/cases.jsonl": "c2a861b06dffa006b072187170e4d63226413fdbacd5c20c7fb274b7831cee51",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/inputs/manifest.json": "68364d22cf09163b31569903a0a2c4c02be3acb1d0f9556eb0d08b73fbf348b3",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/run_manifest.json": "58816334652285abe479c86bd0ea40bc5b2b602ad12f43579952dc5dfb884bff",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/source_baseline/manifest.json": "a88ed92892fcdf0494d8e8a451d1950d976823d83fec1a94d450270848eda906",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/src/sampling.py": "79218ab189e6471b04d617dad2fef847471e6432d10492087fa5dbb36ae045e1",
+    "/home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/src/score.py": "adbdb4f121c4415b79e6ada174896c8bcd3053adeef671ee21c97f72e8ebbe82",
+    "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c/config.json": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a",
+    "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c/generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+  },
+  "model": "/home/wanglin/kvbench-3090-cu126/cache/huggingface/hub/models--Qwen--Qwen3-4B/snapshots/1cfa9a7208912126459214e8b04321603b3df60c",
+  "upstream_files_checked": 1910,
+  "fingerprint": "6a9ce39906052af7ed9f8b47ed42e3c9c2f154b0833db4c1785e5c763a0758ca"
+}

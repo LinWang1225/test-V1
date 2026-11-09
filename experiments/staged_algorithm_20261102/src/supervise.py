@@ -57,12 +57,15 @@ def main():
     execute('check.py')
     execute('check_model.py')
     execute('metadata_report.py')
-    queue=[('fp16',()), *[(m,('--codec',m,'--depth','4')) for m in ('Jacobian_Tree','JacK_MixV','Data_Tree','Gaussian_Tree','U_Clipped')]]
+    longbench=tuple(json.loads((ROOT/'inputs/manifest.json').read_text())['longbench_quotas'])
+    queue=[(m,('--codec',m,'--depth','4','--exclude-datasets',*longbench))
+        for m in ('Jacobian_Tree','JacK_MixV','Data_Tree','Gaussian_Tree','U_Clipped')]
     for codec,args in queue:
         identity=run_id(codec,'fixed',4)
         atomic(ROOT/'stage_status.json',dict(stage='stage1_encoding_baselines',active_run=identity,pid=os.getpid(),
-            queue=[run_id(c,'fixed',4) for c,_ in queue],source_hashes=source_hashes,updated=time.strftime('%Y-%m-%d %H:%M:%S')))
-        execute('generate.py',('--codec','fp16') if codec=='fp16' else args)
+            queue=[run_id(c,'fixed',4) for c,_ in queue],datasets=['humaneval','math500'],
+            source_hashes=source_hashes,updated=time.strftime('%Y-%m-%d %H:%M:%S')))
+        execute('generate.py',args)
         execute('score.py',('--run',identity),evaluation=True)
         execute('report.py')
     atomic(ROOT/'stage_status.json',dict(stage='stage1_encoding_baselines_complete',

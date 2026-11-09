@@ -9,7 +9,7 @@ import sys
 import time
 
 PROJECT=Path(__file__).resolve().parents[1]
-ROOT=PROJECT/'experiments/staged_algorithm_20261102'
+ROOT=PROJECT/'experiments/staged_sampling_windowed_20261105'
 sys.path.insert(0,str(ROOT/'src'))
 from common import atomic
 

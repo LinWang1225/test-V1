@@ -272,6 +272,7 @@ def main():
     p.add_argument('--budget',type=int,choices=range(5),default=3)
     p.add_argument('--threshold',type=float,default=.05)
     p.add_argument('--indices',type=int,nargs='+')
+    p.add_argument('--exclude-datasets',choices=sorted(json.loads((ROOT/'inputs/manifest.json').read_text())['datasets']),nargs='+')
     p.add_argument('--smoke',action='store_true')
     p.add_argument('--smoke-tag',default='current')
     a=p.parse_args()
@@ -282,6 +283,9 @@ def main():
     manifest=json.loads((ROOT/'inputs/manifest.json').read_text())
     assert sha(ROOT/'inputs/cases.jsonl')==manifest['cases_sha256']
     selected=list(rows(ROOT/'inputs/cases.jsonl'))
+    if a.exclude_datasets is not None:
+        excluded=set(a.exclude_datasets)
+        selected=[r for r in selected if r['dataset'] not in excluded]
     if a.indices is not None:
         if not a.smoke:
             raise ValueError('Subsets require --smoke; production is always 464 cases')
@@ -289,7 +293,8 @@ def main():
     name=run_id(a.codec,a.policy,a.depth,a.curve,a.budget,a.threshold)
     folder=(ROOT/'smoke'/a.smoke_tag if a.smoke else ROOT/'results')/name
     provenance=dict(codec=a.codec,policy=a.policy,depth=a.depth,curve=a.curve,budget=a.budget,threshold=a.threshold,
-        samples_sha256=manifest['cases_sha256'],source_hashes={p.name:sha(p) for p in sorted((ROOT/'src').glob('*.py'))},
+        samples_sha256=manifest['cases_sha256'],selected_case_ids_sha256=digest([r['case_id'] for r in selected]),
+        source_hashes={p.name:sha(p) for p in sorted((ROOT/'src').glob('*.py'))},
         model_revision=MODEL.name,book_hashes={} if a.codec=='fp16' else {p.name:sha(p) for p in sorted((ROOT/'codebooks'/a.codec).glob('*.npz'))})
     fingerprint=digest(provenance)
     prov=folder/'provenance.json'

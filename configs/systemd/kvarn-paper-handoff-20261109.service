@@ -1,0 +1,20 @@
+[Unit]
+Description=User-requested handoff from Gaussian to paper TurboQuant and KVarN
+After=nvidia-persistenced.service
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/wanglin/kvarn-profile-20261019
+ExecStart=/home/wanglin/kvarn-profile-20261019/.venv/bin/python -u /home/wanglin/kvarn-profile-20261019/experiments/paper_k4v4_quality_20261109/ops/handoff.py
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Restart=on-failure
+RestartSec=60
+KillMode=control-group
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

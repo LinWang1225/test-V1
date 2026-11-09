@@ -1,0 +1,22 @@
+[Unit]
+Description=Isolated vLLM encoding experiment with live hardware counters
+After=nvidia-persistenced.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/wanglin/kvarn-profile-20261019
+ExecStart=/home/wanglin/kvarn-profile-20261019/.venv/bin/python -u /home/wanglin/kvarn-profile-20261019/experiments/staged_vllm_recovery_20261106/src/run_queue.py
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=LD_LIBRARY_PATH=/usr/local/cuda-12.6/extras/CUPTI/lib64
+Environment=PATH=/home/wanglin/kvarn-profile-20261019/.venv/bin:/usr/local/cuda-12.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=MAX_JOBS=4
+Restart=no
+KillMode=control-group
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
