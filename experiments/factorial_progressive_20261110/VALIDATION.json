@@ -1,0 +1,82 @@
+{
+  "revision": "allocator-v2",
+  "integration": {
+    "passed": true,
+    "time": 1794275440.298062,
+    "checks": [
+      "prefix0..4",
+      "zero-payload-empty-pointer",
+      "all24assets",
+      "integer-KV-budget",
+      "C0..C3",
+      "matched-total-budget",
+      "causality",
+      "native36layer"
+    ]
+  },
+  "allocator_regression": {
+    "cpu": {
+      "all_depths_reachable": true,
+      "nonmonotonic_jump": true,
+      "unequal_unit_total_risk": true,
+      "no_unhelpful_spending": true,
+      "single_unit_exact_100": true,
+      "random_integer_budget_100": true
+    },
+    "cuda": {
+      "all_depths_reachable": true,
+      "nonmonotonic_jump": true,
+      "unequal_unit_total_risk": true,
+      "no_unhelpful_spending": true,
+      "single_unit_exact_100": true,
+      "random_integer_budget_100": true
+    }
+  },
+  "prefix_kernel_regression": {
+    "prefix_0": true,
+    "prefix_1": true,
+    "prefix_2": true,
+    "prefix_3": true,
+    "prefix_4": true,
+    "all_depths_integer_budget": true,
+    "unhelpful_budget_unspent": true,
+    "R3_granularity_K128_V32": true,
+    "zero_payload_empty_pointer": true
+  },
+  "native_smoke": {
+    "all36_layers": true,
+    "generated_tokens": 65,
+    "decode_steps": 64,
+    "K_V_actual_bits": {
+      "K": 2.9999859602822347,
+      "V": 3.0
+    }
+  },
+  "limits": "Smoke uses65 diagnostic tokens. Full-length EOS and task-quality restoration require formal evaluation; no claim of exact knapsack optimality or hardware bit-plane acceleration.",
+  "CPU_fixed_context_replay": {
+    "scope": "HF CPU FP32 shared-state diagnostic, not formal task-quality or latency benchmark",
+    "layers": 36,
+    "summary": [
+      {
+        "R": "R0",
+        "policy": "C1",
+        "projected_relative_SSE": 0.20528274141100872
+      },
+      {
+        "R": "R0",
+        "policy": "C3",
+        "projected_relative_SSE": 0.19866660773511025
+      },
+      {
+        "R": "R1",
+        "policy": "C1",
+        "projected_relative_SSE": 0.1398612744828718
+      },
+      {
+        "R": "R1",
+        "policy": "C3",
+        "projected_relative_SSE": 0.1368308262213006
+      }
+    ]
+  }
+}

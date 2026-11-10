@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "phase": "exploratory_algorithm",
+  "model": {
+    "path": "/home/wanglin/data/kvarn-environments/models/Qwen3-4B",
+    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "dtype": "float16",
+    "layers": 36,
+    "kv_heads": 8,
+    "query_heads": 32,
+    "head_dim": 128
+  },
+  "generation": {
+    "do_sample": true,
+    "enable_thinking": true,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 20261105
+  },
+  "native_context_length": 40960,
+  "artificial_output_limit": null,
+  "input_truncation": false,
+  "eos_token_ids": [
+    151643,
+    151645
+  ],
+  "sampling": {
+    "seed": 20261110,
+    "humaneval": 24,
+    "math500": 24,
+    "longbench_per_task": 2,
+    "total": 90,
+    "preserve_original_request_seed": true
+  },
+  "encodings": {
+    "E0": {
+      "name": "Jacobian_Tree",
+      "K_objective": "attention-output Jacobian",
+      "V_objective": "squared attention weights"
+    },
+    "E1": {
+      "name": "JacK_MixV",
+      "K_objective": "identical to E0",
+      "V_objective": "50/50 normalized MSE and squared-attention loss"
+    }
+  },
+  "bases": {
+    "B0": "Identity",
+    "B1": {
+      "name": "Hadamard-sign",
+      "seed": 20261024
+    },
+    "B2": {
+      "name": "KLT",
+      "fit": "calibration-only, per layer/side/KV head",
+      "representation": "float32 matrix"
+    }
+  },
+  "reconstruction": {
+    "R0": "offline FP16 channel mean/scale",
+    "R1": "offline FP16 channel mean/scale plus FP16 local RMS multiplier",
+    "R2": "FP16 local channel mean/scale, 128-token causal blocks",
+    "R3": "FP16 local channel mean/scale; K shares128 tokens, V shares32 tokens"
+  },
+  "local_statistics": "only arrived tokens; parameter updates require reencoding affected stored codewords and version/cost accounting",
+  "read_depths": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "zero_bit": "no payload; reconstruct metadata mean; retain token in softmax",
+  "same_4bit_prefix": true,
+  "reading_units": {
+    "K": "one channel in a <=128-token block per KV head",
+    "V": "one token across all128 channels per KV head"
+  },
+  "calibration": {
+    "requests": 60,
+    "decode_positions": [
+      1,
+      8,
+      32,
+      64
+    ],
+    "sampled_tokens_per_position": 32,
+    "seed": 20261024,
+    "histogram_bins": 8192,
+    "lloyd_max_iterations": 100,
+    "source_manifest_sha256": "ca2e5567233b1b349ddf608398d009887025deee37c7f7ae8abad4c70f6b6cc9",
+    "native_capture": true,
+    "shared_across_all_combinations": true,
+    "fit_curves_for_every_EBR": true,
+    "test_answers_or_errors_in_controller": false
+  },
+  "controllers": {
+    "C0": "current query / reconstructed-K attention and common ideal distortion shape",
+    "C1": "current query / reconstructed attention with fitted physical-scale MSE curves",
+    "C2": "C1 with separately enabled causal local correction factor",
+    "C3": "current query / reconstructed attention with calibration-only projected attention-output Jacobian corrected curves"
+  },
+  "costs": {
+    "main_budget": "separate K/V payload ceilings of3 bits per accessed element",
+    "also_report": [
+      "global resident metadata",
+      "local peak metadata",
+      "metadata/codeword update writes",
+      "reconstruction/decision metadata accesses",
+      "basis matrices",
+      "bit-depth selection indices",
+      "payload+metadata logical cost"
+    ],
+    "hardware_phase": "true bit-plane DRAM/latency/throughput validation later; no speedup claim from reference implementation"
+  },
+  "planned_budget_extension": 2.0,
+  "dynamic_configurations": 96,
+  "controls": 48,
+  "fp16_reference": 1,
+  "total_primary_run_identities": 145,
+  "common_execution": {
+    "backend": "native vLLM scheduler/sampler/model",
+    "prefill": "native FP16, encode arrived KV for subsequent decode",
+    "decode": "all36 layers closed loop",
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 512,
+    "block_size": 128,
+    "prefix_caching": false,
+    "enforce_eager": true,
+    "tf32": false
+  },
+  "failure_policy": "stop on numerical/causal/budget/identity violations; keep all valid negative quality results; no silent truncation or sample replacement"
+}

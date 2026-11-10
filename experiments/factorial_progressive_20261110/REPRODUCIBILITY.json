@@ -1,0 +1,28 @@
+{
+  "revision": "allocator-v2",
+  "risk_contract": "Risk arrays are TOTAL per-reading-unit losses at depths0..4. K multiplies channel per-element curves by actual arrived token count in each block; V sums channel losses.",
+  "allocator": "Greedy lower-convex-hull prefix jumps plus feasible direct-depth residual allocation; approximate integer multiple-choice knapsack, not an exact optimizer.",
+  "nonmonotonic_curves": "Original empirical curves are preserved. A worse intermediate prefix does not block a useful deeper prefix.",
+  "budget": "Separate K/V integer payload ceilings; harmful or zero-gain reads remain unspent.",
+  "tests": [
+    "checks/test_allocator_v2.py",
+    "checks/test_primitives.py",
+    "src/validate_experiment.py"
+  ],
+  "validation_scope": "CPU/CUDA regression, all24 fitted E/B/R identities, C0..C3, streaming re-encode consistency, causal prefix, matched-total-cost caps, native36-layer smoke.",
+  "external_artifacts_required": [
+    "Frozen benchmark/calibration inputs",
+    "Fixed Qwen3-4B weights",
+    "Per-E/B/R fitted codebooks and basis assets",
+    "Pinned source-built vLLM environment"
+  ],
+  "excluded_from_git": [
+    "Private keys and credentials",
+    "Models and environments",
+    "Benchmark prompts and test answers",
+    "Generated outputs and scores",
+    "Calibration tensors and large fitted assets",
+    "Local logs and machine state"
+  ],
+  "formal_run_status": "V1 outputs archived outside source control. V2 must be evaluated with a new protocol lock; V1 results are not mixed."
+}
